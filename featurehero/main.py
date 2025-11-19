@@ -128,7 +128,10 @@ def main():
         print_version()
     elif args.action == "transform":
         run_transform(
-            args.file_path, args.transform_type, args.columns, args.out_filename
+            args.file_path,
+            args.transform_type,
+            args.columns,
+            args.out_filename,
         )
     elif args.action == "help":
         parser.print_help()
