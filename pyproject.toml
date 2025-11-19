@@ -1,23 +1,22 @@
 [tool.poetry]
-name = "feathero"
-version = "2025.11.01"
-description = "Search using a genetic algorithm with machine learning the bes features to predict a target variable."
-authors = ["Juan Carlos Moreno Sanchez <carlos.moreno.phd@gmail.com>"]
-license = "MIT"
+name = "featurehero"
+version = "2025.1.3"
+description = "Application desktop for Genetic Orchestrator for selection of variables and machine model"
+authors = ["Juan Carlos Moreno Sanchez"]
 readme = "README.md"
-homepage = "https://gitlab.com/phen4/feathero" 
-repository = "https://gitlab.com/phen4/feathero"
-keywords = ["feature selection", "predict"]
-packages = [{include = "feathero", from = "."}]
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.12.0"
+pandas = "^2.3.3"
+numpy = "^2.3.4"
+numbers-parser = "^4.16.2"
+scikit-learn = "^1.7.2"
+xgboost = "^3.1.1"
+matplotlib = "^3.10.7"
+seaborn = "^0.13.2"
 
-pandas = "^2.2.0"
-numbers-parser = "^4.2.0"
-
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.0.0"
+[tool.poetry.scripts]
+featurehero = "featurehero.main:main"
 
 [build-system]
 requires = ["poetry-core"]
