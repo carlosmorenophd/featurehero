@@ -1,6 +1,7 @@
 """
 Main entry point for the FeatureHero command-line application.
 """
+import datetime
 import sys
 import importlib.metadata
 import argparse
@@ -89,7 +90,7 @@ def print_version():
     print(f"FeatureHero Version: {version}")
 
 
-def main():
+def create_parser() -> argparse.ArgumentParser:
     """Parses arguments and runs the application."""
     description = "FeatureHero - Genetic Orchestra for Predict and Selection"
     parser = argparse.ArgumentParser(
@@ -124,6 +125,11 @@ def main():
     parser_run.add_argument(
         "--run-as-daemon",
         action="store_true",
+        help=argparse.SUPPRESS)
+    # Internal argument to pass the log file path to the daemon
+    parser_run.add_argument(
+        "--log-file",
+        dest="log_file",
         help=argparse.SUPPRESS)
 
     # Create the parser for the "version" command
@@ -174,45 +180,79 @@ def main():
         metavar="PID",
         help="Stop a running background job by its PID"
     )
+    return parser
 
+
+def handle_run_action(args: argparse.Namespace):
+    """Handles the 'run' action."""
+    if args.background and not args.run_as_daemon:
+        # Create a unique, absolute path for the log file
+        base_dir = os.path.dirname(os.path.abspath(args.file_path))
+        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        log_filename = f"featurehero_{timestamp}.log"
+        log_file = os.path.join(base_dir, log_filename)
+
+        print(f"Running in background. Log will be saved to {log_file}")
+
+        job_manager = JobManager()
+
+        # Re-invoke the script with --run-as-daemon
+        cmd = [
+            sys.executable,
+            "-m", "featurehero.main",
+            "run",
+            "--file", args.file_path,
+            "--column", args.target_column,
+            "--run-as-daemon",
+            "--log-file", log_file
+        ]
+
+        try:
+            # Detach the process from the current terminal
+            popen_kwargs = {
+                "stdout": subprocess.DEVNULL,
+                "stderr": subprocess.DEVNULL,
+            }
+            if os.name == 'nt':  # Windows
+                popen_kwargs['creationflags'] = subprocess.DETACHED_PROCESS
+            else:  # POSIX
+                popen_kwargs['start_new_session'] = True
+
+            process = subprocess.Popen(cmd, **popen_kwargs)
+            if process.pid:
+                job_manager.register_job(
+                    process.pid,
+                    args.file_path,
+                    args.target_column,
+                    log_file
+                )
+        finally:
+            # Exit the parent process, leaving the child to run
+            sys.exit(0)
+    elif args.run_as_daemon:
+        # This is the daemon process, run the worker and log to file
+        run_worker_background(args.file_path, args.target_column, args.log_file)
+    else:
+        # Run in foreground
+        run_worker(args.file_path, args.target_column)
+
+
+def handle_jobs_action(args: argparse.Namespace):
+    """Handles the 'jobs' action."""
+    job_manager = JobManager()
+    if args.list:
+        job_manager.list_jobs()
+    elif args.pid_to_stop:
+        job_manager.stop_job(args.pid_to_stop)
+
+
+def main():
+    """Parses arguments and dispatches the command."""
+    parser = create_parser()
     args = parser.parse_args()
 
     if args.action == "run":
-        if args.background and not args.run_as_daemon:
-            log_file = "featurehero.log"
-            print(f"Running in background. Log will be saved to {log_file}")
-
-            job_manager = JobManager()
-            # Re-invoke the script with --run-as-daemon
-            cmd = [
-                sys.executable,
-                "-m", "featurehero.main",
-                "run",
-                "--file", args.file_path,
-                "--column", args.target_column,
-                "--run-as-daemon"
-            ]
-
-            # Detach the process from the current terminal
-            process = None
-            if os.name == 'nt':  # Windows
-                process = subprocess.Popen(cmd, creationflags=subprocess.DETACHED_PROCESS,
-                                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            else:  # POSIX
-                process = subprocess.Popen(cmd, start_new_session=True,
-                                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-
-            if process:
-                job_manager.register_job(
-                    process.pid, args.file_path, args.target_column, log_file)
-
-            sys.exit(0)
-        elif args.run_as_daemon:
-            # This is the daemon process, run the worker and log to file
-            run_worker_background(args.file_path, args.target_column)
-        else:
-            # Run in foreground
-            run_worker(args.file_path, args.target_column)
+        handle_run_action(args)
     elif args.action == "version":
         print_version()
     elif args.action == "transform":
@@ -223,16 +263,12 @@ def main():
             args.out_filename,
         )
     elif args.action == "help":
-        parser.print_help()
+        parser.print_help()  # Should be unreachable, but good practice
     elif args.action == "jobs":
-        job_manager = JobManager()
-        if args.list:
-            job_manager.list_jobs()
-        elif args.pid_to_stop:
-            job_manager.stop_job(args.pid_to_stop)
+        handle_jobs_action(args)
 
 
-def run_worker_background(file_path: str, target_column: str):
+def run_worker_background(file_path: str, target_column: str, log_file: str):
     """Run the worker in the background, logging to a file."""
     new_folder_path, new_file_name = prepare_work_space_file(
         file_path=file_path,
@@ -240,7 +276,6 @@ def run_worker_background(file_path: str, target_column: str):
     )
     job_manager = JobManager()
     progress_queue = Queue()
-    log_file = "featurehero.log"
 
     log_thread = threading.Thread(
         target=log_progress_from_queue,

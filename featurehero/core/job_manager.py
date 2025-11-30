@@ -72,7 +72,10 @@ class JobManager:
                 print(f"{pid:<10} {start_time:<28} {file_path:<30} {column}")
 
         if not active_jobs:
-            print("No active background jobs found. Cleaning up stale entries.")
+            print(
+                "No active background jobs found."
+                " Cleaning up stale entries."
+            )
 
         # Clean up stale entries
         self._write_jobs(active_jobs)
