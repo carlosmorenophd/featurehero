@@ -274,12 +274,14 @@ class GeneticAlgorithm:
         genetic_algorithm_parameters: GeneticAlgorithmParameter,
         features_references: str,
         progress_queue: Queue,
+        status_file: str | None = None,
     ) -> None:
         self._file_machine = file_machine
         self._genetic_parameters = genetic_algorithm_parameters
         self._population: list[GeneticIndividual] = []
         self._new_population: list[GeneticIndividual] = []
         self._global_population: list[GeneticIndividual] = []
+        self._status_file = status_file
         self._log = LogGenetic(
             number_generation=self._genetic_parameters.number_generation,
             number_population=self._genetic_parameters.number_population,
@@ -289,6 +291,18 @@ class GeneticAlgorithm:
         self._current_generation_number = 0
         self._features_references = "".join(
             features_references.split()).split(",")
+
+    def _write_status(self, current_step: int, total_steps: int):
+        """Writes the current progress to the status file."""
+        if self._status_file:
+            try:
+                with open(self._status_file, "w", encoding="utf-8") as f:
+                    f.write(f"{current_step}/{total_steps}")
+            except IOError as e:
+                # It's better not to crash the whole process
+                # for a status update
+                print(f"Warning: Could not write to status file "
+                      f"{self._status_file}: {e}")
 
     def _create_initial_population(
         self,
@@ -468,9 +482,14 @@ class GeneticAlgorithm:
 
     def run(self):
         """Main function to run the genetic algorithm"""
-        current_machine = 0
-        for machine in self._genetic_parameters.machines_key:
-            current_machine = current_machine + 1
+        total_generations = self._genetic_parameters.number_generation
+        num_machines = len(self._genetic_parameters.machines_key)
+        total_steps = total_generations * num_machines
+
+        for machine_idx, machine in enumerate(
+            self._genetic_parameters.machines_key
+        ):
+            current_machine = machine_idx + 1
             self._log.initial_log()
             self._create_initial_population(
                 population_number=self._genetic_parameters.number_population,
@@ -479,6 +498,10 @@ class GeneticAlgorithm:
             self._log.log_message(quick_message="Finish first population")
             self._current_generation_number = 1
             while self._stop_genetic_algorithm():
+                current_step = (
+                    (machine_idx * total_generations) +
+                    self._current_generation_number)
+                self._write_status(current_step, total_steps)
                 self._log.progress_log(
                     generation_number=self._current_generation_number,
                     current_machine=current_machine,

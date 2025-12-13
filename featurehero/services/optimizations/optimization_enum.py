@@ -81,7 +81,7 @@ class GeneticAlgorithmParameter(ABC):
     """Configuration to run the genetic algorithm
     """
 
-    def __init__(self) -> None:
+    def __init__(self, params: dict = None) -> None:
         self._number_generation: int = 100
         self._individual_parameter = GeneticIndividualParameter(
             number_population=80,
@@ -102,6 +102,19 @@ class GeneticAlgorithmParameter(ABC):
             ),
         ]
         self._training_data = TrainingData()
+        if params is not None:
+            valid_params = {"number_generation", "number_population"}
+            for param in params:
+                if param not in valid_params:
+                    raise ValueError(f"Invalid parameter: {param}")
+
+            if "number_generation" in params:
+                self._number_generation = params["number_generation"]
+            if "number_population" in params:
+                # pylint: disable=protected-access
+                self._individual_parameter._number_population = params[
+                    "number_population"
+                ]
 
     @property
     def machines_key(self) -> List[MachineNames]:

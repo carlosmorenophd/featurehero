@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "featurehero"
-version = "2025.11.1"
+version = "2026.1.1"
 description = "Application desktop for Genetic Orchestrator for selection of variables and machine model"
 authors = ["Juan Carlos Moreno Sanchez"]
 readme = "README.md"
