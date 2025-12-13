@@ -1,6 +1,7 @@
 """
 Main entry point for the FeatureHero command-line application.
 """
+import json
 import datetime
 import sys
 import importlib.metadata
@@ -52,7 +53,7 @@ def log_progress_from_queue(progress_queue: Queue, log_file: str):
             logging.info("Progress: %d%%", message)
 
 
-def run_worker(file_path: str, target_column: str):
+def run_worker(file_path: str, target_column: str, params: dict):
     """Run the worker in terminal mode."""
     new_folder_path, new_file_name = prepare_work_space_file(
         file_path=file_path,
@@ -72,6 +73,7 @@ def run_worker(file_path: str, target_column: str):
         selected_column=target_column,
         file_path=new_file_name,
         folder_file=new_folder_path,
+        params=params,
     )
 
 
@@ -90,14 +92,41 @@ def print_version():
     print(f"FeatureHero Version: {version}")
 
 
+def parse_and_validate_params(params_str: str | None) -> dict:
+    """Parses and validates the params argument."""
+    if not params_str:
+        return {}
+
+    try:
+        params = json.loads(params_str)
+    except json.JSONDecodeError:
+        print("[ERROR] --params must be a valid JSON string. "
+              "Example: '{\"number_generation\": 20}'")
+        sys.exit(1)
+
+    if not isinstance(params, dict):
+        print("[ERROR] --params must be a JSON object (a dictionary).")
+        sys.exit(1)
+
+    if "number_generation" in params:
+        num_gen = params.get("number_generation")
+        if not isinstance(num_gen, int) or num_gen <= 10:
+            print(
+                "[ERROR] 'number_generation' in --params must be an integer "
+                "greater than 10.")
+            sys.exit(1)
+
+    return params
+
+
 def create_parser() -> argparse.ArgumentParser:
     """Parses arguments and runs the application."""
     description = "FeatureHero - Genetic Orchestra for Predict and Selection"
     parser = argparse.ArgumentParser(
         description=description,
-        epilog=("Use 'featurehero <action> --help' for more information on a "
-                "specific action.")
-    )
+        epilog=("Use 'featurehero <action> --help' for more information "
+                "on a specific action."))
+
     subparsers = parser.add_subparsers(
         dest="action", help="Available actions", required=True)
 
@@ -120,6 +149,12 @@ def create_parser() -> argparse.ArgumentParser:
         "--background",
         action="store_true",
         help="Run the process in the background and log to a file."
+    )
+    parser_run.add_argument(
+        "--params",
+        dest="params",
+        help="Parameters for the genetic algorithm in JSON format. "
+             "e.g., '{\"number_generation\": 20}'"
     )
     # Internal argument to run the process as a daemon
     parser_run.add_argument(
@@ -185,6 +220,8 @@ def create_parser() -> argparse.ArgumentParser:
 
 def handle_run_action(args: argparse.Namespace):
     """Handles the 'run' action."""
+    params = parse_and_validate_params(args.params)
+
     if args.background and not args.run_as_daemon:
         # Create a unique, absolute path for the log file
         base_dir = os.path.dirname(os.path.abspath(args.file_path))
@@ -204,6 +241,7 @@ def handle_run_action(args: argparse.Namespace):
             "--file", args.file_path,
             "--column", args.target_column,
             "--run-as-daemon",
+            "--params", json.dumps(params),
             "--log-file", log_file
         ]
 
@@ -231,10 +269,15 @@ def handle_run_action(args: argparse.Namespace):
             sys.exit(0)
     elif args.run_as_daemon:
         # This is the daemon process, run the worker and log to file
-        run_worker_background(args.file_path, args.target_column, args.log_file)
+        run_worker_background(
+            args.file_path,
+            args.target_column,
+            args.log_file,
+            params,
+        )
     else:
         # Run in foreground
-        run_worker(args.file_path, args.target_column)
+        run_worker(args.file_path, args.target_column, params)
 
 
 def handle_jobs_action(args: argparse.Namespace):
@@ -268,7 +311,8 @@ def main():
         handle_jobs_action(args)
 
 
-def run_worker_background(file_path: str, target_column: str, log_file: str):
+def run_worker_background(file_path: str, target_column: str, log_file: str,
+                          params: dict):
     """Run the worker in the background, logging to a file."""
     new_folder_path, new_file_name = prepare_work_space_file(
         file_path=file_path,
@@ -291,6 +335,7 @@ def run_worker_background(file_path: str, target_column: str, log_file: str):
             selected_column=target_column,
             file_path=new_file_name,
             folder_file=new_folder_path,
+            params=params,
         )
     finally:
         # Ensure the job is deregistered when it finishes or fails

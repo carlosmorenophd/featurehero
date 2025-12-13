@@ -14,6 +14,7 @@ def genetic_algorithm(
         selected_column: str,
         file_path: str,
         folder_file: str,
+        params: dict = None,
 ):
     """Main worker to search the feature
 
@@ -33,6 +34,7 @@ def genetic_algorithm(
             ),
             importance_columns="",
             progress_queue=progress_queue,
+            params=params,
         )
         progress_queue.put("DONE")
     except (ValueError, IOError, FileNotFoundError) as e:
