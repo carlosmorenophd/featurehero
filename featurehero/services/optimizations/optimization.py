@@ -20,6 +20,7 @@ def optimization_run_from_task(
     importance_columns: str,
     progress_queue: Queue,
     params: dict = None,
+    status_file: str | None = None,
 ) -> None:
     """Launch the genetic algorithm
     """
@@ -35,6 +36,7 @@ def optimization_run_from_task(
         genetic_algorithm_parameters=genetic_algorithm_parameters,
         features_references=importance_columns,
         progress_queue=progress_queue,
+        status_file=status_file,
     )
     genetic_algorithm.run()
     genetic_algorithm.export()

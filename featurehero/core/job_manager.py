@@ -33,7 +33,14 @@ class JobManager:
         with open(self.pid_file, 'w', encoding='utf-8') as f:
             json.dump(jobs, f, indent=4)
 
-    def register_job(self, pid, file_path, target_column, log_file):
+    def register_job(
+        self,
+        pid,
+        file_path,
+        target_column,
+        log_file,
+        status_file,
+    ):
         """Registers a new background job."""
         jobs = self._read_jobs()
         jobs[str(pid)] = {
@@ -41,6 +48,7 @@ class JobManager:
             "file_path": file_path,
             "target_column": target_column,
             "log_file": log_file,
+            "status_file": status_file,
         }
         self._write_jobs(jobs)
 
@@ -60,8 +68,9 @@ class JobManager:
             print("No background jobs are currently registered.")
             return
 
-        print(f"{'PID':<10} {'START_TIME':<28} {'FILE':<30} {'COLUMN'}")
-        print("-" * 80)
+        print(
+            f"{'PID':<10} {'START_TIME':<28} {'PROGRESS':<15} {'FILE':<30} {'COLUMN'}")
+        print("-" * 95)
 
         for pid, info in jobs.items():
             if psutil.pid_exists(int(pid)):
@@ -69,7 +78,17 @@ class JobManager:
                 start_time = info.get('start_time', 'N/A')
                 file_path = os.path.basename(info.get('file_path', 'N/A'))
                 column = info.get('target_column', 'N/A')
-                print(f"{pid:<10} {start_time:<28} {file_path:<30} {column}")
+                status_file = info.get('status_file')
+                progress = "N/A"
+                if status_file and os.path.exists(status_file):
+                    try:
+                        with open(status_file, 'r', encoding='utf-8') as f:
+                            progress = f.read().strip()
+                    except IOError:
+                        progress = "Error"
+
+                print(f"{pid:<10} {start_time:<28} {progress:<15} "
+                      f"{file_path:<30} {column}")
 
         if not active_jobs:
             print(
