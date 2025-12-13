@@ -1,51 +1,51 @@
 # Feature Hero
 
-## 1. Instalación y Uso
+## 1. Installation and Usage
 
-### 1.1. Instalación
+### 1.1. Installation
 
-#### Con Poetry (recomendado para desarrollo)
+#### With Poetry (recommended for development)
 
-1.  **Instalar Python 3.12**: Asegúrate de tener Python 3.12 o una versión compatible instalada en tu sistema. Puedes descargarlo desde el sitio web oficial de Python.
+1.  **Install Python 3.12**: Make sure you have Python 3.12 or a compatible version installed on your system. You can download it from the official Python website.
 
-2.  **Instalar Poetry**: Poetry es una herramienta para la gestión de dependencias y empaquetado en Python. Si no lo tienes instalado, puedes seguir las instrucciones en el sitio web oficial de Poetry. Una forma común de instalarlo es:
+2.  **Install Poetry**: Poetry is a tool for dependency management and packaging in Python. If you don't have it installed, you can follow the instructions on the official Poetry website. A common way to install it is:
     ```bash
     curl -sSL https://install.python-poetry.org | python3 -
     ```
 
-3.  **Configurar el entorno del proyecto**: Una vez que hayas clonado el repositorio, navega al directorio raíz del proyecto y ejecuta el siguiente comando para instalar todas las dependencias en un entorno virtual gestionado por Poetry:
+3.  **Set up the project environment**: Once you have cloned the repository, navigate to the project's root directory and run the following command to install all dependencies in a virtual environment managed by Poetry:
     ```bash
     poetry install
     ```
-    Este comando leerá el archivo `pyproject.toml`, resolverá las dependencias y las instalará.
+    This command will read the `pyproject.toml` file, resolve the dependencies, and install them.
 
-#### Con pip (para usuarios finales desde el código fuente)
+#### With pip (for end-users from source code)
 
-Si prefieres no usar Poetry para ejecutar la aplicación, puedes instalarla en un entorno virtual estándar de Python:
+If you prefer not to use Poetry to run the application, you can install it in a standard Python virtual environment:
 
-1.  **Crear y activar un entorno virtual (opcional pero recomendado)**:
+1.  **Create and activate a virtual environment (optional but recommended)**:
     ```bash
     python -m venv .venv
-    source .venv/bin/activate # En Linux/macOS
-    # .venv\Scripts\activate # En Windows
+    source .venv/bin/activate # On Linux/macOS
+    # .venv\Scripts\activate # On Windows
     ```
-2.  **Instalar el paquete**: Desde la raíz del proyecto:
+2.  **Install the package**: From the project root:
     ```bash
     pip install .
     ```
 
-### 1.2. Uso de la Aplicación
+### 1.2. Application Usage
 
-Una vez instalado el proyecto (ya sea con Poetry o pip), puedes ejecutar los comandos de `featurehero`. Si usas Poetry, prefija los comandos con `poetry run`.
+Once the project is installed (either with Poetry or pip), you can run the `featurehero` commands. If you use Poetry, prefix the commands with `poetry run`.
 
-Si realizas cambios en `pyproject.toml` (como actualizar la versión o añadir dependencias), ejecuta `poetry install` (o `pip install .` si usas pip) de nuevo para actualizar el entorno.
+If you make changes to `pyproject.toml` (like updating the version or adding dependencies), run `poetry install` (or `pip install .` if using pip) again to update the environment.
 
-#### `run`: Ejecutar el algoritmo genético
+#### `run`: Execute the genetic algorithm
 
-Ejecuta el algoritmo de optimización para la selección de variables y el modelo de machine learning.
+Runs the optimization algorithm for feature selection and the machine learning model.
 
 ```bash
-poetry run featurehero run --file <ruta_al_archivo> --column <columna_objetivo>
+poetry run featurehero run --file <path_to_file> --column <target_column>
 ```
 
 **Ejemplo:**
@@ -55,7 +55,7 @@ poetry run featurehero run --file '/home/yeiden/Documents/athenaFTP/PrecioOro/pr
 
 #### `transform`: Transformar datos
 
-Preprocesa tus datos, convirtiendo columnas de fecha en múltiples características o realizando codificación de etiquetas (label encoding) para columnas categóricas.
+Preprocesses your data, converting date columns into multiple features or performing label encoding for categorical columns.
 
 **Sintaxis:**
 ```bash
@@ -78,7 +78,7 @@ poetry run featurehero transform --file data.csv --type category --columns produ
 
 #### `version`: Mostrar la versión
 
-Muestra la versión actual de la aplicación.
+Display the currente version of the application.
 
 ```bash
 poetry run featurehero version
@@ -86,12 +86,11 @@ poetry run featurehero version
 
 #### `help`: Mostrar ayuda
 
-Muestra la ayuda general y los comandos disponibles.
-
+Display the general help and common commands.
 ```bash
 poetry run featurehero help
 ```
-Para obtener ayuda específica de un comando, puedes usar:
+To get information from spseficic command you can run 
 ```bash
 poetry run featurehero <comando> --help
 # Ejemplo: poetry run featurehero run --help
@@ -116,9 +115,9 @@ Esta sección es para quienes desean contribuir o modificar el código fuente de
     ```
     Esto instalará todas las dependencias y el propio proyecto en modo editable, lo que te permitirá modificar el código y ver los cambios reflejados inmediatamente.
 
-### 2.2. Construcción del Paquete
+### 2.2. Building the Package
 
-Para construir los paquetes de distribución (sdist y wheel) que pueden ser publicados o instalados con `pip`:
+To build the distribution packages (sdist and wheel) that can be published or installed with `pip`:
 
 ```bash
 poetry build
@@ -127,6 +126,8 @@ Los archivos generados se encontrarán en el directorio `dist/`.
 
 ### 2.3. Consideraciones al Modificar el Código
 
-*   **Formato de código**: Se recomienda seguir las convenciones de estilo de Python (PEP 8). Considera usar herramientas como `black` para el formateo automático y `pylint` o `flake8` para el análisis estático del código.
-*   **Actualizar dependencias**: Si añades o modificas dependencias, usa `poetry add <paquete>` o `poetry update` para gestionar el archivo `pyproject.toml` y `poetry.lock`.
-*   **Actualizar la versión**: Si cambias la versión en `pyproject.toml`, recuerda que `poetry install` actualizará el entorno virtual para reflejar la nueva versión.
+*   **Code Formatting**: It is recommended to follow Python's style conventions (PEP 8). Consider using tools like `black` for automatic formatting and `pylint` or `flake8` for static code analysis.
+*   **Updating Dependencies**: If you add or modify dependencies, use `poetry add <package>` or `poetry update` to manage the `pyproject.toml` and `poetry.lock` files.
+*   **Updating the Version**: If you change the version in `pyproject.toml`, remember that `poetry install` will update the virtual environment to reflect the new version.
+
+
