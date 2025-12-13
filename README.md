@@ -267,5 +267,10 @@ Los archivos generados se encontrarán en el directorio `dist/`.
 *   **Code Formatting**: It is recommended to follow Python's style conventions (PEP 8). Consider using tools like `black` for automatic formatting and `pylint` or `flake8` for static code analysis.
 *   **Updating Dependencies**: If you add or modify dependencies, use `poetry add <package>` or `poetry update` to manage the `pyproject.toml` and `poetry.lock` files.
 *   **Updating the Version**: If you change the version in `pyproject.toml`, remember that `poetry install` will update the virtual environment to reflect the new version.
+<<<<<<< HEAD
 =======
 >>>>>>> Stashed changes
+=======
+
+
+>>>>>>> 2025.11.1
