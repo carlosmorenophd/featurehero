@@ -129,6 +129,31 @@ def parse_and_validate_params(params_str: str | None) -> dict:
                 "[ERROR] 'number_population' must be a multiple of 10.")
             sys.exit(1)
 
+    if "machines" in params:
+        machines = params.get("machines")
+        valid_machines = {
+            "lasso_regression",
+            "extreme_gradient_boost_regression",
+            "random_forest_regression",
+            "support_vector_regression",
+            "bayesian_prediction_regression",
+        }
+        if not isinstance(machines, list) or not machines:
+            print("[ERROR] 'machines' must be a non-empty JSON array.")
+            sys.exit(1)
+        if any(not isinstance(machine, str) for machine in machines):
+            print("[ERROR] Every value in 'machines' must be a string.")
+            sys.exit(1)
+        invalid_machines = [
+            machine for machine in machines if machine not in valid_machines
+        ]
+        if invalid_machines:
+            print(
+                "[ERROR] Invalid machine names in 'machines': "
+                f"{', '.join(invalid_machines)}"
+            )
+            sys.exit(1)
+
     return params
 
 
@@ -172,6 +197,12 @@ def create_parser() -> argparse.ArgumentParser:
 Valid keys include:
   - 'number_generation' (int >= 10): Number of generations to run.
   - 'number_population' (int >= 10, multiple of 10): Number of individuals.
+  - 'machines' (list[str]): Models to evaluate. Allowed values:
+      * 'lasso_regression'
+      * 'extreme_gradient_boost_regression'
+      * 'random_forest_regression'
+      * 'support_vector_regression'
+      * 'bayesian_prediction_regression'
 e.g., '{"number_generation": 10, "number_population": 10}'"""
     )
     # Internal argument to run the process as a daemon
@@ -201,7 +232,7 @@ e.g., '{"number_generation": 10, "number_population": 10}'"""
         "--type",
         dest="transform_type",
         required=True,
-        choices=['date', 'category'],
+        choices=['date', 'date_seasonal', 'category', 'dummy', 'log1p', 'sqrt'],
         help="Type of transformation to apply.",
     )
     parser_transform.add_argument(

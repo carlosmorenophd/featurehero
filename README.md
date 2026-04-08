@@ -40,7 +40,7 @@ This command preprocesses your data, allowing you to transform date or categoric
 ```bash
 featurehero transform --file <path> --type <type> --columns <col1> [<col2> ...] [--out <filename>]
 ```
-*   `--type`: Transformation type. Can be `date` or `category`.
+*   `--type`: Transformation type. Can be `date`, `date_seasonal`, `category`, `dummy`, `log1p`, or `sqrt`.
 *   `--columns`: One or more columns to transform.
 *   `--out`: (Optional) Name for the output file. By default, a `_transformed` suffix is added.
 
@@ -53,6 +53,15 @@ Converts a date column into multiple numerical features like year, month, day, d
 featurehero transform --file data.csv --type date --columns order_date
 ```
 
+#### Seasonal Date Transformation (`date_seasonal`)
+Converts date columns in `MM/yyyy` format into dummy variables for year and month.
+
+**Example:**
+```bash
+# Transform the 'planting_month' column using MM/yyyy input
+featurehero transform --file data.csv --type date_seasonal --columns planting_month
+```
+
 #### Category Transformation (`category`)
 Converts columns with text or categories into numerical values (Label Encoding).
 
@@ -60,6 +69,71 @@ Converts columns with text or categories into numerical values (Label Encoding).
 ```bash
 # Transform 'product_type' and 'region' and save to a new file
 featurehero transform --file data.csv --type category --columns product_type region --out processed_data.csv
+```
+
+#### Dummy Variable Transformation (`dummy`)
+Converts categorical columns into one-hot encoded dummy variables.
+
+**Example:**
+```bash
+# Transform 'product_type' and 'region' into dummy variables
+featurehero transform --file data.csv --type dummy --columns product_type region --out processed_data.csv
+```
+
+#### Logarithmic Transformation (`log1p`)
+Adds a new column with the natural logarithm of `x + 1`, useful for positively
+skewed variables with zeros.
+
+Rules:
+*   Keeps the original column.
+*   Creates a new column named `<column>_log1p`.
+*   Preserves missing values.
+*   Fails if the column contains negative or non-numeric values.
+
+When to use it:
+*   When the variable has strong positive skew.
+*   When many observations are concentrated at low values and a smaller group extends to larger values.
+*   When zeros are present and a classic `log(x)` would not be valid.
+
+Examples:
+*   `0 -> log1p(0) = 0`
+*   `1 -> log1p(1) = 0.6931`
+*   `10 -> log1p(10) = 2.3979`
+*   `25 -> log1p(25) = 3.2581`
+
+```bash
+# Transform 'Farmers total land area (acres)' with log1p
+featurehero transform --file data.csv --type log1p --columns "Farmers total land area (acres)" --out processed_data.csv
+```
+
+#### Square Root Transformation (`sqrt`)
+Adds a new column with the square root of the selected variable, useful for
+count-like variables with moderate positive skew.
+
+Rules:
+*   Keeps the original column.
+*   Creates a new column named `<column>_sqrt`.
+*   Preserves missing values.
+*   Fails if the column contains negative or non-numeric values.
+
+When to use it:
+*   When the variable behaves like a count or density-like measure.
+*   When the variable has moderate positive skew.
+*   When you want a softer compression of large values than a logarithm.
+
+Examples:
+*   `0 -> sqrt(0) = 0`
+*   `1 -> sqrt(1) = 1`
+*   `4 -> sqrt(4) = 2`
+*   `9 -> sqrt(9) = 3`
+*   `16 -> sqrt(16) = 4`
+
+Note:
+*   `log1p` and `sqrt` are transformations, not missing-value imputation methods. Missing values remain missing.
+
+```bash
+# Transform 'Plant stand ; plot 1' with square root
+featurehero transform --file data.csv --type sqrt --columns "Plant stand ; plot 1" --out processed_data.csv
 ```
 
 ### 3. Run Optimization (`run`)
@@ -153,7 +227,7 @@ Este comando preprocesa tus datos, permitiendo transformar columnas de fechas o 
 ```bash
 featurehero transform --file <ruta> --type <tipo> --columns <col1> [<col2> ...] [--out <nombre_archivo>]
 ```
-*   `--type`: Tipo de transformación. Puede ser `date` o `category`.
+*   `--type`: Tipo de transformación. Puede ser `date`, `date_seasonal`, `category`, `dummy`, `log1p` o `sqrt`.
 *   `--columns`: Una o más columnas a transformar.
 *   `--out`: (Opcional) Nombre para el archivo de salida. Por defecto, se añade el sufijo `_transformed`.
 
@@ -166,6 +240,15 @@ Convierte una columna de fecha en múltiples características numéricas como a�
 featurehero transform --file data.csv --type date --columns order_date
 ```
 
+#### Transformación Estacional de Fechas (`date_seasonal`)
+Convierte columnas con formato `MM/yyyy` a variables dummy de año y mes.
+
+**Ejemplo:**
+```bash
+# Transformar la columna 'planting_month' usando entrada MM/yyyy
+featurehero transform --file data.csv --type date_seasonal --columns planting_month
+```
+
 #### Transformación de Etiquetas (`category`)
 Convierte columnas con texto o categorías en valores numéricos (Label Encoding).
 
@@ -173,6 +256,71 @@ Convierte columnas con texto o categorías en valores numéricos (Label Encoding
 ```bash
 # Transformar 'product_type' y 'region' y guardar en un nuevo archivo
 featurehero transform --file data.csv --type category --columns product_type region --out processed_data.csv
+```
+
+#### Transformación a Variables Dummy (`dummy`)
+Convierte columnas categóricas en variables dummy con one-hot encoding.
+
+**Ejemplo:**
+```bash
+# Transformar 'product_type' y 'region' a variables dummy
+featurehero transform --file data.csv --type dummy --columns product_type region --out processed_data.csv
+```
+
+#### Transformación Logarítmica (`log1p`)
+Agrega una nueva columna con el logaritmo natural de `x + 1`, útil para
+variables con asimetría positiva y presencia de ceros.
+
+Reglas:
+*   Conserva la columna original.
+*   Crea una nueva columna llamada `<columna>_log1p`.
+*   Mantiene los valores vacíos.
+*   Falla si la columna contiene valores negativos o no numéricos.
+
+Cuándo usarla:
+*   Cuando la variable tiene asimetría positiva fuerte.
+*   Cuando muchas observaciones se concentran en valores bajos y un grupo menor se extiende hacia valores altos.
+*   Cuando existen ceros y un `log(x)` clásico no sería válido.
+
+Ejemplos:
+*   `0 -> log1p(0) = 0`
+*   `1 -> log1p(1) = 0.6931`
+*   `10 -> log1p(10) = 2.3979`
+*   `25 -> log1p(25) = 3.2581`
+
+```bash
+# Transformar 'Farmers total land area (acres)' con log1p
+featurehero transform --file data.csv --type log1p --columns "Farmers total land area (acres)" --out processed_data.csv
+```
+
+#### Transformación De Raíz Cuadrada (`sqrt`)
+Agrega una nueva columna con la raíz cuadrada de la variable seleccionada,
+útil para variables tipo conteo con asimetría positiva moderada.
+
+Reglas:
+*   Conserva la columna original.
+*   Crea una nueva columna llamada `<columna>_sqrt`.
+*   Mantiene los valores vacíos.
+*   Falla si la columna contiene valores negativos o no numéricos.
+
+Cuándo usarla:
+*   Cuando la variable se comporta como conteo o medida de densidad simple.
+*   Cuando la asimetría positiva es moderada.
+*   Cuando se quiere comprimir los valores altos de forma más suave que con un logaritmo.
+
+Ejemplos:
+*   `0 -> sqrt(0) = 0`
+*   `1 -> sqrt(1) = 1`
+*   `4 -> sqrt(4) = 2`
+*   `9 -> sqrt(9) = 3`
+*   `16 -> sqrt(16) = 4`
+
+Nota:
+*   `log1p` y `sqrt` son transformaciones, no métodos de imputación de valores faltantes. Los vacíos permanecen vacíos.
+
+```bash
+# Transformar 'Plant stand ; plot 1' con raíz cuadrada
+featurehero transform --file data.csv --type sqrt --columns "Plant stand ; plot 1" --out processed_data.csv
 ```
 
 ### 3. Ejecutar Optimización (`run`)
