@@ -107,6 +107,7 @@ class GeneticAlgorithmParameter(ABC):
                 "number_generation",
                 "number_population",
                 "machines",
+                "metric",
             }
             for param in params:
                 if param not in valid_params:
@@ -125,6 +126,11 @@ class GeneticAlgorithmParameter(ABC):
                     convert_str_to_machine_name(machine_name)
                     for machine_name in params["machines"]
                 ]
+            if "metric" in params:
+                # pylint: disable=protected-access
+                self._individual_parameter._metric_selection = MetricEnum(
+                    params["metric"].lower()
+                )
 
     @property
     def machines_key(self) -> List[MachineNames]:

@@ -16,6 +16,7 @@ from xgboost import XGBRegressor
 import pandas as pd
 
 from featurehero.core.metrics.metric import Metric
+from featurehero.core.metrics.metric_enums import MetricEnum
 from featurehero.services.machines.machine_enums import (
     MachineNames,
     HyperTypeValueEnum,
@@ -355,8 +356,9 @@ class RandomForestRegression(MachineRegression):
         MachinePrediction (_type_): Abstract method
     """
 
-    def __init__(self) -> None:
+    def __init__(self, metric_selection: MetricEnum = None) -> None:
         super().__init__()
+        self._metric_selection = metric_selection
         self._machine_name = MachineNames.RANDOM_FOREST_REGRESSION.value
         self._default_hyper_parameters = {}
         self._hyper_parameters = {}
@@ -394,6 +396,12 @@ class RandomForestRegression(MachineRegression):
         }
         self._hyper_parameters = self._default_hyper_parameters
 
+    def _criterion(self) -> str:
+        """Align the tree split criterion with the selected metric."""
+        if self._metric_selection == MetricEnum.MEAN_ABSOLUTE_ERROR:
+            return "absolute_error"
+        return "squared_error"
+
     def build_machine(self) -> None:
         self._machine = RandomForestRegressor(
             n_estimators=self._hyper_parameters["n_estimators"].value,
@@ -403,6 +411,7 @@ class RandomForestRegression(MachineRegression):
             max_leaf_nodes=self._hyper_parameters["max_leaf_nodes"].value,
             min_impurity_decrease=self._hyper_parameters[
                 "min_impurity_decrease"].value,
+            criterion=self._criterion(),
             n_jobs=-1,
         )
 
@@ -410,6 +419,7 @@ class RandomForestRegression(MachineRegression):
         self._machine = RandomForestRegressor(
             n_jobs=-1,
             n_estimators=self._hyper_parameters["n_estimators"].value,
+            criterion=self._criterion(),
         )
 
 
@@ -495,8 +505,9 @@ class ExtremeGradientBoostRegression(MachineRegression):
         MachinePrediction (_type_): Abstract method
     """
 
-    def __init__(self) -> None:
+    def __init__(self, metric_selection: MetricEnum = None) -> None:
         super().__init__()
+        self._metric_selection = metric_selection
         self._machine_name = (
             MachineNames.EXTREME_GRADIENT_BOOSTING_REGRESSION.value
         )
@@ -566,6 +577,18 @@ class ExtremeGradientBoostRegression(MachineRegression):
         }
         self._hyper_parameters = self._default_hyper_parameters
 
+    def _objective_arguments(self) -> dict[str, str]:
+        """Align the boosting objective with the selected metric when possible."""
+        if self._metric_selection == MetricEnum.MEAN_ABSOLUTE_ERROR:
+            return {
+                "objective": "reg:absoluteerror",
+                "eval_metric": "mae",
+            }
+        return {
+            "objective": "reg:squarederror",
+            "eval_metric": "rmse",
+        }
+
     def build_machine(self) -> None:
         self._machine = XGBRegressor(
             n_estimators=self._hyper_parameters["n_estimators"].value,
@@ -578,11 +601,13 @@ class ExtremeGradientBoostRegression(MachineRegression):
             alpha=self._default_hyper_parameters["alpha"].value,
             learning_rate=self._hyper_parameters["learning_rate"].value,
             reg_lambda=self._hyper_parameters["lambda"].value,
+            **self._objective_arguments(),
             n_jobs=-1,
         )
 
     def build_machine_default(self):
         self._machine = XGBRegressor(
             n_estimators=self._hyper_parameters["n_estimators"].value,
+            **self._objective_arguments(),
             n_jobs=-1,
         )
