@@ -362,6 +362,7 @@ class GeneticAlgorithm:
             machine=machine_build_regression_optimization_decimal(
                 machine_name=random.choice(machines_chose),
                 deep_decimal=self._genetic_parameters.deep_decimal,
+                metric_selection=self._genetic_parameters.metric_selection,
             ),
             metric_selection=self._genetic_parameters.metric_selection,
         )
@@ -585,12 +586,12 @@ class GeneticAlgorithm:
             MetricEnum.ACCURACY_MEAN_ABSOLUTE_PERCENTAGE_ERROR,
             MetricEnum.R2_SCORE,
         ]:
-            return False
+            return True
         if self._genetic_parameters.metric_selection in [
             MetricEnum.MEAN_ABSOLUTE_ERROR,
             MetricEnum.MEAN_SQUARED_ERROR,
         ]:
-            return True
+            return False
         raise ValueError("Metric not defined, to select the best model")
 
     def _store_population(self):
@@ -601,7 +602,8 @@ class GeneticAlgorithm:
         self._global_population.extend(data_population)
         self._population = []
         self._global_population.sort(
-            key=lambda individual: individual.index_metric, reverse=True
+            key=lambda individual: individual.index_metric,
+            reverse=self._selection_reverse(),
         )
         self._population = copy.deepcopy(self._new_population)
         self._new_population = []

@@ -16,6 +16,7 @@ from featurehero.worker.pip_worker import genetic_algorithm
 from featurehero.core.job_manager import JobManager
 from featurehero.core.files.work_space_file import prepare_work_space_file
 from featurehero.core.files.transform_file import transform_data
+from featurehero.core.metrics.metric_enums import MetricEnum
 
 
 def print_progress_from_queue(progress_queue: Queue):
@@ -129,6 +130,44 @@ def parse_and_validate_params(params_str: str | None) -> dict:
                 "[ERROR] 'number_population' must be a multiple of 10.")
             sys.exit(1)
 
+    if "machines" in params:
+        machines = params.get("machines")
+        valid_machines = {
+            "lasso_regression",
+            "extreme_gradient_boost_regression",
+            "random_forest_regression",
+            "support_vector_regression",
+            "bayesian_prediction_regression",
+        }
+        if not isinstance(machines, list) or not machines:
+            print("[ERROR] 'machines' must be a non-empty JSON array.")
+            sys.exit(1)
+        if any(not isinstance(machine, str) for machine in machines):
+            print("[ERROR] Every value in 'machines' must be a string.")
+            sys.exit(1)
+        invalid_machines = [
+            machine for machine in machines if machine not in valid_machines
+        ]
+        if invalid_machines:
+            print(
+                "[ERROR] Invalid machine names in 'machines': "
+                f"{', '.join(invalid_machines)}"
+            )
+            sys.exit(1)
+
+    if "metric" in params:
+        metric = params.get("metric")
+        valid_metrics = {metric_enum.value for metric_enum in MetricEnum}
+        if not isinstance(metric, str):
+            print("[ERROR] 'metric' in --params must be a string.")
+            sys.exit(1)
+        if metric.lower() not in valid_metrics:
+            print(
+                "[ERROR] Invalid metric in 'metric': "
+                f"{metric}. Allowed values are: {', '.join(sorted(valid_metrics))}"
+            )
+            sys.exit(1)
+
     return params
 
 
@@ -172,7 +211,18 @@ def create_parser() -> argparse.ArgumentParser:
 Valid keys include:
   - 'number_generation' (int >= 10): Number of generations to run.
   - 'number_population' (int >= 10, multiple of 10): Number of individuals.
-e.g., '{"number_generation": 10, "number_population": 10}'"""
+  - 'machines' (list[str]): Models to evaluate. Allowed values:
+      * 'lasso_regression'
+      * 'extreme_gradient_boost_regression'
+      * 'random_forest_regression'
+      * 'support_vector_regression'
+      * 'bayesian_prediction_regression'
+  - 'metric' (str): Optimization metric. Default is 'r2_score'.
+      * 'mean_absolute_error'
+      * 'mean_squared_error'
+      * 'r2_score'
+      * and any other metric supported by FeatureHero
+e.g., '{"number_generation": 10, "number_population": 10, "metric": "mean_absolute_error"}'"""
     )
     # Internal argument to run the process as a daemon
     parser_run.add_argument(
@@ -201,7 +251,7 @@ e.g., '{"number_generation": 10, "number_population": 10}'"""
         "--type",
         dest="transform_type",
         required=True,
-        choices=['date', 'category'],
+        choices=['date', 'date_seasonal', 'category', 'dummy', 'log1p', 'sqrt'],
         help="Type of transformation to apply.",
     )
     parser_transform.add_argument(
