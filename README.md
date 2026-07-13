@@ -62,7 +62,7 @@ Instalacion directa desde la rama principal:
 pip install git+https://github.com/<OWNER>/<REPO>.git
 ```
 
-Instalacion desde un tag:
+Instalacion desde un tag o rama de release:
 
 ```bash
 pip install git+https://github.com/<OWNER>/<REPO>.git@2026.07.01
@@ -320,10 +320,10 @@ El workflow de release esta en:
 .github/workflows/release.yml
 ```
 
-Se ejecuta solo al publicar tags con alguno de estos patrones:
+Se ejecuta solo en dos casos:
 
-- `YYYY.MM.DD`, por ejemplo `2026.07.01`
-- `release/YYYY.MM.DD`, por ejemplo `release/2026.07.01`
+- Al publicar un tag `YYYY.MM.DD`, por ejemplo `2026.07.01`.
+- Al hacer push a una rama `release/YYYY.MM.DD`, por ejemplo `release/2026.07.01`.
 
 Ejemplo:
 
@@ -332,10 +332,10 @@ git tag 2026.07.01
 git push origin 2026.07.01
 ```
 
-Tambien puede publicarse con namespace `release/`:
+Tambien puede publicarse desde una rama `release/`:
 
 ```bash
-git tag release/2026.07.01
+git checkout -b release/2026.07.01
 git push origin release/2026.07.01
 ```
 
@@ -348,6 +348,9 @@ El workflow:
 - construye wheel y source distribution
 - sube los artefactos
 - crea un GitHub Release con `dist/*.whl` y `dist/*.tar.gz`
+
+Cuando el workflow se ejecuta desde una rama `release/YYYY.MM.DD`, el release
+usa ese mismo nombre como `tag_name` y apunta al commit que disparo el workflow.
 
 El wheel generado puede instalarse con:
 
