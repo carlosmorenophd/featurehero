@@ -1,4 +1,4 @@
-# IA_DEVELOP.md
+# IA_ARCHITECTURE.md
 
 Este documento es el contexto operativo de `Feature Hero` para agentes IA y
 personas que mantengan el proyecto. Su objetivo es reducir el tiempo de lectura
@@ -112,12 +112,12 @@ Archivos de documentacion y release:
 
 ```text
 README.md
-IA_DEVELOP.md
+IA_ARCHITECTURE.md
 LICENSE
 .github/workflows/release.yml
 ```
 
-`DEVELOPMENT.md` fue sustituido por `IA_DEVELOP.md`.
+`DEVELOPMENT.md` fue sustituido por `IA_ARCHITECTURE.md`.
 
 ## 5. Flujo de la CLI
 
@@ -411,7 +411,19 @@ Trigger:
 on:
   push:
     tags:
-      - "v*"
+      - "[0-9][0-9][0-9][0-9].[0-9][0-9].[0-9][0-9]"
+```
+
+Los releases del proyecto usan tags sin prefijo `v`, con formato de fecha:
+
+```text
+YYYY.MM.DD
+```
+
+Ejemplo:
+
+```text
+2026.07.01
 ```
 
 El workflow debe:
@@ -464,7 +476,7 @@ poetry run featurehero jobs --help
   release.
 - Preferir cambios pequenos y localizados.
 - Mantener README orientado a usuarios.
-- Mantener IA_DEVELOP orientado a contexto tecnico interno.
+- Mantener IA_ARCHITECTURE orientado a contexto tecnico interno.
 - Actualizar ambos documentos cuando cambie un comando, parametro, modelo,
   metrica, transformacion o flujo de release.
 - Tratar `dist/`, workspaces y logs como artefactos generados, no como fuente.

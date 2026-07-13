@@ -65,7 +65,7 @@ pip install git+https://github.com/<OWNER>/<REPO>.git
 Instalacion desde un tag:
 
 ```bash
-pip install git+https://github.com/<OWNER>/<REPO>.git@v2026.1.1
+pip install git+https://github.com/<OWNER>/<REPO>.git@2026.07.01
 ```
 
 ### Para desarrollo con Poetry
@@ -319,13 +319,14 @@ El workflow de release esta en:
 .github/workflows/release.yml
 ```
 
-Se ejecuta solo al publicar tags con patron `v*`.
+Se ejecuta solo al publicar tags con patron `YYYY.MM.DD`, por ejemplo
+`2026.07.01`.
 
 Ejemplo:
 
 ```bash
-git tag v2026.1.1
-git push origin v2026.1.1
+git tag 2026.07.01
+git push origin 2026.07.01
 ```
 
 El workflow:
@@ -340,7 +341,7 @@ El workflow:
 
 ## Documentacion para IA
 
-El archivo [IA_DEVELOP.md](IA_DEVELOP.md) contiene el contexto tecnico para
+El archivo [IA_ARCHITECTURE.md](IA_ARCHITECTURE.md) contiene el contexto tecnico para
 agentes IA y personas que mantengan el proyecto. `DEVELOPMENT.md` fue sustituido
 por ese documento.
 
