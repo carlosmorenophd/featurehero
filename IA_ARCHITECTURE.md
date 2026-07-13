@@ -412,18 +412,22 @@ on:
   push:
     tags:
       - "[0-9][0-9][0-9][0-9].[0-9][0-9].[0-9][0-9]"
+      - "release/[0-9][0-9][0-9][0-9].[0-9][0-9].[0-9][0-9]"
 ```
 
-Los releases del proyecto usan tags sin prefijo `v`, con formato de fecha:
+Los releases del proyecto usan tags sin prefijo `v`, con formato de fecha.
+Ambos formatos disparan el mismo workflow:
 
 ```text
 YYYY.MM.DD
+release/YYYY.MM.DD
 ```
 
-Ejemplo:
+Ejemplos:
 
 ```text
 2026.07.01
+release/2026.07.01
 ```
 
 El workflow debe:

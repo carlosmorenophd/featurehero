@@ -66,6 +66,7 @@ Instalacion desde un tag:
 
 ```bash
 pip install git+https://github.com/<OWNER>/<REPO>.git@2026.07.01
+pip install git+https://github.com/<OWNER>/<REPO>.git@release/2026.07.01
 ```
 
 ### Para desarrollo con Poetry
@@ -319,14 +320,23 @@ El workflow de release esta en:
 .github/workflows/release.yml
 ```
 
-Se ejecuta solo al publicar tags con patron `YYYY.MM.DD`, por ejemplo
-`2026.07.01`.
+Se ejecuta solo al publicar tags con alguno de estos patrones:
+
+- `YYYY.MM.DD`, por ejemplo `2026.07.01`
+- `release/YYYY.MM.DD`, por ejemplo `release/2026.07.01`
 
 Ejemplo:
 
 ```bash
 git tag 2026.07.01
 git push origin 2026.07.01
+```
+
+Tambien puede publicarse con namespace `release/`:
+
+```bash
+git tag release/2026.07.01
+git push origin release/2026.07.01
 ```
 
 El workflow:
@@ -338,6 +348,12 @@ El workflow:
 - construye wheel y source distribution
 - sube los artefactos
 - crea un GitHub Release con `dist/*.whl` y `dist/*.tar.gz`
+
+El wheel generado puede instalarse con:
+
+```bash
+pip install featurehero-<version>-py3-none-any.whl
+```
 
 ## Documentacion para IA
 
