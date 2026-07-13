@@ -412,19 +412,32 @@ on:
   push:
     tags:
       - "[0-9][0-9][0-9][0-9].[0-9][0-9].[0-9][0-9]"
+    branches:
+      - "release/[0-9][0-9][0-9][0-9].[0-9][0-9].[0-9][0-9]"
 ```
 
-Los releases del proyecto usan tags sin prefijo `v`, con formato de fecha:
+El workflow de release se dispara solo en dos casos:
 
-```text
-YYYY.MM.DD
-```
+- push de tag `YYYY.MM.DD`
+- push de rama `release/YYYY.MM.DD`
 
-Ejemplo:
+Ejemplos:
 
 ```text
 2026.07.01
+release/2026.07.01
 ```
+
+Cuando el evento viene de una rama `release/YYYY.MM.DD`, el paso
+`softprops/action-gh-release` debe usar:
+
+```yaml
+tag_name: ${{ github.ref_name }}
+target_commitish: ${{ github.sha }}
+```
+
+Eso permite crear el GitHub Release y asociarlo al commit que disparo el
+workflow aunque el evento no sea un push de tag.
 
 El workflow debe:
 

@@ -4,6 +4,8 @@ on:
   push:
     tags:
       - "[0-9][0-9][0-9][0-9].[0-9][0-9].[0-9][0-9]"
+    branches:
+      - "release/[0-9][0-9][0-9][0-9].[0-9][0-9].[0-9][0-9]"
 
 permissions:
   contents: write
@@ -67,6 +69,8 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ github.ref_name }}
+          target_commitish: ${{ github.sha }}
           files: |
             dist/*.whl
             dist/*.tar.gz
