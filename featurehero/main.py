@@ -12,11 +12,17 @@ import logging
 import threading
 from queue import Queue
 
+import pandas as pd
+
 from featurehero.worker.pip_worker import genetic_algorithm
 from featurehero.core.job_manager import JobManager
 from featurehero.core.files.work_space_file import prepare_work_space_file
 from featurehero.core.files.transform_file import transform_data
 from featurehero.core.metrics.metric_enums import MetricEnum
+from featurehero.services.results.result_analyzer import (
+    AnalysisConfig,
+    ResultAnalyzer,
+)
 
 
 def print_progress_from_queue(progress_queue: Queue):
@@ -85,6 +91,42 @@ def run_transform(file_path: str, transform_type: str, columns: list[str],
         transform_data(file_path, transform_type, columns, out_filename)
     except (FileNotFoundError, ValueError, KeyError, TypeError, OSError) as e:
         print(f"[ERROR] {e}")
+
+
+def run_result_analysis(
+    file_path: str,
+    output_dir: str,
+    ranking_metric: str,
+    metric_direction: str,
+    elite_fraction: float,
+    weights_json: str | None,
+    duplicate_policy: str,
+) -> str:
+    """Analyze final optimization CSV files and export derived reports."""
+    weights = None
+    if weights_json:
+        try:
+            weights = json.loads(weights_json)
+        except json.JSONDecodeError as error:
+            raise ValueError("--weights must be a valid JSON object") from error
+        if not isinstance(weights, dict):
+            raise ValueError("--weights must be a JSON object")
+
+    config_arguments = {
+        "ranking_metric": ranking_metric,
+        "metric_direction": metric_direction,
+        "elite_fraction": elite_fraction,
+        "duplicate_policy": duplicate_policy,
+    }
+    if weights is not None:
+        config_arguments["weights"] = weights
+    analyzer = ResultAnalyzer(
+        input_files=[file_path],
+        config=AnalysisConfig(**config_arguments),
+    )
+    result = analyzer.analyze()
+    exported_path = result.export(output_dir)
+    return str(exported_path)
 
 
 def print_version():
@@ -267,6 +309,54 @@ e.g., '{"number_generation": 10, "number_population": 10, "metric": "mean_absolu
         help="New name for the output file. (Optional)",
     )
 
+    parser_analyze = subparsers.add_parser(
+        "analyze-results",
+        help="Analyze one final FeatureHero optimization CSV file",
+    )
+    parser_analyze.add_argument(
+        "--file",
+        dest="file_path",
+        required=True,
+        help="Path to one final FeatureHero optimization CSV file.",
+    )
+    parser_analyze.add_argument(
+        "--output-dir",
+        required=True,
+        help="Directory where the derived analysis files will be created.",
+    )
+    parser_analyze.add_argument(
+        "--metric",
+        dest="ranking_metric",
+        default="r2_score",
+        help="Numeric column used to rank individuals. Default: r2_score.",
+    )
+    parser_analyze.add_argument(
+        "--direction",
+        dest="metric_direction",
+        choices=["auto", "maximize", "minimize"],
+        default="auto",
+        help=("Ranking direction. 'auto' recognizes standard metric names; "
+              "index_metric requires an explicit direction."),
+    )
+    parser_analyze.add_argument(
+        "--elite-fraction",
+        type=float,
+        default=0.10,
+        help="Fraction of best individuals considered elite. Default: 0.10.",
+    )
+    parser_analyze.add_argument(
+        "--weights",
+        help=("Optional JSON weights for frequency, elite, weighted, and "
+              "stability."),
+    )
+    parser_analyze.add_argument(
+        "--duplicates",
+        dest="duplicate_policy",
+        choices=["keep", "drop", "error"],
+        default="keep",
+        help="How to handle duplicate rows. Default: keep.",
+    )
+
     # Create the parser for the "jobs" command
     parser_jobs = subparsers.add_parser(
         "jobs", help="Manage background jobs")
@@ -375,6 +465,21 @@ def main():
             args.columns,
             args.out_filename,
         )
+    elif args.action == "analyze-results":
+        try:
+            destination = run_result_analysis(
+                args.file_path,
+                args.output_dir,
+                args.ranking_metric,
+                args.metric_direction,
+                args.elite_fraction,
+                args.weights,
+                args.duplicate_policy,
+            )
+            print(f"Analysis results saved at: {destination}")
+        except (FileNotFoundError, ValueError, OSError, pd.errors.ParserError) as error:
+            print(f"[ERROR] {error}")
+            sys.exit(1)
     elif args.action == "help":
         parser.print_help()  # Should be unreachable, but good practice
     elif args.action == "jobs":
