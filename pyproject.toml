@@ -1,7 +1,7 @@
 [project]
 name = "featurehero"
-version = "2026.1.1"
-description = "Application desktop for Genetic Orchestrator for selection of variables and machine model"
+version = "2026.2.1"
+description = "Application for Genetic Orchestrator for selection of variables and machine model"
 readme = "README.md"
 requires-python = ">=3.12,<4.0"
 license = "MIT"

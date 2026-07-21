@@ -81,6 +81,7 @@ poetry run featurehero --help
 ```bash
 featurehero run
 featurehero transform
+featurehero analyze-results
 featurehero jobs
 featurehero version
 ```
@@ -96,6 +97,7 @@ Para ver la ayuda de un comando especifico:
 ```bash
 featurehero run --help
 featurehero transform --help
+featurehero analyze-results --help
 featurehero jobs --help
 ```
 
@@ -228,6 +230,66 @@ Metricas comunes:
 - `mean_squared_error`
 - `mean_absolute_percentage_error`
 - `accuracy_mape`
+
+## Analisis de Resultados
+
+El comando `analyze-results` procesa un CSV final producido por Feature Hero.
+No vuelve a entrenar modelos y no modifica el archivo original. Tanto el path
+del archivo como la carpeta de salida son obligatorios.
+
+Ejemplo para un resultado:
+
+```bash
+featurehero analyze-results \
+  --file optimization_original.csv \
+  --output-dir analysis_results
+```
+
+La carpeta se crea si no existe. Si el path de salida existe como archivo, el
+comando falla. Las salidas son:
+
+- `feature_relevance.csv`: ranking global y componentes del score;
+- `feature_relevance_by_model.csv`: ranking separado por modelo;
+- `feature_cooccurrence.csv`: frecuencia conjunta y Jaccard;
+- `analysis_summary.json`: configuración, cobertura y advertencias.
+
+Opciones importantes:
+
+| Opcion | Descripcion |
+| --- | --- |
+| `--file` | Path obligatorio del CSV final de Feature Hero. |
+| `--output-dir` | Path obligatorio de la carpeta de resultados. |
+| `--metric` | Columna numerica utilizada para ordenar individuos. |
+| `--direction` | `auto`, `maximize` o `minimize`. |
+| `--elite-fraction` | Proporcion de mejores individuos; por defecto `0.10`. |
+| `--duplicates` | Tratamiento de duplicados: `keep`, `drop` o `error`. |
+| `--weights` | Pesos del indice como objeto JSON. |
+
+Cuando se usa `index_metric`, su direccion no puede inferirse del nombre y debe
+indicarse expresamente:
+
+```bash
+featurehero analyze-results \
+  --file optimization_original.csv \
+  --output-dir analysis_results \
+  --metric index_metric \
+  --direction maximize
+```
+
+Ejemplo de pesos personalizados:
+
+```bash
+featurehero analyze-results \
+  --file optimization_original.csv \
+  --output-dir analysis_results \
+  --weights '{"frequency": 0.25, "elite": 0.30, "weighted": 0.25, "stability": 0.20}'
+```
+
+El analizador exige que las primeras 18 columnas sean las columnas estándar del
+resultado Feature Hero, en su orden original desde `machine_name` hasta
+`accuracy_mape`, y requiere al menos dos columnas `feature_`. SHAP, permutation
+importance e importancia nativa se marcan como no disponibles; el analizador no
+inventa esos valores.
 
 ## Jobs
 

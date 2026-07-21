@@ -39,7 +39,7 @@ El proyecto usa metadata PEP 621 en `[project]` y Poetry como backend:
 ```toml
 [project]
 name = "featurehero"
-version = "2026.1.1"
+version = "2026.2.1"
 requires-python = ">=3.12,<4.0"
 
 [project.scripts]
