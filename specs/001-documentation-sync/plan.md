@@ -60,6 +60,9 @@ specs/001-documentation-sync/
 ├── data-model.md        # Phase 1 output ($speckit-plan command)
 ├── quickstart.md        # Phase 1 output ($speckit-plan command)
 ├── contracts/           # Phase 1 output ($speckit-plan command)
+├── capability-inventory.md # Source-to-capability traceability matrix
+├── readme-structure.md   # Permanent README section definition
+├── cleanup-audit.md      # Repository hygiene audit and dispositions
 └── tasks.md             # Phase 2 output ($speckit-tasks command - NOT created by $speckit-plan)
 ```
 
