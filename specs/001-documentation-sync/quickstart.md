@@ -22,6 +22,8 @@
 
    Expected result: all existing tests pass.
 
+   Validation completed on 2026-11-21: `9 passed`.
+
 3. Verify the public CLI surface:
 
    ```bash
@@ -47,3 +49,7 @@
 7. At feature closure, confirm `IA_ARCHITECTURE.md` and
    `README/IA_ACTION_01.md` are absent from the working tree and Git index, then
    rerun steps 2 and 3.
+
+   Final validation completed on 2026-11-21: both temporary documents were
+   removed, all CLI smoke checks passed, and the existing test suite reported
+   `9 passed`.

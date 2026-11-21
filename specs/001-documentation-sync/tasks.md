@@ -20,8 +20,8 @@ synchronization, and cleanup independently verifiable.
 
 **Purpose**: Establish the evidence baseline before editing documentation.
 
-- [ ] T001 Review `specs/001-documentation-sync/spec.md`, `plan.md`, `research.md`, `data-model.md`, `contracts/cli-documentation.md`, and `quickstart.md` and record the source files, public commands, tests, and existing documentation files that are in scope.
-- [ ] T002 [P] Capture the initial repository hygiene state with `git ls-files`, `.gitignore`, and a tracked-file scan for credentials, private configuration, caches, and generated artifacts in `specs/001-documentation-sync/cleanup-audit.md`.
+- [X] T001 Review `specs/001-documentation-sync/spec.md`, `plan.md`, `research.md`, `data-model.md`, `contracts/cli-documentation.md`, and `quickstart.md` and record the source files, public commands, tests, and existing documentation files that are in scope.
+- [X] T002 [P] Capture the initial repository hygiene state with `git ls-files`, `.gitignore`, and a tracked-file scan for credentials, private configuration, caches, and generated artifacts in `specs/001-documentation-sync/cleanup-audit.md`.
 
 ---
 
@@ -32,8 +32,8 @@ synchronization, and cleanup independently verifiable.
 **Checkpoint**: The implementation must use executable source and tests as the
 authority and must not introduce application behavior.
 
-- [ ] T003 Create the capability-to-source traceability matrix in `specs/001-documentation-sync/capability-inventory.md`, covering CLI commands, transformations, dataset validation, models, genetic optimization, jobs, result analysis, exports, release behavior, and current tests.
-- [ ] T004 [P] Define the permanent `README.md` sections in `specs/001-documentation-sync/readme-structure.md`: basic usage and commands, application summary, and technical reference.
+- [X] T003 Create the capability-to-source traceability matrix in `specs/001-documentation-sync/capability-inventory.md`, covering CLI commands, transformations, dataset validation, models, genetic optimization, jobs, result analysis, exports, release behavior, and current tests.
+- [X] T004 [P] Define the permanent `README.md` sections in `specs/001-documentation-sync/readme-structure.md`: basic usage and commands, application summary, and technical reference.
 
 ---
 
@@ -48,9 +48,9 @@ validations, jobs, result analysis, tests, and known limitations.
 
 ### Implementation for User Story 1
 
-- [ ] T005 [US1] Update `IA_ARCHITECTURE.md` with the implemented project purpose, developer audience, CLI commands, supported inputs, transformations, dataset validation, and generated outputs using `specs/001-documentation-sync/capability-inventory.md` as the source of truth.
-- [ ] T006 [US1] Update `IA_ARCHITECTURE.md` with the current regression models, hyperparameter handling, genetic population/generation flow, feature selection, mutation, crossover, metrics, progress reporting, background jobs, result analysis, exports, packaging, and release behavior verified in the source tree.
-- [ ] T007 [US1] Add explicit unavailable or untested-status statements to `IA_ARCHITECTURE.md` for behavior not confirmed by executable code or existing tests, including evidence references from `tests/` and `specs/001-documentation-sync/contracts/cli-documentation.md`.
+- [X] T005 [US1] Update `IA_ARCHITECTURE.md` with the implemented project purpose, developer audience, CLI commands, supported inputs, transformations, dataset validation, and generated outputs using `specs/001-documentation-sync/capability-inventory.md` as the source of truth.
+- [X] T006 [US1] Update `IA_ARCHITECTURE.md` with the current regression models, hyperparameter handling, genetic population/generation flow, feature selection, mutation, crossover, metrics, progress reporting, background jobs, result analysis, exports, packaging, and release behavior verified in the source tree.
+- [X] T007 [US1] Add explicit unavailable or untested-status statements to `IA_ARCHITECTURE.md` for behavior not confirmed by executable code or existing tests, including evidence references from `tests/` and `specs/001-documentation-sync/contracts/cli-documentation.md`.
 
 **Checkpoint**: User Story 1 is complete when `IA_ARCHITECTURE.md` describes only
 implemented or explicitly unavailable behavior and covers FR-001 through FR-008.
@@ -68,9 +68,9 @@ in commands, paths, inputs, outputs, or completion status.
 
 ### Implementation for User Story 2
 
-- [ ] T008 [P] [US2] Update `README/IA_ACTION_01.md` so its result-analysis scope, input contract, metrics, relevance calculations, validation rules, outputs, tests, and completion status match `featurehero/services/results/result_analyzer.py`, `featurehero/main.py`, and `tests/test_result_analyzer.py`.
-- [ ] T009 [US2] Migrate the permanent documentation into `README.md` with a basic usage and commands guide, an application summary, and a technical reference covering the verified behavior from `IA_ARCHITECTURE.md` and `README/IA_ACTION_01.md`.
-- [ ] T010 [US2] Cross-review `README.md`, `IA_ARCHITECTURE.md`, and `README/IA_ACTION_01.md` against `specs/001-documentation-sync/contracts/cli-documentation.md`, `featurehero/`, and `tests/`; correct terminology, paths, inputs, outputs, and unsupported claims without changing application code.
+- [X] T008 [P] [US2] Update `README/IA_ACTION_01.md` so its result-analysis scope, input contract, metrics, relevance calculations, validation rules, outputs, tests, and completion status match `featurehero/services/results/result_analyzer.py`, `featurehero/main.py`, and `tests/test_result_analyzer.py`.
+- [X] T009 [US2] Migrate the permanent documentation into `README.md` with a basic usage and commands guide, an application summary, and a technical reference covering the verified behavior from `IA_ARCHITECTURE.md` and `README/IA_ACTION_01.md`.
+- [X] T010 [US2] Cross-review `README.md`, `IA_ARCHITECTURE.md`, and `README/IA_ACTION_01.md` against `specs/001-documentation-sync/contracts/cli-documentation.md`, `featurehero/`, and `tests/`; correct terminology, paths, inputs, outputs, and unsupported claims without changing application code.
 
 **Checkpoint**: User Story 2 is complete when `README.md` contains all three
 permanent layers and the two temporary documents are synchronized with the code.
@@ -88,10 +88,10 @@ and the existing CLI/tests still pass.
 
 ### Implementation for User Story 3
 
-- [ ] T011 [US3] Complete `specs/001-documentation-sync/cleanup-audit.md` with a disposition for every tracked candidate, preserving source and reproducibility files unless evidence proves a security risk or unnecessary generated content.
-- [ ] T012 [US3] Remove `IA_ARCHITECTURE.md` and `README/IA_ACTION_01.md` from the working tree and Git tracking only after confirming their required permanent content exists in `README.md` and the audit is complete.
-- [ ] T013 [US3] Remove only additional tracked files explicitly approved by the evidence in `specs/001-documentation-sync/cleanup-audit.md`, and record the reason for each removal in that audit.
-- [ ] T014 [US3] Verify the post-cleanup Git index and working tree contain no confirmed sensitive or unnecessary generated files while preserving `featurehero/`, `tests/`, `pyproject.toml`, `poetry.lock`, and required project configuration.
+- [X] T011 [US3] Complete `specs/001-documentation-sync/cleanup-audit.md` with a disposition for every tracked candidate, preserving source and reproducibility files unless evidence proves a security risk or unnecessary generated content.
+- [X] T012 [US3] Remove `IA_ARCHITECTURE.md` and `README/IA_ACTION_01.md` from the working tree and Git tracking only after confirming their required permanent content exists in `README.md` and the audit is complete.
+- [X] T013 [US3] Remove only additional tracked files explicitly approved by the evidence in `specs/001-documentation-sync/cleanup-audit.md`, and record the reason for each removal in that audit.
+- [X] T014 [US3] Verify the post-cleanup Git index and working tree contain no confirmed sensitive or unnecessary generated files while preserving `featurehero/`, `tests/`, `pyproject.toml`, `poetry.lock`, and required project configuration.
 
 **Checkpoint**: User Story 3 is complete when cleanup is evidence-based, source
 behavior is unchanged, and FR-010 through FR-012 are satisfied.
@@ -102,10 +102,10 @@ behavior is unchanged, and FR-010 through FR-012 are satisfied.
 
 **Purpose**: Validate the complete feature and preserve traceability.
 
-- [ ] T015 Run `poetry run pytest -q` and record the result in `specs/001-documentation-sync/quickstart.md` without changing application tests.
-- [ ] T016 Run the CLI smoke checks from `specs/001-documentation-sync/quickstart.md` and confirm `README.md` documents the observed command names and outputs.
-- [ ] T017 [P] Run `git diff --check` and verify all documentation claims remain traceable to `specs/001-documentation-sync/capability-inventory.md` or explicit unavailable-status evidence.
-- [ ] T018 Run the full quickstart validation from `specs/001-documentation-sync/quickstart.md`, confirm SC-001 through SC-006, and record any remaining limitation before requesting feature closure.
+- [X] T015 Run `poetry run pytest -q` and record the result in `specs/001-documentation-sync/quickstart.md` without changing application tests.
+- [X] T016 Run the CLI smoke checks from `specs/001-documentation-sync/quickstart.md` and confirm `README.md` documents the observed command names and outputs.
+- [X] T017 [P] Run `git diff --check` and verify all documentation claims remain traceable to `specs/001-documentation-sync/capability-inventory.md` or explicit unavailable-status evidence.
+- [X] T018 Run the full quickstart validation from `specs/001-documentation-sync/quickstart.md`, confirm SC-001 through SC-006, and record any remaining limitation before requesting feature closure.
 
 ---
 
