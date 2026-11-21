@@ -420,11 +420,115 @@ El wheel generado puede instalarse con:
 pip install featurehero-<version>-py3-none-any.whl
 ```
 
-## Documentacion para IA
+## Referencia tecnica
 
-El archivo [IA_ARCHITECTURE.md](IA_ARCHITECTURE.md) contiene el contexto tecnico para
-agentes IA y personas que mantengan el proyecto. `DEVELOPMENT.md` fue sustituido
-por ese documento.
+Esta sección consolida el contexto técnico necesario para mantener la aplicación.
+La fuente de verdad es el código ejecutable y las pruebas existentes.
+
+### Estructura y flujo
+
+```text
+featurehero/main.py
+  -> prepara argumentos y despacha comandos
+  -> worker.pip_worker.genetic_algorithm()
+  -> services.optimizations.optimization_run_from_task()
+  -> GeneticAlgorithm.run() y GeneticAlgorithm.export()
+```
+
+Componentes principales:
+
+- `featurehero/core/files/`: lectura, validación, transformación y preparación
+  de datasets.
+- `featurehero/core/metrics/`: cálculo y enumeración de métricas de regresión.
+- `featurehero/core/job_manager.py`: registro, listado y detención de trabajos
+  en segundo plano.
+- `featurehero/services/machines/`: construcción de modelos y mutación de
+  hiperparámetros.
+- `featurehero/services/optimizations/`: algoritmo genético y selección de
+  variables.
+- `featurehero/services/results/result_analyzer.py`: análisis posterior de CSV
+  finales sin reentrenar modelos.
+- `tests/test_result_analyzer.py`: pruebas del contrato y resultados del análisis.
+
+### Contrato de optimización
+
+`run` acepta `.csv`, `.xls`, `.xlsx` y `.numbers`. Excel y Numbers deben tener
+una sola hoja. La columna objetivo debe existir, ser numérica y contener valores
+mayores que cero; las columnas predictoras no pueden ser texto ni fechas.
+
+El algoritmo genético crea poblaciones, selecciona variables mediante cromosomas
+booleanos, muta variables e hiperparámetros, cruza individuos, evalúa modelos,
+ordena por la métrica seleccionada y exporta los resultados. Los modelos
+disponibles son:
+
+- `lasso_regression`
+- `extreme_gradient_boost_regression`
+- `random_forest_regression`
+- `support_vector_regression`
+- `bayesian_prediction_regression`
+
+`number_generation` debe ser un entero mayor o igual a 10. `number_population`
+debe ser un entero mayor o igual a 10 y múltiplo de 10. La métrica por defecto
+es `r2_score`. El sistema calcula scores D2, varianza explicada, errores
+absolutos, porcentuales, cuadrados, logarítmicos, desviancias, error máximo,
+mediana, raíz del error cuadrático y `accuracy_mape`.
+
+### Transformaciones y jobs
+
+`transform` soporta `date`, `date_seasonal`, `category`, `dummy`, `log1p` y
+`sqrt`. La salida siempre es CSV; `log1p` y `sqrt` preservan la columna original,
+valores faltantes y rechazan valores negativos o no numéricos.
+
+Los trabajos en segundo plano se registran en `~/.featurehero/jobs.pids`.
+`run --background` crea archivos `.log` y `.status`; `jobs --list` elimina
+registros cuyo PID ya no existe y `jobs --stop PID` termina el proceso registrado.
+
+### Contrato de análisis de resultados
+
+`analyze-results` recibe un CSV final y una carpeta de salida. Exige las 18
+columnas estándar desde `machine_name` hasta `accuracy_mape` en orden y al menos
+dos columnas con prefijo `feature_`. No modifica el archivo original ni vuelve a
+entrenar modelos.
+
+Genera:
+
+- `feature_relevance.csv`: selección global, élite, ponderación y ranking.
+- `feature_relevance_by_model.csv`: el mismo análisis separado por modelo.
+- `feature_cooccurrence.csv`: frecuencia conjunta y similitud de Jaccard.
+- `analysis_summary.json`: configuración, métricas, modelos, advertencias y
+  componentes disponibles.
+
+El analizador valida booleanos, métrica de ranking, dirección, features
+compatibles, duplicados y carpeta de salida. SHAP, permutation importance,
+importancia nativa y estabilidad entre ejecuciones se informan como no
+disponibles cuando no existen en los datos; no se inventan valores.
+
+### Archivos generados, pruebas y límites
+
+Cada ejecución de optimización crea un workspace con el CSV normalizado, CSV de
+resultados, gráficas, archivos serializados del mejor modelo y mejores variables,
+y logs/status cuando corresponde. `dist/`, workspaces, logs y cachés son artefactos
+generados, no fuente del proyecto.
+
+La validación local recomendada es:
+
+```bash
+python3 -m compileall -q featurehero
+poetry check
+poetry run pytest -q
+poetry run featurehero --help
+poetry run featurehero version
+```
+
+Las pruebas actuales cubren el analizador de resultados: clasificación de
+columnas, booleanos, dirección de métricas, relevancia, duplicados, exportación,
+validación de salida y preservación del archivo original. No existe una suite
+completa de extremo a extremo para todo el algoritmo genético.
+
+El paquete es una herramienta para desarrolladores y personas con conocimientos
+de datos; no es una aplicación orientada a usuarios finales. No se debe cambiar
+la interfaz CLI, la división de datos, el algoritmo genético ni los modelos sin
+una especificación explícita.
 
 ## Licencia
 
