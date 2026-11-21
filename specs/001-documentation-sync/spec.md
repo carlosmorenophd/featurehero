@@ -8,6 +8,14 @@
 
 **Input**: User description: "001 documentar todo lo de IA en los .md, leer el codigo, documentar lo hecho y preparar la sincronizacion; al finalizar eliminar los documentos de IA y retirar archivos que por seguridad no deben ir al repositorio"
 
+## Clarifications
+
+### Session 2026-11-21
+
+- Q: Después de eliminar `IA_ARCHITECTURE.md` y `README/IA_ACTION_01.md`, ¿dónde debe conservarse la documentación consolidada? → A: Migrarla también a `README.md` antes de eliminar los archivos IA.
+- Q: ¿Qué archivos deben eliminarse durante la auditoría de seguridad y limpieza del repositorio? → A: Eliminar solo archivos rastreados con evidencia de riesgo o generación innecesaria.
+- Q: ¿Qué nivel de detalle debe conservarse en `README.md` después de eliminar los documentos IA? → A: Incluir una guía de uso y comandos básicos, un resumen de la aplicación y los aspectos técnicos relevantes.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Understand the implemented system (Priority: P1)
@@ -47,10 +55,11 @@ processing stages, outputs, or claims about completed work.
 
 **Acceptance Scenarios**:
 
-1. **Given** the current code and existing documents, **When** the documentation
+   1. **Given** the current code and existing documents, **When** the documentation
    is synchronized, **Then** `IA_ARCHITECTURE.md` contains the complete technical
-   inventory and `README/IA_ACTION_01.md` records the relevant completed action
-   and its resulting behavior.
+   inventory, `README/IA_ACTION_01.md` records the relevant completed action, and
+   `README.md` receives a basic usage guide, an application summary, and the
+   relevant technical reference needed after cleanup.
 2. **Given** a documented command or output, **When** it is checked against the
    CLI and service code, **Then** its name, input, output, and validation rules
    match the implementation.
@@ -121,13 +130,16 @@ feature.
   verify, while distinguishing tested behavior from untested behavior.
 - **FR-009**: `IA_ARCHITECTURE.md` and `README/IA_ACTION_01.md` MUST be updated
   so their claims, terminology, paths, commands, and outputs are synchronized
-  with the current source code.
+  with the current source code. Before those files are removed, `README.md` MUST
+  receive three permanent layers of content: basic usage and commands, an
+  application summary, and the relevant technical reference.
 - **FR-010**: Before cleanup, the repository MUST be audited for tracked
   credentials, tokens, private configuration, generated artifacts, caches, and
   other files that should not be versioned.
 - **FR-011**: At feature closure, the two temporary IA documents MUST be removed
-  and confirmed absent from Git, and only audited files with evidence of a
-  security or repository hygiene problem MAY also be removed.
+  and confirmed absent from Git. Additional files MAY be removed only when they
+  are tracked and the audit provides evidence of a security risk or unnecessary
+  generated content.
 - **FR-012**: The cleanup MUST NOT alter application source behavior, public CLI
   contracts, dependencies, tests, or generated business results beyond the
   explicitly approved repository-hygiene changes.
@@ -171,7 +183,12 @@ feature.
   capability is requested.
 - `IA_ARCHITECTURE.md` and `README/IA_ACTION_01.md` are temporary documents that
   must be removed only after their relevant content has been incorporated into
-  the synchronized feature record and reviewed.
-- A file with a suspicious name alone is insufficient evidence for deletion.
+  `README.md`, the synchronized feature record, and the review evidence.
+- `README.md` is the permanent entry point and MUST combine basic usage,
+  application summary, and technical reference content without claiming
+  unsupported behavior.
+- A file with a suspicious name alone is insufficient evidence for deletion;
+  source code and reproducibility files MUST be preserved unless the audit proves
+  they are unsafe or unnecessary to version.
 - Existing release, packaging, and Speckit configuration remain in scope for
   inventory but are not to be redesigned by this feature.
