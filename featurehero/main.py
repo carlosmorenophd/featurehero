@@ -12,10 +12,17 @@ import logging
 import threading
 from queue import Queue
 
+import pandas as pd
+
 from featurehero.worker.pip_worker import genetic_algorithm
 from featurehero.core.job_manager import JobManager
 from featurehero.core.files.work_space_file import prepare_work_space_file
 from featurehero.core.files.transform_file import transform_data
+from featurehero.core.metrics.metric_enums import MetricEnum
+from featurehero.services.results.result_analyzer import (
+    AnalysisConfig,
+    ResultAnalyzer,
+)
 
 
 def print_progress_from_queue(progress_queue: Queue):
@@ -86,6 +93,42 @@ def run_transform(file_path: str, transform_type: str, columns: list[str],
         print(f"[ERROR] {e}")
 
 
+def run_result_analysis(
+    file_path: str,
+    output_dir: str,
+    ranking_metric: str,
+    metric_direction: str,
+    elite_fraction: float,
+    weights_json: str | None,
+    duplicate_policy: str,
+) -> str:
+    """Analyze final optimization CSV files and export derived reports."""
+    weights = None
+    if weights_json:
+        try:
+            weights = json.loads(weights_json)
+        except json.JSONDecodeError as error:
+            raise ValueError("--weights must be a valid JSON object") from error
+        if not isinstance(weights, dict):
+            raise ValueError("--weights must be a JSON object")
+
+    config_arguments = {
+        "ranking_metric": ranking_metric,
+        "metric_direction": metric_direction,
+        "elite_fraction": elite_fraction,
+        "duplicate_policy": duplicate_policy,
+    }
+    if weights is not None:
+        config_arguments["weights"] = weights
+    analyzer = ResultAnalyzer(
+        input_files=[file_path],
+        config=AnalysisConfig(**config_arguments),
+    )
+    result = analyzer.analyze()
+    exported_path = result.export(output_dir)
+    return str(exported_path)
+
+
 def print_version():
     """Prints the current version of the application."""
     version = importlib.metadata.version("featurehero")
@@ -127,6 +170,44 @@ def parse_and_validate_params(params_str: str | None) -> dict:
         if num_pop % 10 != 0:
             print(
                 "[ERROR] 'number_population' must be a multiple of 10.")
+            sys.exit(1)
+
+    if "machines" in params:
+        machines = params.get("machines")
+        valid_machines = {
+            "lasso_regression",
+            "extreme_gradient_boost_regression",
+            "random_forest_regression",
+            "support_vector_regression",
+            "bayesian_prediction_regression",
+        }
+        if not isinstance(machines, list) or not machines:
+            print("[ERROR] 'machines' must be a non-empty JSON array.")
+            sys.exit(1)
+        if any(not isinstance(machine, str) for machine in machines):
+            print("[ERROR] Every value in 'machines' must be a string.")
+            sys.exit(1)
+        invalid_machines = [
+            machine for machine in machines if machine not in valid_machines
+        ]
+        if invalid_machines:
+            print(
+                "[ERROR] Invalid machine names in 'machines': "
+                f"{', '.join(invalid_machines)}"
+            )
+            sys.exit(1)
+
+    if "metric" in params:
+        metric = params.get("metric")
+        valid_metrics = {metric_enum.value for metric_enum in MetricEnum}
+        if not isinstance(metric, str):
+            print("[ERROR] 'metric' in --params must be a string.")
+            sys.exit(1)
+        if metric.lower() not in valid_metrics:
+            print(
+                "[ERROR] Invalid metric in 'metric': "
+                f"{metric}. Allowed values are: {', '.join(sorted(valid_metrics))}"
+            )
             sys.exit(1)
 
     return params
@@ -172,7 +253,18 @@ def create_parser() -> argparse.ArgumentParser:
 Valid keys include:
   - 'number_generation' (int >= 10): Number of generations to run.
   - 'number_population' (int >= 10, multiple of 10): Number of individuals.
-e.g., '{"number_generation": 10, "number_population": 10}'"""
+  - 'machines' (list[str]): Models to evaluate. Allowed values:
+      * 'lasso_regression'
+      * 'extreme_gradient_boost_regression'
+      * 'random_forest_regression'
+      * 'support_vector_regression'
+      * 'bayesian_prediction_regression'
+  - 'metric' (str): Optimization metric. Default is 'r2_score'.
+      * 'mean_absolute_error'
+      * 'mean_squared_error'
+      * 'r2_score'
+      * and any other metric supported by FeatureHero
+e.g., '{"number_generation": 10, "number_population": 10, "metric": "mean_absolute_error"}'"""
     )
     # Internal argument to run the process as a daemon
     parser_run.add_argument(
@@ -201,7 +293,7 @@ e.g., '{"number_generation": 10, "number_population": 10}'"""
         "--type",
         dest="transform_type",
         required=True,
-        choices=['date', 'category'],
+        choices=['date', 'date_seasonal', 'category', 'dummy', 'log1p', 'sqrt'],
         help="Type of transformation to apply.",
     )
     parser_transform.add_argument(
@@ -215,6 +307,54 @@ e.g., '{"number_generation": 10, "number_population": 10}'"""
         "--out",
         dest="out_filename",
         help="New name for the output file. (Optional)",
+    )
+
+    parser_analyze = subparsers.add_parser(
+        "analyze-results",
+        help="Analyze one final FeatureHero optimization CSV file",
+    )
+    parser_analyze.add_argument(
+        "--file",
+        dest="file_path",
+        required=True,
+        help="Path to one final FeatureHero optimization CSV file.",
+    )
+    parser_analyze.add_argument(
+        "--output-dir",
+        required=True,
+        help="Directory where the derived analysis files will be created.",
+    )
+    parser_analyze.add_argument(
+        "--metric",
+        dest="ranking_metric",
+        default="r2_score",
+        help="Numeric column used to rank individuals. Default: r2_score.",
+    )
+    parser_analyze.add_argument(
+        "--direction",
+        dest="metric_direction",
+        choices=["auto", "maximize", "minimize"],
+        default="auto",
+        help=("Ranking direction. 'auto' recognizes standard metric names; "
+              "index_metric requires an explicit direction."),
+    )
+    parser_analyze.add_argument(
+        "--elite-fraction",
+        type=float,
+        default=0.10,
+        help="Fraction of best individuals considered elite. Default: 0.10.",
+    )
+    parser_analyze.add_argument(
+        "--weights",
+        help=("Optional JSON weights for frequency, elite, weighted, and "
+              "stability."),
+    )
+    parser_analyze.add_argument(
+        "--duplicates",
+        dest="duplicate_policy",
+        choices=["keep", "drop", "error"],
+        default="keep",
+        help="How to handle duplicate rows. Default: keep.",
     )
 
     # Create the parser for the "jobs" command
@@ -325,6 +465,21 @@ def main():
             args.columns,
             args.out_filename,
         )
+    elif args.action == "analyze-results":
+        try:
+            destination = run_result_analysis(
+                args.file_path,
+                args.output_dir,
+                args.ranking_metric,
+                args.metric_direction,
+                args.elite_fraction,
+                args.weights,
+                args.duplicate_policy,
+            )
+            print(f"Analysis results saved at: {destination}")
+        except (FileNotFoundError, ValueError, OSError, pd.errors.ParserError) as error:
+            print(f"[ERROR] {error}")
+            sys.exit(1)
     elif args.action == "help":
         parser.print_help()  # Should be unreachable, but good practice
     elif args.action == "jobs":
