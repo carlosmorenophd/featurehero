@@ -1,50 +1,85 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# Feature Hero Constitution
+
+Feature Hero exists to facilitate the processing of tabular data and reduce the
+manual work required to prepare variables and evaluate regression models.
+
+Its objective is to provide a CLI that transforms datasets, automatically selects
+variables through genetic algorithms, optimizes regression models, and exports
+analyzable results.
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Developer-Focused Tooling
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+Feature Hero MUST serve people with development and data-science knowledge. It is
+not designed as an end-user application. Public behavior MUST remain explicit,
+scriptable, and accessible through the CLI so that users can control inputs,
+parameters, and outputs.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### II. Performance and Optimization
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+The application MUST prioritize high-performance execution for data preparation,
+genetic optimization, and regression evaluation. Solutions MUST use the existing
+optimization and regression capabilities when they satisfy the specification,
+avoiding unnecessary processing and avoidable complexity.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### III. Functional and Measurable Objectives
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+Every feature MUST define clear objectives and verifiable behavior. Implementation
+work MUST directly support the approved specification, with inputs, outputs,
+validations, and failure conditions made explicit where applicable.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### IV. Specification Fidelity and Minimal Scope
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+Development MUST cover only what the specification requests. The project MUST
+not add optional enhancements, speculative abstractions, or unrelated refactors.
+Changes MUST be the smallest functional change that satisfies the specification.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### V. Critical Improvement and Delivery Efficiency
+
+Improvements outside the specification MAY be made only when they are critical to
+correctness, security, performance, or maintainability required for the specified
+behavior. Work MUST remain focused on reaching the defined objective in the
+shortest reasonable delivery path.
+
+## Project Scope
+
+The project covers tabular-data transformation, dataset validation, genetic
+feature selection, regression-model optimization, background job management,
+result analysis, and export of derived artifacts through the `featurehero` CLI.
+The project does not include user-facing application interfaces or functionality
+not required by an approved specification.
+
+## Technical Constraints
+
+- The implementation MUST remain compatible with Python `>=3.12,<4.0`.
+- The public CLI command names and their documented parameters MUST remain stable
+  unless a specification explicitly changes them.
+- Supported data formats, transformations, metrics, and model options MUST be
+  validated at the system boundary.
+- Results MUST be exportable in the formats and locations defined by the
+  specification.
+
+## Development Workflow
+
+- Work MUST begin from an approved specification and remain traceable to it.
+- Each implementation MUST include the validation needed to demonstrate the
+  specified behavior.
+- Speckit actions MUST preserve the configured Git workflow, including feature
+  creation and stage commits.
+- A change MUST be reviewed for scope compliance before delivery; unrequested work
+  MUST be removed or deferred.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution governs project decisions and supersedes informal practices when
+they conflict. Amendments require an explicit request, an updated version, a
+recorded rationale, and validation that the change does not weaken the principles.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+Constitution versions use semantic versioning: MAJOR for incompatible principle
+changes or removals, MINOR for new principles or materially expanded governance,
+and PATCH for clarifications or non-semantic corrections. Every specification,
+plan, task list, and implementation review MUST check compliance with this
+constitution.
+
+**Version**: 1.0.0 | **Ratified**: 2026-11-21 | **Last Amended**: 2026-11-21
