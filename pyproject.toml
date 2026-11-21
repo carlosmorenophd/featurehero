@@ -1,6 +1,6 @@
 [project]
 name = "featurehero"
-version = "2026.2.1.1"
+version = "2026.2.1.2"
 description = "Application for Genetic Orchestrator for selection of variables and machine model"
 readme = "README.md"
 requires-python = ">=3.12,<4.0"
@@ -42,3 +42,8 @@ packages = [{ include = "featurehero" }]
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "pytest (>=9.2.0,<10.0.0)"
+]
