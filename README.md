@@ -1,5 +1,42 @@
 # Feature Hero
 
+> **Español** | [English](#english)
+>
+> Guía bilingüe de instalación y uso: [Español](INSTALLATION_GUIDE.md#espanol)
+> | [English](INSTALLATION_GUIDE.md#english)
+
+## Índice — Español
+
+- [Características](#caracteristicas)
+- [Requisitos e instalación](#requisitos)
+- [Comandos disponibles](#comandos-disponibles)
+- [Transformación de datos](#transformacion-de-datos)
+- [Optimización](#optimizacion)
+- [Análisis de resultados](#analisis-de-resultados)
+- [Jobs](#jobs)
+- [Versión](#version)
+- [Artefactos de optimización](#artefactos-de-optimizacion)
+- [Desarrollo](#desarrollo)
+- [Release en GitHub](#release-en-github)
+- [Referencia técnica](#referencia-tecnica)
+- [Guía de instalación y uso](INSTALLATION_GUIDE.md#espanol)
+
+## English Index
+
+- [Features](#english-features)
+- [Requirements and installation](#english-requirements)
+- [Available commands](#english-available-commands)
+- [Data transformation](#english-data-transformation)
+- [Optimization](#english-optimization)
+- [Result analysis](#english-result-analysis)
+- [Jobs](#english-jobs)
+- [Version](#english-version)
+- [Optimization artifacts](#english-optimization-artifacts)
+- [Development](#english-development)
+- [GitHub release](#english-github-release)
+- [Technical reference](#english-technical-reference)
+- [Installation and usage guide](INSTALLATION_GUIDE.md#english)
+
 `Feature Hero` es una herramienta de linea de comandos para preparar datos
 tabulares y ejecutar seleccion de variables mediante un algoritmo genetico sobre
 modelos de regresion.
@@ -59,14 +96,14 @@ pip install .
 Instalacion directa desde la rama principal:
 
 ```bash
-pip install git+https://github.com/<OWNER>/<REPO>.git
+python -m pip install git+https://github.com/carlosmorenophd/featurehero.git
 ```
 
 Instalacion desde un tag o rama de release:
 
 ```bash
-pip install git+https://github.com/<OWNER>/<REPO>.git@2026.07.01
-pip install git+https://github.com/<OWNER>/<REPO>.git@release/2026.07.01
+python -m pip install git+https://github.com/carlosmorenophd/featurehero.git@2026.07.01
+python -m pip install git+https://github.com/carlosmorenophd/featurehero.git@release/2026.07.01
 ```
 
 ### Para desarrollo con Poetry
@@ -533,3 +570,538 @@ una especificación explícita.
 ## Licencia
 
 MIT. Ver [LICENSE](LICENSE).
+
+---
+
+<a id="english"></a>
+
+# Feature Hero — English
+
+[Español](#feature-hero) | **English**
+
+Feature Hero is a command-line tool for preparing tabular data and selecting
+variables through a genetic algorithm over regression models.
+
+The package installs the following command:
+
+```bash
+featurehero
+```
+
+### English Features
+
+- Transform date, categorical, and numeric columns.
+- Validate datasets before optimization.
+- Select variables with a genetic algorithm.
+- Evaluate regression models with error and fit metrics.
+- Run jobs in the foreground or background.
+- Export results, charts, the best model, and the best features.
+- Build packages with Poetry and publish releases through GitHub Actions.
+
+### English Requirements
+
+- Python `>=3.12,<4.0`.
+- Poetry for local development only.
+
+Main dependencies:
+
+- `pandas`
+- `numpy`
+- `scikit-learn`
+- `xgboost`
+- `matplotlib`
+- `seaborn`
+- `numbers-parser`
+- `psutil`
+
+### English Installation
+
+#### From the local repository
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install .
+```
+
+On Windows PowerShell:
+
+```powershell
+py -3.12 -m venv .venv
+.\\.venv\\Scripts\\Activate.ps1
+python -m pip install .
+```
+
+On Windows CMD:
+
+```bat
+py -3.12 -m venv .venv
+.venv\\Scripts\\activate.bat
+python -m pip install .
+```
+
+#### From GitHub
+
+Direct installation from the main branch:
+
+```bash
+python -m pip install git+https://github.com/carlosmorenophd/featurehero.git
+```
+
+Installation from a release tag or branch:
+
+```bash
+python -m pip install git+https://github.com/carlosmorenophd/featurehero.git@2026.07.01
+python -m pip install git+https://github.com/carlosmorenophd/featurehero.git@release/2026.07.01
+```
+
+#### Development with Poetry
+
+```bash
+poetry install
+poetry run featurehero --help
+```
+
+### English Available Commands
+
+```bash
+featurehero run
+featurehero transform
+featurehero analyze-results
+featurehero jobs
+featurehero version
+```
+
+For general help:
+
+```bash
+featurehero --help
+```
+
+For command-specific help:
+
+```bash
+featurehero run --help
+featurehero transform --help
+featurehero analyze-results --help
+featurehero jobs --help
+```
+
+When using Poetry:
+
+```bash
+poetry run featurehero run --help
+```
+
+### English Data Transformation
+
+The `transform` command creates a new CSV with the requested transformations.
+
+Syntax:
+
+```bash
+featurehero transform --file <path> --type <type> --columns <col1> [<col2> ...] [--out <file.csv>]
+```
+
+Supported types:
+
+| Type | Description |
+| --- | --- |
+| `date` | Expands a date into year, month, day, weekday, and day of year. |
+| `date_seasonal` | Converts `MM/yyyy` dates into year and month dummies. |
+| `category` | Converts categories into numeric codes. |
+| `dummy` | Creates one-hot/dummy columns for categories. |
+| `log1p` | Creates `<column>_log1p` with `log(x + 1)`. |
+| `sqrt` | Creates `<column>_sqrt` with the square root. |
+
+Examples:
+
+```bash
+featurehero transform --file data.csv --type date --columns order_date
+featurehero transform --file data.csv --type date_seasonal --columns planting_month
+featurehero transform --file data.csv --type category --columns product_type region --out processed.csv
+featurehero transform --file data.csv --type dummy --columns product_type region --out processed.csv
+featurehero transform --file data.csv --type log1p --columns "Farmers total land area (acres)"
+featurehero transform --file data.csv --type sqrt --columns "Plant stand ; plot 1"
+```
+
+Important rules:
+
+- The file must exist.
+- The specified columns must exist.
+- `log1p` and `sqrt` preserve the original column.
+- `log1p` and `sqrt` preserve missing values.
+- `log1p` and `sqrt` fail when negative or non-numeric values are found.
+- When `--out` is omitted, the output uses the `_transformed.csv` suffix.
+
+### English Optimization
+
+The `run` command executes the genetic algorithm to select variables and optimize
+regression models.
+
+Syntax:
+
+```bash
+featurehero run --file <file> --column <target>
+```
+
+Example:
+
+```bash
+featurehero run --file data/gold_price.csv --column "Adj Close"
+```
+
+Supported formats:
+
+- `.csv`
+- `.xls`
+- `.xlsx`
+- `.numbers`
+
+Dataset validation:
+
+- The target column must exist.
+- Predictor columns must be numeric.
+- Predictor columns must not be text or dates.
+- The target column must be numeric.
+- All target values must be greater than `0`.
+
+#### Background execution
+
+```bash
+featurehero run --file data/prices.csv --column price --background
+```
+
+With `--background`, Feature Hero registers the process and writes logs and
+progress status next to the input file.
+
+#### Advanced parameters
+
+`--params` receives a JSON object.
+
+```bash
+featurehero run --file data.csv --column target --params '{"number_generation": 50, "number_population": 200}'
+```
+
+Supported parameters:
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `number_generation` | integer >= 10 | Number of generations. |
+| `number_population` | integer >= 10, multiple of 10 | Population size. |
+| `machines` | list of strings | Models to evaluate. |
+| `metric` | string | Metric used to order results. |
+
+Valid models:
+
+- `lasso_regression`
+- `extreme_gradient_boost_regression`
+- `random_forest_regression`
+- `support_vector_regression`
+- `bayesian_prediction_regression`
+
+Example with models and a metric:
+
+```bash
+featurehero run \
+  --file data.csv \
+  --column target \
+  --params '{"number_generation": 30, "number_population": 80, "machines": ["random_forest_regression", "lasso_regression"], "metric": "r2_score"}'
+```
+
+Common metrics:
+
+- `r2_score`
+- `mean_absolute_error`
+- `mean_squared_error`
+- `mean_absolute_percentage_error`
+- `accuracy_mape`
+
+### English Result Analysis
+
+The `analyze-results` command processes a final CSV produced by Feature Hero. It
+does not retrain models or modify the original file. Both the input path and the
+output directory are required.
+
+Example:
+
+```bash
+featurehero analyze-results \
+  --file optimization_original.csv \
+  --output-dir analysis_results
+```
+
+The directory is created if it does not exist. If the output path is an existing
+file, the command fails. Outputs include:
+
+- `feature_relevance.csv`: global ranking and score components.
+- `feature_relevance_by_model.csv`: ranking separated by model.
+- `feature_cooccurrence.csv`: joint frequency and Jaccard similarity.
+- `analysis_summary.json`: configuration, coverage, and warnings.
+
+Important options:
+
+| Option | Description |
+| --- | --- |
+| `--file` | Required path to the final Feature Hero CSV. |
+| `--output-dir` | Required output directory path. |
+| `--metric` | Numeric column used to order individuals. |
+| `--direction` | `auto`, `maximize`, or `minimize`. |
+| `--elite-fraction` | Proportion of the best individuals; default `0.10`. |
+| `--duplicates` | Duplicate policy: `keep`, `drop`, or `error`. |
+| `--weights` | Index weights as a JSON object. |
+
+When using `index_metric`, its direction cannot be inferred from the name and
+must be specified explicitly:
+
+```bash
+featurehero analyze-results \
+  --file optimization_original.csv \
+  --output-dir analysis_results \
+  --metric index_metric \
+  --direction maximize
+```
+
+Example with custom weights:
+
+```bash
+featurehero analyze-results \
+  --file optimization_original.csv \
+  --output-dir analysis_results \
+  --weights '{"frequency": 0.25, "elite": 0.30, "weighted": 0.25, "stability": 0.20}'
+```
+
+The analyzer requires the first 18 columns to be the standard Feature Hero result
+columns, in their original order from `machine_name` through `accuracy_mape`, and
+requires at least two `feature_` columns. SHAP, permutation importance, and native
+importance are marked unavailable; the analyzer does not invent those values.
+
+### English Jobs
+
+List registered jobs:
+
+```bash
+featurehero jobs --list
+```
+
+Stop a job by PID:
+
+```bash
+featurehero jobs --stop <PID>
+```
+
+Jobs are registered in:
+
+```text
+~/.featurehero/jobs.pids
+```
+
+### English Version
+
+```bash
+featurehero version
+```
+
+### English Optimization Artifacts
+
+Each `run` execution creates a workspace next to the original file:
+
+```text
+work_space_featurehero/YYYYMMDD_HHMMSS/
+```
+
+It may contain:
+
+- `original.csv`
+- `optimization_original.csv`
+- `optimization_overlap_original.csv`
+- `.png` charts
+- `best_model_original.pkl`
+- `best_features_original.pkl`
+- `.log` and `.status` files for background execution
+
+### English Development
+
+Install dependencies:
+
+```bash
+poetry install
+```
+
+Validate syntax:
+
+```bash
+python3 -m compileall -q featurehero
+```
+
+Validate metadata:
+
+```bash
+poetry check
+```
+
+Run the CLI:
+
+```bash
+poetry run featurehero --help
+```
+
+Build the package:
+
+```bash
+poetry build
+```
+
+The build creates:
+
+```text
+dist/featurehero-<version>.tar.gz
+dist/featurehero-<version>-py3-none-any.whl
+```
+
+### English GitHub Release
+
+The release workflow is located at:
+
+```text
+.github/workflows/release.yml
+```
+
+It runs in two cases:
+
+- When a `YYYY.MM.DD` tag is published, such as `2026.07.01`.
+- When code is pushed to a `release/YYYY.MM.DD` branch, such as `release/2026.07.01`.
+
+Example:
+
+```bash
+git tag 2026.07.01
+git push origin 2026.07.01
+```
+
+It can also be published from a `release/` branch:
+
+```bash
+git checkout -b release/2026.07.01
+git push origin release/2026.07.01
+```
+
+The workflow:
+
+- installs Python 3.12;
+- installs Poetry;
+- installs dependencies;
+- runs validations;
+- builds a wheel and source distribution;
+- uploads the artifacts; and
+- creates a GitHub Release with `dist/*.whl` and `dist/*.tar.gz`.
+
+When the workflow runs from a `release/YYYY.MM.DD` branch, the release uses the
+same name as `tag_name` and points to the commit that triggered the workflow.
+
+The generated wheel can be installed with:
+
+```bash
+python -m pip install featurehero-<version>-py3-none-any.whl
+```
+
+### English Technical Reference
+
+This section consolidates the technical context needed to maintain the application.
+Executable code and existing tests are the source of truth.
+
+#### Structure and flow
+
+```text
+featurehero/main.py
+  -> prepares arguments and dispatches commands
+  -> worker.pip_worker.genetic_algorithm()
+  -> services.optimizations.optimization_run_from_task()
+  -> GeneticAlgorithm.run() and GeneticAlgorithm.export()
+```
+
+Main components:
+
+- `featurehero/core/files/`: dataset reading, validation, transformation, and preparation.
+- `featurehero/core/metrics/`: regression metric calculation and enumeration.
+- `featurehero/core/job_manager.py`: background job registration, listing, and stopping.
+- `featurehero/services/machines/`: model construction and hyperparameter mutation.
+- `featurehero/services/optimizations/`: genetic algorithm and variable selection.
+- `featurehero/services/results/result_analyzer.py`: post-processing of final CSVs without retraining.
+- `tests/test_result_analyzer.py`: analyzer contract and result tests.
+
+#### Optimization contract
+
+`run` accepts `.csv`, `.xls`, `.xlsx`, and `.numbers`. Excel and Numbers files
+must contain one sheet. The target column must exist, be numeric, and contain
+values greater than zero; predictor columns must not be text or dates.
+
+The genetic algorithm creates populations, selects variables through boolean
+chromosomes, mutates variables and hyperparameters, crosses individuals, evaluates
+models, orders them by the selected metric, and exports results. Available models are:
+
+- `lasso_regression`
+- `extreme_gradient_boost_regression`
+- `random_forest_regression`
+- `support_vector_regression`
+- `bayesian_prediction_regression`
+
+`number_generation` must be an integer greater than or equal to 10.
+`number_population` must be an integer greater than or equal to 10 and a multiple
+of 10. The default metric is `r2_score`.
+
+#### Transformations and jobs
+
+`transform` supports `date`, `date_seasonal`, `category`, `dummy`, `log1p`, and
+`sqrt`. Output is always CSV; `log1p` and `sqrt` preserve the original column and
+missing values and reject negative or non-numeric values.
+
+Background jobs are registered in `~/.featurehero/jobs.pids`.
+`run --background` creates `.log` and `.status` files; `jobs --list` removes
+records whose PID no longer exists, and `jobs --stop PID` terminates a registered process.
+
+#### Result analysis contract
+
+`analyze-results` receives a final CSV and an output directory. It requires the 18
+standard columns from `machine_name` through `accuracy_mape` in order and at least
+two columns prefixed with `feature_`. It does not modify the original file or retrain models.
+
+It generates:
+
+- `feature_relevance.csv`: global, elite, weighted, and ranking analysis.
+- `feature_relevance_by_model.csv`: the same analysis separated by model.
+- `feature_cooccurrence.csv`: joint frequency and Jaccard similarity.
+- `analysis_summary.json`: configuration, metrics, models, warnings, and available components.
+
+The analyzer validates booleans, ranking metrics, direction, compatible features,
+duplicates, and the output directory. SHAP, permutation importance, native
+importance, and cross-run stability are reported unavailable when absent; values
+are not invented.
+
+#### Generated files, tests, and limits
+
+Each optimization run creates a workspace with the normalized CSV, result CSVs,
+charts, serialized best model and best variables, and logs/status when applicable.
+`dist/`, workspaces, logs, and caches are generated artifacts, not project source.
+
+Recommended local validation:
+
+```bash
+python3 -m compileall -q featurehero
+poetry check
+poetry run pytest -q
+poetry run featurehero --help
+poetry run featurehero version
+```
+
+Current tests cover result analyzer classification, booleans, metric direction,
+relevance, duplicates, export, output validation, and original-file preservation.
+There is no complete end-to-end suite for the entire genetic algorithm and job flow.
+
+The package is a tool for developers and people with data knowledge; it is not an
+end-user application. Do not change the CLI interface, data split, genetic algorithm,
+or models without an explicit specification.
+
+## English License
+
+MIT. See [LICENSE](LICENSE).
