@@ -15,9 +15,10 @@ el wheel y el source distribution, usando Trusted Publishing/OIDC y conservando
 la ruta desde fuente para desarrollo.
 
 La configuración externa de PyPI debe registrar un Trusted Publisher asociado al
-repositorio y workflow protegidos. Después de publicar, el workflow consultará
-PyPI durante un máximo de 5 minutos, con intervalos de 15 segundos, y fallará
-con un resultado identificable si la versión no aparece.
+repositorio y workflow protegidos, o usar el secreto protegido `PYPI_TOKEN` ya
+configurado en GitHub. Después de publicar, el workflow consultará PyPI durante
+un máximo de 5 minutos, con intervalos de 15 segundos, y fallará con un
+resultado identificable si la versión no aparece.
 
 ## Technical Context
 
@@ -41,7 +42,7 @@ con un resultado identificable si la versión no aparece.
 
 **Performance Goals**: Instalación pública verificable en menos de 5 minutos, excluyendo descargas lentas de dependencias; sin cambios en el rendimiento del CLI
 
-**Constraints**: Mantener comandos y parámetros públicos; usar versiones únicas; no incluir secretos; publicar solo artefactos validados del commit aprobado; configurar Trusted Publishing fuera del código; verificar la disponibilidad en PyPI con reintentos acotados; no mezclar la ruta de desarrollo con la ruta pública
+**Constraints**: Mantener comandos y parámetros públicos; usar versiones únicas; no incluir secretos; publicar solo artefactos validados del commit aprobado; usar Trusted Publishing o el secreto protegido `PYPI_TOKEN` fuera del código; verificar la disponibilidad en PyPI con reintentos acotados; no mezclar la ruta de desarrollo con la ruta pública
 
 **Scale/Scope**: Metadata de paquete, workflow de release, publicación PyPI, verificación de instalación y actualización bilingüe de README/guía; sin cambios de lógica de negocio
 

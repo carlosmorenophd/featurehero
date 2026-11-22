@@ -90,7 +90,7 @@ Una persona usuaria o colaboradora quiere saber cuándo usar la instalación pú
 - **FR-006**: La instalación pública MUST poder verificarse ejecutando `featurehero --help` y `featurehero version` sin requerir el repositorio fuente.
 - **FR-007**: El proceso de publicación MUST validar antes de publicar que la metadata, dependencias declaradas y empaquetadas, artefactos y punto de entrada corresponden al código aprobado, y que las dependencias se resuelven en una instalación limpia.
 - **FR-008**: El proceso MUST impedir o identificar una publicación con una versión ya existente, incompleta o diferente de la versión aprobada.
-- **FR-009**: Las credenciales y permisos de publicación MUST manejarse fuera del código fuente mediante un Trusted Publisher de PyPI vinculado al repositorio y workflow protegidos; no MUST incluir secretos en el repositorio ni en los artefactos publicados.
+- **FR-009**: Las credenciales y permisos de publicación MUST manejarse fuera del código fuente mediante un Trusted Publisher de PyPI o un secreto protegido de GitHub Actions; no MUST incluir secretos en el repositorio ni en los artefactos publicados.
 - **FR-010**: El README y la guía de instalación y uso MUST presentar `python -m pip install featurehero` como ruta principal para usuarios finales en español e inglés.
 - **FR-011**: El README y la guía MUST conservar la instalación desde el repositorio y Poetry como rutas claramente separadas para desarrollo y contribución.
 - **FR-012**: La documentación MUST indicar los requisitos de Python, el nombre del paquete, el comando CLI, la verificación de instalación y las acciones de recuperación para fallos de publicación o instalación.
@@ -126,7 +126,7 @@ Una persona usuaria o colaboradora quiere saber cuándo usar la instalación pú
 - El flujo público con pip será la ruta recomendada para usuarios finales; descargar el repositorio y usar Poetry seguirá siendo una ruta de desarrollo.
 - El proyecto mantendrá compatibilidad con Python `>=3.12,<4.0`.
 - La publicación requerirá una cuenta o identidad mantenedora con permisos en PyPI, pero ningún secreto se almacenará en el repositorio.
-- La identidad Trusted Publisher de PyPI deberá configurarse antes del release y su repositorio, workflow y entorno protegido deberán quedar registrados en la evidencia de publicación.
+- La identidad Trusted Publisher o el secreto protegido `PYPI_TOKEN` deberá configurarse antes del release y el repositorio, workflow y entorno protegido deberán quedar registrados en la evidencia de publicación sin registrar el valor del secreto.
 - La verificación post-publicación consultará PyPI durante un máximo de 5 minutos, con intervalos de 15 segundos, y fallará de forma identificable si la versión no aparece.
 - Las validaciones multiplataforma podrán ejecutarse en automatización o entornos disponibles; una plataforma no validada deberá quedar registrada antes de publicar.
 - Esta feature no cambia la lógica de transformación, selección genética, regresión, análisis de resultados ni los comandos públicos existentes.

@@ -1,6 +1,6 @@
 [project]
 name = "featurehero"
-version = "2026.2.1.12"
+version = "2026.2.1.14"
 description = "Application for Genetic Orchestrator for selection of variables and machine model"
 readme = "README.md"
 requires-python = ">=3.12,<4.0"

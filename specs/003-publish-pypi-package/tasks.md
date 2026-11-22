@@ -15,9 +15,9 @@ description: "Task list for publishing Feature Hero to PyPI"
 
 **Purpose**: Establish the release and documentation files that the feature will modify.
 
-- [ ] T001 Confirm the release scope and define the evidence matrix for version, commit, artifacts, platforms, Python versions, commands, results, and exceptions in `specs/003-publish-pypi-package/release-evidence.md`
-- [ ] T002 [P] Create the minimal release-validation command structure under `.github/scripts/` without changing runtime modules in `featurehero/`
-- [ ] T003 [P] Create the single evidence template `specs/003-publish-pypi-package/release-evidence.md` before release work begins, including sections for scope, version, commit, artifacts, platforms, Python versions, commands, results, and exceptions
+- [x] T001 Confirm the release scope and define the evidence matrix for version, commit, artifacts, platforms, Python versions, commands, results, and exceptions in `specs/003-publish-pypi-package/release-evidence.md`
+- [x] T002 [P] Create the minimal release-validation command structure under `.github/scripts/` without changing runtime modules in `featurehero/`
+- [x] T003 [P] Create the single evidence template `specs/003-publish-pypi-package/release-evidence.md` before release work begins, including sections for scope, version, commit, artifacts, platforms, Python versions, commands, results, and exceptions
 
 ---
 
@@ -27,9 +27,9 @@ description: "Task list for publishing Feature Hero to PyPI"
 
 **⚠️ CRITICAL**: User-story work depends on these package invariants and validation conventions.
 
-- [ ] T004 Define the package invariant checks in `.github/scripts/validate_release.py` for distribution name `featurehero`, Python requirement `>=3.12,<4.0`, entry point `featurehero = "featurehero.main:main"`, and exact parity between declared and packaged runtime dependencies
-- [ ] T005 Implement artifact checks in `.github/scripts/validate_release.py` requiring a version-matching wheel and source distribution when both are generated, with no missing or duplicate release version
-- [ ] T006 Add the pre-publication validation sequence to `.github/scripts/validate_release.py` for `poetry check`, `poetry run pytest -q`, `poetry build`, `poetry run featurehero --help`, and `poetry run featurehero version`
+- [x] T004 Define the package invariant checks in `.github/scripts/validate_release.py` for distribution name `featurehero`, Python requirement `>=3.12,<4.0`, entry point `featurehero = "featurehero.main:main"`, and exact parity between declared and packaged runtime dependencies
+- [x] T005 Implement artifact checks in `.github/scripts/validate_release.py` requiring a version-matching wheel and source distribution when both are generated, with no missing or duplicate release version
+- [x] T006 Add the pre-publication validation sequence to `.github/scripts/validate_release.py` for `poetry check`, `poetry run pytest -q`, `poetry build`, `poetry run featurehero --help`, and `poetry run featurehero version`
 
 **Checkpoint**: Shared metadata, artifact, and pre-publication validation rules are defined.
 
@@ -43,9 +43,9 @@ description: "Task list for publishing Feature Hero to PyPI"
 
 ### Implementation for User Story 1
 
-- [ ] T007 [US1] Align package metadata in `pyproject.toml` with the public installation contract: distribution name `featurehero`, Python `>=3.12,<4.0`, runtime dependencies, README metadata, and entry point `featurehero = "featurehero.main:main"`
-- [ ] T008 [US1] Add a clean-environment installation verification command in `.github/scripts/verify_pypi_install.py` that installs `featurehero` from the public index outside the repository and checks package metadata, `featurehero --help`, and `featurehero version`
-- [ ] T009 [US1] Make `.github/scripts/verify_pypi_install.py` report platform, Python version, installed version, command results, and actionable failures for unsupported Python versions, dependency resolution errors, missing PATH entry, or absent CLI output
+- [x] T007 [US1] Align package metadata in `pyproject.toml` with the public installation contract: distribution name `featurehero`, Python `>=3.12,<4.0`, runtime dependencies, README metadata, and entry point `featurehero = "featurehero.main:main"`
+- [x] T008 [US1] Add a clean-environment installation verification command in `.github/scripts/verify_pypi_install.py` that installs `featurehero` from the public index outside the repository and checks package metadata, `featurehero --help`, and `featurehero version`
+- [x] T009 [US1] Make `.github/scripts/verify_pypi_install.py` report platform, Python version, installed version, command results, and actionable failures for unsupported Python versions, dependency resolution errors, missing PATH entry, or absent CLI output
 - [ ] T010 [US1] Validate the public installation flow from `specs/003-publish-pypi-package/quickstart.md` in a clean environment without importing code from the repository
 
 **Checkpoint**: A published `featurehero` package can be installed and its CLI can be verified independently of the repository.
@@ -60,13 +60,13 @@ description: "Task list for publishing Feature Hero to PyPI"
 
 ### Implementation for User Story 2
 
-- [ ] T011 [US2] Increment the release version in `pyproject.toml` using the required `yyyy.mayor.minor.micro` format and ensure the release tag, package metadata, and CLI version all use that same value
-- [ ] T012 [US2] Update `.github/workflows/release.yml` to run tests, compile checks, Poetry validation, metadata/artifact validation, and CLI smoke checks before any publication step
-- [ ] T013 [US2] Add distribution integrity validation to `.github/workflows/release.yml` using the generated wheel and source distribution, rejecting missing artifacts, invalid metadata, duplicate versions, or a version different from `pyproject.toml`
-- [ ] T014 [US2] Configure the PyPI Trusted Publisher for the approved repository, workflow, and protected environment, then configure `.github/workflows/release.yml` with the minimum `id-token: write` and contents permissions without storing a token or password in the repository
-- [ ] T015 [US2] Publish the validated `dist/*.whl` and `dist/*.tar.gz` artifacts in `.github/workflows/release.yml` with the official PyPA PyPI publishing action while preserving the existing GitHub Release upload
-- [ ] T016 [US2] Add a post-publication verification job to `.github/workflows/release.yml` that retries the public-index lookup every 15 seconds for at most 5 minutes, fails with an identifiable result if the version is absent, then installs the released version in a clean environment and runs `featurehero --help` and `featurehero version`
-- [ ] T017 [US2] Complete `specs/003-publish-pypi-package/release-evidence.md` with Trusted Publisher configuration, duplicate-version rejection, incomplete-artifact failure, dependency-resolution results, missing publishing permission, and failed post-publication verification recovery guidance
+- [x] T011 [US2] Increment the release version in `pyproject.toml` using the required `yyyy.mayor.minor.micro` format and ensure the release tag, package metadata, and CLI version all use that same value
+- [x] T012 [US2] Update `.github/workflows/release.yml` to run tests, compile checks, Poetry validation, metadata/artifact validation, and CLI smoke checks before any publication step
+- [x] T013 [US2] Add distribution integrity validation to `.github/workflows/release.yml` using the generated wheel and source distribution, rejecting missing artifacts, invalid metadata, duplicate versions, or a version different from `pyproject.toml`
+- [x] T014 [US2] Configure the protected GitHub `pypi` environment and verify the external PyPI publisher or `PYPI_TOKEN` repository secret, then configure `.github/workflows/release.yml` without storing the credential value in the repository
+- [x] T015 [US2] Publish the validated `dist/*.whl` and `dist/*.tar.gz` artifacts in `.github/workflows/release.yml` with the official PyPA PyPI publishing action while preserving the existing GitHub Release upload
+- [x] T016 [US2] Add a post-publication verification job to `.github/workflows/release.yml` that retries the public-index lookup every 15 seconds for at most 5 minutes, fails with an identifiable result if the version is absent, then installs the released version in a clean environment and runs `featurehero --help` and `featurehero version`
+- [x] T017 [US2] Complete `specs/003-publish-pypi-package/release-evidence.md` with Trusted Publisher configuration, duplicate-version rejection, incomplete-artifact failure, dependency-resolution results, missing publishing permission, and failed post-publication verification recovery guidance
 
 **Checkpoint**: An approved version is published only after validation and can be installed and verified from PyPI.
 
@@ -80,11 +80,11 @@ description: "Task list for publishing Feature Hero to PyPI"
 
 ### Implementation for User Story 3
 
-- [ ] T018 [P] [US3] Update the Spanish sections and table of contents in `README.md` with `python -m pip install featurehero`, requirements, CLI verification, troubleshooting, and links to the Spanish installation guide sections
-- [ ] T019 [P] [US3] Update the English sections and table of contents in `README.md` with `python -m pip install featurehero`, requirements, CLI verification, troubleshooting, and links to the English installation guide sections
-- [ ] T020 [P] [US3] Add or update the Spanish installation and usage sections in `INSTALLATION_GUIDE.md` for Windows PowerShell, Windows CMD, macOS, and Ubuntu/Debian, including public pip, source, Poetry, verification, and recovery routes
-- [ ] T021 [P] [US3] Add or update the English installation and usage sections in `INSTALLATION_GUIDE.md` for Windows PowerShell, Windows CMD, macOS, and Ubuntu/Debian, including public pip, source, Poetry, verification, and recovery routes
-- [ ] T022 [US3] Cross-check `README.md` and `INSTALLATION_GUIDE.md` for equivalent bilingual commands, package name, CLI name, Python requirement, version verification, links, and warnings before release
+- [x] T018 [P] [US3] Update the Spanish sections and table of contents in `README.md` with `python -m pip install featurehero`, requirements, CLI verification, troubleshooting, and links to the Spanish installation guide sections
+- [x] T019 [P] [US3] Update the English sections and table of contents in `README.md` with `python -m pip install featurehero`, requirements, CLI verification, troubleshooting, and links to the English installation guide sections
+- [x] T020 [P] [US3] Add or update the Spanish installation and usage sections in `INSTALLATION_GUIDE.md` for Windows PowerShell, Windows CMD, macOS, and Ubuntu/Debian, including public pip, source, Poetry, verification, and recovery routes
+- [x] T021 [P] [US3] Add or update the English installation and usage sections in `INSTALLATION_GUIDE.md` for Windows PowerShell, Windows CMD, macOS, and Ubuntu/Debian, including public pip, source, Poetry, verification, and recovery routes
+- [x] T022 [US3] Cross-check `README.md` and `INSTALLATION_GUIDE.md` for equivalent bilingual commands, package name, CLI name, Python requirement, version verification, links, and warnings before release
 
 **Checkpoint**: End users see PyPI as the primary route, while contributors can still follow source and Poetry development instructions.
 
@@ -94,10 +94,10 @@ description: "Task list for publishing Feature Hero to PyPI"
 
 **Purpose**: Validate the complete feature and preserve the existing CLI contract.
 
-- [ ] T023 [P] Run the existing test suite in `tests/` and confirm no public CLI command, parameter, or input/output format changed
+- [x] T023 [P] Run the existing test suite in `tests/` and confirm no public CLI command, parameter, or input/output format changed
 - [ ] T024 [P] Run the release validation and clean-install scenarios from `specs/003-publish-pypi-package/quickstart.md` on Windows PowerShell, Windows CMD, macOS, and Ubuntu/Debian, recording any unsupported platform explicitly in `specs/003-publish-pypi-package/release-evidence.md`
-- [ ] T025 Scan `.github/workflows/release.yml`, `.github/scripts/`, `pyproject.toml`, generated distributions, and Git history for PyPI tokens, passwords, or private credentials before release
-- [ ] T026 Verify that the final README and installation guide links, indexes, commands, and version references are consistent with the published package and `specs/003-publish-pypi-package/contracts/pypi-release.md`
+- [x] T025 Scan `.github/workflows/release.yml`, `.github/scripts/`, `pyproject.toml`, generated distributions, and Git history for PyPI tokens, passwords, or private credentials before release
+- [x] T026 Verify that the final README and installation guide links, indexes, commands, and version references are consistent with the published package and `specs/003-publish-pypi-package/contracts/pypi-release.md`
 
 ---
 
