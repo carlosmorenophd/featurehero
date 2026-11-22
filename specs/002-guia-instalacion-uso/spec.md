@@ -14,12 +14,13 @@
 
 - Q: ¿Qué alcance debe tener la guía para Linux? → A: Ubuntu/Debian como ruta principal; orientación general para otras distribuciones.
 - Q: ¿Cuál debe ser la ruta principal de instalación para una persona principiante? → A: Descargar el repositorio, crear un entorno aislado e instalar el paquete localmente con `pip install .`; Poetry queda como alternativa para desarrollo.
+- Q: ¿Qué idiomas deben cubrir la guía y el README? → A: Ambos documentos deben ofrecer el contenido completo en español e inglés.
 
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Instalar desde cero en cualquier plataforma (Priority: P1)
 
-Una persona con poca experiencia de programación quiere preparar Feature Hero en su equipo sin depender de conocimientos previos ni de asistencia externa.
+Una persona con poca experiencia de programación quiere preparar Feature Hero en su equipo sin depender de conocimientos previos ni de asistencia externa, pudiendo leer la guía en español o inglés.
 
 **Why this priority**: La instalación es el requisito previo para cualquier uso y es la principal necesidad expresada por los usuarios.
 
@@ -44,7 +45,7 @@ Una persona recién instalada quiere ejecutar un ejemplo completo con datos de e
 **Acceptance Scenarios**:
 
 1. **Given** una instalación verificada y un conjunto de datos de ejemplo, **When** la persona sigue el flujo de inicio rápido, **Then** puede preparar la entrada, ejecutar el comando indicado e identificar dónde se generan los resultados.
-2. **Given** que la persona desconoce el significado de una entrada, opción o salida, **When** lee la guía, **Then** encuentra una explicación en lenguaje sencillo y una referencia al README para los detalles avanzados.
+2. **Given** que la persona desconoce el significado de una entrada, opción o salida, **When** lee la guía en español o inglés, **Then** encuentra una explicación en lenguaje sencillo y una referencia al README en el idioma elegido para los detalles avanzados.
 
 ---
 
@@ -59,7 +60,7 @@ Una persona encuentra un mensaje de error o necesita ampliar el uso básico y qu
 **Acceptance Scenarios**:
 
 1. **Given** un error común durante la instalación o ejecución, **When** la persona busca el mensaje o síntoma en la sección de problemas frecuentes, **Then** encuentra causa probable, solución paso a paso y el siguiente diagnóstico recomendado.
-2. **Given** que la persona completó el ejemplo inicial, **When** quiere consultar opciones avanzadas, **Then** la guía la dirige al README técnico sin duplicar su contenido ni contradecirlo.
+2. **Given** que la persona completó el ejemplo inicial, **When** quiere consultar opciones avanzadas, **Then** la guía la dirige al README técnico en el idioma elegido sin duplicar su contenido ni contradecirlo.
 
 ### Edge Cases
 
@@ -69,12 +70,16 @@ Una persona encuentra un mensaje de error o necesita ampliar el uso básico y qu
 - El usuario parte de una instalación parcial o de una versión anterior y necesita saber si debe limpiarla o actualizarla.
 - El conjunto de datos de entrada falta, está en una ubicación equivocada o no cumple el formato esperado.
 - La guía debe indicar qué hacer si un comando no se reconoce y cómo reportar un problema cuando las soluciones no funcionan.
+- Una sección está traducida parcialmente, omite pasos o utiliza términos distintos entre español e inglés.
+- Un enlace interno lleva al idioma equivocado, a una sección inexistente o a contenido desactualizado en uno de los dos idiomas.
 
 ## Requirements *(mandatory)*
 
 ### Functional Requirements
 
 - **FR-001**: El proyecto MUST incluir una guía independiente en formato Markdown, enlazable desde la documentación de entrada del proyecto, que explique instalación y uso para personas con poca experiencia de programación.
+- **FR-015**: La guía MUST ofrecer el contenido completo de instalación, primer uso, solución de problemas y alcance en español e inglés, con secciones claramente identificadas por idioma.
+- **FR-016**: El README MUST ofrecer en español e inglés el contenido necesario para orientar al usuario hacia la guía y consultar la referencia técnica, manteniendo equivalencia funcional entre ambos idiomas.
 - **FR-002**: La guía MUST comenzar desde cero e indicar cómo identificar la plataforma, preparar los requisitos, descargar el repositorio, entrar en su directorio raíz, crear un entorno aislado, instalar el paquete localmente con `pip install .` y verificar la instalación.
 - **FR-003**: La guía MUST proporcionar un recorrido paso a paso específico para Windows.
 - **FR-004**: La guía MUST proporcionar un recorrido paso a paso específico para macOS.
@@ -88,6 +93,8 @@ Una persona encuentra un mensaje de error o necesita ampliar el uso básico y qu
 - **FR-012**: La guía MUST indicar el alcance de su contenido y señalar qué temas quedan fuera del recorrido inicial para evitar que un usuario principiante confunda instrucciones avanzadas con pasos obligatorios.
 - **FR-013**: La guía MUST ser navegable mediante títulos, tabla de contenido o enlaces internos suficientes para llegar rápidamente a la plataforma, inicio rápido y solución de problemas.
 - **FR-014**: La guía MUST presentar la instalación desde el repositorio local como el recorrido principal y MUST identificar Poetry como una alternativa destinada al desarrollo del proyecto, sin mezclar ambos recorridos como si fueran requisitos equivalentes.
+- **FR-017**: La guía y el README MUST mantener equivalencia de comandos, requisitos, advertencias, enlaces y límites de alcance entre las versiones en español e inglés; una corrección en un idioma MUST reflejarse en el otro antes de publicar.
+- **FR-018**: La guía y el README MUST usar una estructura de navegación que permita cambiar entre español e inglés sin perder la sección equivalente ni el contexto del recorrido.
 
 ### Key Entities
 
@@ -107,6 +114,8 @@ Una persona encuentra un mensaje de error o necesita ampliar el uso básico y qu
 - **SC-004**: Al menos 4 de 5 personas que completan la instalación pueden ejecutar el inicio rápido y localizar sus resultados en menos de 15 minutos, excluyendo el tiempo de descarga de requisitos.
 - **SC-005**: La revisión de contenido no encuentra instrucciones de instalación o uso que contradigan los comandos, requisitos, formatos o comportamiento vigente del proyecto.
 - **SC-006**: En una revisión con usuarios principiantes, al menos 80% califica la guía como clara y suficiente para repetir la instalación y el primer uso sin acompañamiento.
+- **SC-007**: Una revisión de equivalencia encuentra el mismo 100% de los pasos críticos, comandos, advertencias y enlaces funcionales en español e inglés tanto en la guía como en el README.
+- **SC-008**: Al menos 90% de los usuarios de prueba puede cambiar de idioma y llegar a la sección equivalente en menos de 30 segundos.
 
 ## Assumptions
 
@@ -118,3 +127,5 @@ Una persona encuentra un mensaje de error o necesita ampliar el uso básico y qu
 - El inicio rápido utilizará datos de ejemplo seguros y pequeños, o describirá cómo obtenerlos si el repositorio ya los proporciona.
 - Ubuntu/Debian será la ruta Linux validada paso a paso; para otras distribuciones se ofrecerá orientación general y se explicará cómo identificar incompatibilidades, sin prometer una receta detallada para cada distribución.
 - La documentación se actualizará junto con cambios que alteren la instalación, el primer uso o los problemas frecuentes cubiertos por esta especificación.
+- Cada documento será bilingüe dentro de su propio archivo, con secciones claramente separadas en español e inglés; no se crearán versiones independientes que puedan divergir silenciosamente.
+- La traducción conservará los nombres de comandos, opciones, rutas y mensajes técnicos exactamente cuando deban copiarse en una terminal.
