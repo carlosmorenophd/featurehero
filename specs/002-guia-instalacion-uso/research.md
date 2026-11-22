@@ -67,3 +67,15 @@
 - **Alternatives considered**: Copiar literalmente todas las instrucciones del
   README fue rechazado porque contiene marcadores de repositorio y ejemplos no
   presentes en el árbol actual.
+
+## Decision 8: Usar índices bilingües y enlaces bidireccionales
+
+- **Decision**: `README.md` tendrá un índice en español y otro en inglés, y cada
+  idioma enlazará visiblemente a la sección equivalente de
+  `INSTALLATION_GUIDE.md`. La guía repetirá el patrón y ofrecerá enlaces para
+  volver al README y cambiar de idioma.
+- **Rationale**: El usuario debe poder comenzar desde el README y saltar a la
+  sección de interés sin recorrer un documento largo; los enlaces equivalentes
+  reducen navegación ambigua y hacen verificable la paridad bilingüe.
+- **Alternatives considered**: Un único índice mezclado fue rechazado porque
+  dificulta la navegación de usuarios que leen solo uno de los idiomas.

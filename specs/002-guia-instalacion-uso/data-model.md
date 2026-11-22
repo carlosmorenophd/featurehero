@@ -41,3 +41,13 @@ consistentes durante la implementación.
 
 - **Purpose**: Enlace al README o a la ayuda del CLI para detalles avanzados.
 - **Relationship**: complementa la Guía de usuario sin duplicar ni contradecir sus instrucciones básicas.
+
+## Índice bilingüe
+
+- **Purpose**: Tabla de contenidos navegable para un idioma específico dentro de
+  `README.md` o `INSTALLATION_GUIDE.md`.
+- **Fields**: idioma, título visible, destino interno, sección equivalente en el
+  otro idioma y enlace al otro documento.
+- **Instances**: Índice español e índice inglés en cada documento.
+- **Validation**: cada destino debe existir, llevar a la sección correcta y
+  permitir llegar al documento relacionado sin perder el idioma seleccionado.

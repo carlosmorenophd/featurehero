@@ -95,6 +95,8 @@ Una persona encuentra un mensaje de error o necesita ampliar el uso básico y qu
 - **FR-014**: La guía MUST presentar la instalación desde el repositorio local como el recorrido principal y MUST identificar Poetry como una alternativa destinada al desarrollo del proyecto, sin mezclar ambos recorridos como si fueran requisitos equivalentes.
 - **FR-017**: La guía y el README MUST mantener equivalencia de comandos, requisitos, advertencias, enlaces y límites de alcance entre las versiones en español e inglés; una corrección en un idioma MUST reflejarse en el otro antes de publicar.
 - **FR-018**: La guía y el README MUST usar una estructura de navegación que permita cambiar entre español e inglés sin perder la sección equivalente ni el contexto del recorrido.
+- **FR-019**: El README MUST incluir, tanto en español como en inglés, un enlace visible hacia la guía de instalación y uso bilingüe.
+- **FR-020**: El README y la guía de instalación y uso MUST incluir un índice o tabla de contenidos en cada idioma, con enlaces internos que permitan saltar directamente a la plataforma, instalación, inicio rápido, solución de problemas y referencia técnica correspondientes.
 
 ### Key Entities
 
@@ -116,6 +118,7 @@ Una persona encuentra un mensaje de error o necesita ampliar el uso básico y qu
 - **SC-006**: En una revisión con usuarios principiantes, al menos 80% califica la guía como clara y suficiente para repetir la instalación y el primer uso sin acompañamiento.
 - **SC-007**: Una revisión de equivalencia encuentra el mismo 100% de los pasos críticos, comandos, advertencias y enlaces funcionales en español e inglés tanto en la guía como en el README.
 - **SC-008**: Al menos 90% de los usuarios de prueba puede cambiar de idioma y llegar a la sección equivalente en menos de 30 segundos.
+- **SC-009**: El 100% de los revisores puede localizar desde el README la guía bilingüe y saltar desde el índice de cualquiera de los dos documentos a cada sección principal en menos de 30 segundos.
 
 ## Assumptions
 
@@ -129,3 +132,4 @@ Una persona encuentra un mensaje de error o necesita ampliar el uso básico y qu
 - La documentación se actualizará junto con cambios que alteren la instalación, el primer uso o los problemas frecuentes cubiertos por esta especificación.
 - Cada documento será bilingüe dentro de su propio archivo, con secciones claramente separadas en español e inglés; no se crearán versiones independientes que puedan divergir silenciosamente.
 - La traducción conservará los nombres de comandos, opciones, rutas y mensajes técnicos exactamente cuando deban copiarse en una terminal.
+- Los índices podrán ser tablas de contenido manuales o equivalentes generados por el formato Markdown, siempre que sus enlaces internos funcionen en el visor principal del repositorio.

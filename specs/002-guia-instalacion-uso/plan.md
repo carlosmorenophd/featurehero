@@ -12,7 +12,9 @@ Crear una guía independiente en Markdown para que personas con poca experiencia
 puedan descargar el repositorio, instalar el paquete localmente con `pip install .`,
 verificar el CLI y completar un primer flujo de uso en Windows, macOS y Linux.
 La guía se añadirá como `INSTALLATION_GUIDE.md` en la raíz y se enlazará desde
-`README.md`; Poetry se documentará únicamente como alternativa de desarrollo.
+`README.md` en ambos idiomas. Tanto el README como la guía tendrán índices
+bilingües con enlaces internos a sus secciones equivalentes; Poetry se documentará
+únicamente como alternativa de desarrollo.
 
 ## Technical Context
 
@@ -36,9 +38,9 @@ La guía se añadirá como `INSTALLATION_GUIDE.md` en la raíz y se enlazará de
 
 **Performance Goals**: No introducir cambios en el rendimiento de ejecución; el inicio rápido debe usar datos pequeños y parámetros reducidos cuando ejecute optimización
 
-**Constraints**: Mantener comandos y comportamiento públicos; documentar primero la instalación local desde el repositorio; no prometer soporte detallado fuera de Ubuntu/Debian; evitar contradicciones con `README.md`
+**Constraints**: Mantener comandos y comportamiento públicos; documentar primero la instalación local desde el repositorio; no prometer soporte detallado fuera de Ubuntu/Debian; evitar contradicciones entre `README.md` y `INSTALLATION_GUIDE.md`; mantener índices y enlaces internos funcionales en español e inglés
 
-**Scale/Scope**: Un documento de instalación y primer uso, tres recorridos de plataforma, un inicio rápido, solución de problemas y enlaces a la referencia técnica; sin cambios de runtime
+**Scale/Scope**: Un documento de instalación y primer uso bilingüe, un README bilingüe actualizado, índices en ambos documentos, tres recorridos de plataforma, un inicio rápido, solución de problemas y enlaces a la referencia técnica; sin cambios de runtime
 
 ## Constitution Check
 
@@ -51,7 +53,7 @@ The plan passes the constitution gate:
 - Performance and optimization: no se modifica el camino de ejecución ni la lógica
   de procesamiento; el ejemplo usa entradas pequeñas para validación.
 - Functional and measurable objectives: los artefactos y validaciones trazan a
-  FR-001–FR-014 y SC-001–SC-006.
+  FR-001–FR-020 y SC-001–SC-009.
 - Specification fidelity and minimal scope: el cambio se limita a la guía, su
   enlace, contratos de uso y validaciones documentales.
 - Critical improvement and delivery efficiency: se reutiliza la estructura actual
@@ -80,8 +82,8 @@ specs/002-guia-instalacion-uso/
 -->
 
 ```text
-INSTALLATION_GUIDE.md       # Nueva guía para principiantes
-README.md                    # Enlace a la guía y referencia técnica existente
+INSTALLATION_GUIDE.md        # Guía bilingüe, índice y recorridos de instalación/uso
+README.md                     # README bilingüe, índice y enlace a la guía
 featurehero/                 # CLI y lógica existente; sin cambios de runtime
 tests/                       # Pruebas existentes y validaciones de humo
 specs/002-guia-instalacion-uso/  # Especificación y artefactos de diseño
@@ -89,8 +91,10 @@ specs/002-guia-instalacion-uso/  # Especificación y artefactos de diseño
 
 **Structure Decision**: Mantener el proyecto Python CLI existente sin crear
 directorios de aplicación ni dependencias nuevas. La guía se ubicará en la raíz
-para que sea visible junto al README y pueda enlazarse desde él. Los artefactos
-de diseño permanecerán dentro de la feature.
+para que sea visible junto al README y pueda enlazarse desde sus secciones en
+español e inglés. Cada documento tendrá un índice por idioma con enlaces internos
+a las secciones principales. Los artefactos de diseño permanecerán dentro de la
+feature.
 
 ## Complexity Tracking
 

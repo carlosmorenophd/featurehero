@@ -35,3 +35,15 @@ verification and first-use validation. It does not change the CLI.
 The guide must use commands and options exposed by the current CLI parser and must
 link to `README.md` or command help for advanced parameters rather than inventing
 additional public commands.
+
+## Documentation navigation contract
+
+| Document | Required navigation | Required link |
+|---|---|---|
+| `README.md` — español | Índice con requisitos, instalación, uso, problemas y referencia técnica | Enlace visible a la guía en español |
+| `README.md` — English | Table of contents with requirements, installation, usage, troubleshooting and technical reference | Visible link to the guide in English |
+| `INSTALLATION_GUIDE.md` — español | Índice con Windows, macOS, Ubuntu/Debian, inicio rápido y problemas | Enlace al README en español y al índice inglés |
+| `INSTALLATION_GUIDE.md` — English | Table of contents with Windows, macOS, Ubuntu/Debian, quickstart and troubleshooting | Link to the English README and Spanish index |
+
+Every index destination must resolve to an existing heading, and every language
+section must expose a path to its equivalent section in the other language.
