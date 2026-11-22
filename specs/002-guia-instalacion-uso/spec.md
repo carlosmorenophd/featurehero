@@ -13,6 +13,7 @@
 ### Session 2026-11-22
 
 - Q: ¿Qué alcance debe tener la guía para Linux? → A: Ubuntu/Debian como ruta principal; orientación general para otras distribuciones.
+- Q: ¿Cuál debe ser la ruta principal de instalación para una persona principiante? → A: Descargar el repositorio, crear un entorno aislado e instalar el paquete localmente con `pip install .`; Poetry queda como alternativa para desarrollo.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -74,7 +75,7 @@ Una persona encuentra un mensaje de error o necesita ampliar el uso básico y qu
 ### Functional Requirements
 
 - **FR-001**: El proyecto MUST incluir una guía independiente en formato Markdown, enlazable desde la documentación de entrada del proyecto, que explique instalación y uso para personas con poca experiencia de programación.
-- **FR-002**: La guía MUST comenzar desde cero e indicar cómo identificar la plataforma, preparar los requisitos, obtener el proyecto, instalarlo y verificar la instalación.
+- **FR-002**: La guía MUST comenzar desde cero e indicar cómo identificar la plataforma, preparar los requisitos, descargar el repositorio, entrar en su directorio raíz, crear un entorno aislado, instalar el paquete localmente con `pip install .` y verificar la instalación.
 - **FR-003**: La guía MUST proporcionar un recorrido paso a paso específico para Windows.
 - **FR-004**: La guía MUST proporcionar un recorrido paso a paso específico para macOS.
 - **FR-005**: La guía MUST proporcionar un recorrido paso a paso específico para Ubuntu/Debian como ruta principal de Linux, e indicar las diferencias relevantes y los límites de soporte para otras distribuciones cuando afecten al recorrido.
@@ -86,6 +87,7 @@ Una persona encuentra un mensaje de error o necesita ampliar el uso básico y qu
 - **FR-011**: La guía MUST mantener consistencia con los comandos, requisitos, formatos y comportamiento documentados por el proyecto; las instrucciones duplicadas que diverjan del README MUST corregirse antes de publicar la guía.
 - **FR-012**: La guía MUST indicar el alcance de su contenido y señalar qué temas quedan fuera del recorrido inicial para evitar que un usuario principiante confunda instrucciones avanzadas con pasos obligatorios.
 - **FR-013**: La guía MUST ser navegable mediante títulos, tabla de contenido o enlaces internos suficientes para llegar rápidamente a la plataforma, inicio rápido y solución de problemas.
+- **FR-014**: La guía MUST presentar la instalación desde el repositorio local como el recorrido principal y MUST identificar Poetry como una alternativa destinada al desarrollo del proyecto, sin mezclar ambos recorridos como si fueran requisitos equivalentes.
 
 ### Key Entities
 
@@ -110,7 +112,8 @@ Una persona encuentra un mensaje de error o necesita ampliar el uso básico y qu
 
 - La guía acompañará al README técnico existente y no sustituirá la referencia completa de parámetros y capacidades.
 - La primera versión cubrirá los sistemas de escritorio Windows, macOS y Linux; no incluirá dispositivos móviles ni despliegues remotos.
-- Las instrucciones se basarán en los requisitos y comandos oficialmente soportados por la versión del proyecto durante su implementación.
+- Las instrucciones se basarán en los requisitos y comandos oficialmente soportados por la versión del proyecto durante su implementación; la instalación principal seguirá el flujo local `pip install .` definido por el paquete.
+- La instalación directa con `pip` desde una URL remota o desde artefactos publicados no será el recorrido principal de esta versión; podrá mencionarse solo como contexto si ya está respaldada por la documentación vigente.
 - Los usuarios tendrán acceso a Internet para obtener el proyecto y sus requisitos, además de permisos para trabajar en una carpeta de usuario.
 - El inicio rápido utilizará datos de ejemplo seguros y pequeños, o describirá cómo obtenerlos si el repositorio ya los proporciona.
 - Ubuntu/Debian será la ruta Linux validada paso a paso; para otras distribuciones se ofrecerá orientación general y se explicará cómo identificar incompatibilidades, sin prometer una receta detallada para cada distribución.
