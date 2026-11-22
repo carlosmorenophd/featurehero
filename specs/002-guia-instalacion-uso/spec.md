@@ -15,6 +15,12 @@
 - Q: ¿Qué alcance debe tener la guía para Linux? → A: Ubuntu/Debian como ruta principal; orientación general para otras distribuciones.
 - Q: ¿Cuál debe ser la ruta principal de instalación para una persona principiante? → A: Descargar el repositorio, crear un entorno aislado e instalar el paquete localmente con `pip install .`; Poetry queda como alternativa para desarrollo.
 - Q: ¿Qué idiomas deben cubrir la guía y el README? → A: Ambos documentos deben ofrecer el contenido completo en español e inglés.
+- Q: ¿Qué nivel de traducción debe tener `README.md`? → A: Todo `README.md` debe estar completo en español e inglés dentro del mismo archivo.
+- Q: ¿Qué plataformas deben validarse obligatoriamente antes de considerar completa la documentación? → A: Windows PowerShell, Windows CMD, macOS y Ubuntu/Debian; otras distribuciones solo recibirán orientación.
+- Q: ¿Cómo debe documentarse Poetry en el README y en la guía? → A: Como ruta opcional de desarrollo en ambos documentos.
+- Q: ¿Cómo deben organizarse las tareas que modifican simultáneamente `README.md` o `INSTALLATION_GUIDE.md`? → A: Quitar `[P]` de las tareas que comparten archivo y ejecutarlas secuencialmente.
+- Q: ¿Dónde debe registrarse la evidencia de las validaciones multiplataforma y bilingües? → A: En `specs/002-guia-instalacion-uso/validation-evidence.md`.
+- Q: ¿Cómo deben tratarse los requisitos parcialmente redundantes sobre índices, enlaces internos y cambio de idioma? → A: Consolidarlos en dos requisitos claros.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -79,7 +85,7 @@ Una persona encuentra un mensaje de error o necesita ampliar el uso básico y qu
 
 - **FR-001**: El proyecto MUST incluir una guía independiente en formato Markdown, enlazable desde la documentación de entrada del proyecto, que explique instalación y uso para personas con poca experiencia de programación.
 - **FR-015**: La guía MUST ofrecer el contenido completo de instalación, primer uso, solución de problemas y alcance en español e inglés, con secciones claramente identificadas por idioma.
-- **FR-016**: El README MUST ofrecer en español e inglés el contenido necesario para orientar al usuario hacia la guía y consultar la referencia técnica, manteniendo equivalencia funcional entre ambos idiomas.
+- **FR-016**: El README MUST ofrecer todo su contenido en español e inglés dentro del mismo archivo, manteniendo equivalencia funcional entre ambos idiomas e incluyendo la orientación hacia la guía y la referencia técnica.
 - **FR-002**: La guía MUST comenzar desde cero e indicar cómo identificar la plataforma, preparar los requisitos, descargar el repositorio, entrar en su directorio raíz, crear un entorno aislado, instalar el paquete localmente con `pip install .` y verificar la instalación.
 - **FR-003**: La guía MUST proporcionar un recorrido paso a paso específico para Windows.
 - **FR-004**: La guía MUST proporcionar un recorrido paso a paso específico para macOS.
@@ -91,12 +97,10 @@ Una persona encuentra un mensaje de error o necesita ampliar el uso básico y qu
 - **FR-010**: La guía MUST advertir sobre requisitos previos, permisos, rutas de archivos, formatos de entrada y mensajes de error que puedan bloquear el recorrido.
 - **FR-011**: La guía MUST mantener consistencia con los comandos, requisitos, formatos y comportamiento documentados por el proyecto; las instrucciones duplicadas que diverjan del README MUST corregirse antes de publicar la guía.
 - **FR-012**: La guía MUST indicar el alcance de su contenido y señalar qué temas quedan fuera del recorrido inicial para evitar que un usuario principiante confunda instrucciones avanzadas con pasos obligatorios.
-- **FR-013**: La guía MUST ser navegable mediante títulos, tabla de contenido o enlaces internos suficientes para llegar rápidamente a la plataforma, inicio rápido y solución de problemas.
+- **FR-013**: El README y la guía MUST incluir un índice o tabla de contenidos por idioma, con enlaces internos para saltar directamente a la plataforma, instalación, inicio rápido, solución de problemas y referencia técnica correspondientes.
 - **FR-014**: La guía MUST presentar la instalación desde el repositorio local como el recorrido principal y MUST identificar Poetry como una alternativa destinada al desarrollo del proyecto, sin mezclar ambos recorridos como si fueran requisitos equivalentes.
 - **FR-017**: La guía y el README MUST mantener equivalencia de comandos, requisitos, advertencias, enlaces y límites de alcance entre las versiones en español e inglés; una corrección en un idioma MUST reflejarse en el otro antes de publicar.
-- **FR-018**: La guía y el README MUST usar una estructura de navegación que permita cambiar entre español e inglés sin perder la sección equivalente ni el contexto del recorrido.
-- **FR-019**: El README MUST incluir, tanto en español como en inglés, un enlace visible hacia la guía de instalación y uso bilingüe.
-- **FR-020**: El README y la guía de instalación y uso MUST incluir un índice o tabla de contenidos en cada idioma, con enlaces internos que permitan saltar directamente a la plataforma, instalación, inicio rápido, solución de problemas y referencia técnica correspondientes.
+- **FR-018**: El README y la guía MUST incluir enlaces visibles entre las secciones equivalentes de ambos idiomas y enlaces README→guía y guía→README, sin perder el contexto del recorrido.
 
 ### Key Entities
 
@@ -110,7 +114,7 @@ Una persona encuentra un mensaje de error o necesita ampliar el uso básico y qu
 
 ### Measurable Outcomes
 
-- **SC-001**: Al menos 4 de 5 personas que representan al público objetivo pueden completar la instalación y la verificación en Windows, macOS o Linux sin ayuda externa y sin consultar el README técnico durante el recorrido inicial.
+- **SC-001**: Al menos 4 de 5 personas que representan al público objetivo pueden completar la instalación y la verificación en Windows PowerShell, Windows CMD, macOS o Ubuntu/Debian sin ayuda externa y sin consultar el README técnico durante el recorrido inicial.
 - **SC-002**: Una persona del público objetivo puede localizar la sección de su plataforma, el inicio rápido y la solución de problemas en menos de 30 segundos usando la navegación del documento.
 - **SC-003**: Al menos 90% de las instrucciones ejecutables incluyen una señal observable de éxito o un siguiente paso cuando la acción falla.
 - **SC-004**: Al menos 4 de 5 personas que completan la instalación pueden ejecutar el inicio rápido y localizar sus resultados en menos de 15 minutos, excluyendo el tiempo de descarga de requisitos.
@@ -133,3 +137,4 @@ Una persona encuentra un mensaje de error o necesita ampliar el uso básico y qu
 - Cada documento será bilingüe dentro de su propio archivo, con secciones claramente separadas en español e inglés; no se crearán versiones independientes que puedan divergir silenciosamente.
 - La traducción conservará los nombres de comandos, opciones, rutas y mensajes técnicos exactamente cuando deban copiarse en una terminal.
 - Los índices podrán ser tablas de contenido manuales o equivalentes generados por el formato Markdown, siempre que sus enlaces internos funcionen en el visor principal del repositorio.
+- La evidencia de validación se conservará en `specs/002-guia-instalacion-uso/validation-evidence.md` con plataforma, shell, idioma, comandos, fecha, resultado y observaciones.

@@ -10,7 +10,7 @@ consistentes durante la implementación.
 - **Fields**: título, alcance, requisitos, navegación, recorridos de plataforma,
   inicio rápido, solución de problemas y referencias técnicas.
 - **Validation**: debe existir como Markdown independiente, ser enlazable desde
-  `README.md` y cubrir FR-001–FR-014.
+  `README.md` y cubrir FR-001–FR-018.
 
 ## Recorrido de plataforma
 
@@ -51,3 +51,14 @@ consistentes durante la implementación.
 - **Instances**: Índice español e índice inglés en cada documento.
 - **Validation**: cada destino debe existir, llevar a la sección correcta y
   permitir llegar al documento relacionado sin perder el idioma seleccionado.
+
+## Evidencia de validación
+
+- **Purpose**: Registro reproducible de las comprobaciones multiplataforma y bilingües.
+- **Fields**: plataforma, shell, idioma, comando o escenario, fecha, resultado,
+  observaciones y referencia al criterio de éxito.
+- **Instances**: Windows PowerShell, Windows CMD, macOS y Ubuntu/Debian; cada
+  plataforma se registra en español e inglés cuando el escenario tiene contenido
+  visible en ambos idiomas.
+- **Validation**: debe demostrar la matriz obligatoria y enlazar a la versión de
+  los documentos evaluada.

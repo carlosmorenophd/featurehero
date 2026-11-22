@@ -12,9 +12,10 @@ Crear una guía independiente en Markdown para que personas con poca experiencia
 puedan descargar el repositorio, instalar el paquete localmente con `pip install .`,
 verificar el CLI y completar un primer flujo de uso en Windows, macOS y Linux.
 La guía se añadirá como `INSTALLATION_GUIDE.md` en la raíz y se enlazará desde
-`README.md` en ambos idiomas. Tanto el README como la guía tendrán índices
-bilingües con enlaces internos a sus secciones equivalentes; Poetry se documentará
-únicamente como alternativa de desarrollo.
+`README.md` completo en ambos idiomas. Tanto el README como la guía tendrán
+índices bilingües con enlaces internos a sus secciones equivalentes; Poetry se
+documentará como ruta opcional de desarrollo y la evidencia de validación se
+conservará en `validation-evidence.md`.
 
 ## Technical Context
 
@@ -32,15 +33,15 @@ bilingües con enlaces internos a sus secciones equivalentes; Poetry se document
 
 **Testing**: `poetry run pytest`, comprobaciones del CLI (`--help`, `version`, comandos principales) y revisión multiplataforma de instrucciones
 
-**Target Platform**: Windows, macOS y Ubuntu/Debian; orientación general para otras distribuciones Linux
+**Target Platform**: Windows PowerShell, Windows CMD, macOS y Ubuntu/Debian; orientación general para otras distribuciones Linux
 
 **Project Type**: Aplicación CLI Python con documentación para usuarios principiantes
 
 **Performance Goals**: No introducir cambios en el rendimiento de ejecución; el inicio rápido debe usar datos pequeños y parámetros reducidos cuando ejecute optimización
 
-**Constraints**: Mantener comandos y comportamiento públicos; documentar primero la instalación local desde el repositorio; no prometer soporte detallado fuera de Ubuntu/Debian; evitar contradicciones entre `README.md` y `INSTALLATION_GUIDE.md`; mantener índices y enlaces internos funcionales en español e inglés
+**Constraints**: Mantener comandos y comportamiento públicos; documentar primero la instalación local desde el repositorio; documentar Poetry solo como ruta opcional de desarrollo; no prometer soporte detallado fuera de Ubuntu/Debian; evitar contradicciones entre `README.md` y `INSTALLATION_GUIDE.md`; mantener índices y enlaces internos funcionales en español e inglés; registrar evidencia en `validation-evidence.md`
 
-**Scale/Scope**: Un documento de instalación y primer uso bilingüe, un README bilingüe actualizado, índices en ambos documentos, tres recorridos de plataforma, un inicio rápido, solución de problemas y enlaces a la referencia técnica; sin cambios de runtime
+**Scale/Scope**: Un documento de instalación y primer uso bilingüe, un README completo bilingüe, índices en ambos documentos, cuatro recorridos validados (PowerShell, CMD, macOS y Ubuntu/Debian), orientación Linux adicional, un inicio rápido, solución de problemas, enlaces a la referencia técnica y evidencia de validación; sin cambios de runtime
 
 ## Constitution Check
 
@@ -53,7 +54,7 @@ The plan passes the constitution gate:
 - Performance and optimization: no se modifica el camino de ejecución ni la lógica
   de procesamiento; el ejemplo usa entradas pequeñas para validación.
 - Functional and measurable objectives: los artefactos y validaciones trazan a
-  FR-001–FR-020 y SC-001–SC-009.
+  FR-001–FR-018 y SC-001–SC-009.
 - Specification fidelity and minimal scope: el cambio se limita a la guía, su
   enlace, contratos de uso y validaciones documentales.
 - Critical improvement and delivery efficiency: se reutiliza la estructura actual
@@ -84,6 +85,7 @@ specs/002-guia-instalacion-uso/
 ```text
 INSTALLATION_GUIDE.md        # Guía bilingüe, índice y recorridos de instalación/uso
 README.md                     # README bilingüe, índice y enlace a la guía
+specs/002-guia-instalacion-uso/validation-evidence.md # Evidencia de validación
 featurehero/                 # CLI y lógica existente; sin cambios de runtime
 tests/                       # Pruebas existentes y validaciones de humo
 specs/002-guia-instalacion-uso/  # Especificación y artefactos de diseño
@@ -93,8 +95,8 @@ specs/002-guia-instalacion-uso/  # Especificación y artefactos de diseño
 directorios de aplicación ni dependencias nuevas. La guía se ubicará en la raíz
 para que sea visible junto al README y pueda enlazarse desde sus secciones en
 español e inglés. Cada documento tendrá un índice por idioma con enlaces internos
-a las secciones principales. Los artefactos de diseño permanecerán dentro de la
-feature.
+a las secciones principales. La validación multiplataforma y bilingüe se registrará
+en `validation-evidence.md`. Los artefactos de diseño permanecerán dentro de la feature.
 
 ## Complexity Tracking
 

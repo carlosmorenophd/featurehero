@@ -3,7 +3,7 @@
 ## Prerequisites
 
 - Repository checked out on branch `002-guia-instalacion-uso`.
-- Windows, macOS, Ubuntu/Debian, or another Linux distribution for the relevant path.
+- Windows PowerShell, Windows CMD, macOS, or Ubuntu/Debian for the relevant path.
 - Python `>=3.12,<4.0` available from the platform's terminal.
 - Internet access for repository and dependency downloads.
 
@@ -51,7 +51,9 @@
    and creates the documented workspace outputs.
 
 10. Repeat the installation and first-use path on Windows PowerShell, Windows CMD,
-   macOS, and Ubuntu/Debian. Record shell-specific corrections in troubleshooting.
+   macOS, and Ubuntu/Debian. Record platform, shell, language, commands, date,
+   result, and observations in `validation-evidence.md`. Treat other Linux
+   distributions as guidance-only unless separately validated.
 11. Verify that every executable instruction has an observable success signal or
    recovery step, and that advanced details link to `README.md`.
 12. Run the project checks:
@@ -71,5 +73,7 @@
 - The package installation command matches `pyproject.toml` and the repository README.
 - `README.md` points to `INSTALLATION_GUIDE.md` in both languages.
 - Both documents expose working language-specific indexes and equivalent internal destinations.
+- `validation-evidence.md` contains evidence for Windows PowerShell, Windows CMD,
+  macOS, and Ubuntu/Debian.
 - No referenced dataset path is assumed to exist unless the guide creates or provides it.
-- SC-001 through SC-006 can be assessed from walkthrough and review evidence.
+- SC-001 through SC-009 can be assessed from walkthrough and review evidence.

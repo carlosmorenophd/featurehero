@@ -79,3 +79,31 @@
   reducen navegación ambigua y hacen verificable la paridad bilingüe.
 - **Alternatives considered**: Un único índice mezclado fue rechazado porque
   dificulta la navegación de usuarios que leen solo uno de los idiomas.
+
+## Decision 9: Traducir el README completo en el mismo archivo
+
+- **Decision**: Todo `README.md` contendrá versiones completas en español e
+  inglés, con índices y enlaces entre las secciones equivalentes.
+- **Rationale**: La documentación de referencia no debe dejar capacidades,
+  formatos o parámetros disponibles solo en un idioma.
+- **Alternatives considered**: Traducir solo la instalación y el uso básico fue
+  rechazado porque dejaría incompleta la referencia técnica bilingüe.
+
+## Decision 10: Validar una matriz fija de plataformas y shells
+
+- **Decision**: La evidencia obligatoria cubrirá Windows PowerShell, Windows CMD,
+  macOS y Ubuntu/Debian. Otras distribuciones Linux se documentarán como
+  orientación no certificada.
+- **Rationale**: Convierte el alcance en una matriz verificable y evita que
+  “Linux” implique soporte probado para todas sus variantes.
+- **Alternatives considered**: Exigir todas las distribuciones Linux fue rechazado
+  por no ser viable con la validación disponible.
+
+## Decision 11: Conservar evidencia de validación como artefacto de la feature
+
+- **Decision**: Registrar plataforma, shell, idioma, comandos, fecha, resultado y
+  observaciones en `validation-evidence.md`.
+- **Rationale**: Permite auditar la paridad bilingüe y la cobertura de plataformas
+  sin sobrecargar README o la guía con datos de ejecución.
+- **Alternatives considered**: Dejar la evidencia solo en logs externos o commits
+  fue rechazado porque dificulta su revisión posterior.
