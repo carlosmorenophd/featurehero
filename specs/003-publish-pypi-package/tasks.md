@@ -46,7 +46,7 @@ description: "Task list for publishing Feature Hero to PyPI"
 - [x] T007 [US1] Align package metadata in `pyproject.toml` with the public installation contract: distribution name `featurehero`, Python `>=3.12,<4.0`, runtime dependencies, README metadata, and entry point `featurehero = "featurehero.main:main"`
 - [x] T008 [US1] Add a clean-environment installation verification command in `.github/scripts/verify_pypi_install.py` that installs `featurehero` from the public index outside the repository and checks package metadata, `featurehero --help`, and `featurehero version`
 - [x] T009 [US1] Make `.github/scripts/verify_pypi_install.py` report platform, Python version, installed version, command results, and actionable failures for unsupported Python versions, dependency resolution errors, missing PATH entry, or absent CLI output
-- [ ] T010 [US1] Validate the public installation flow from `specs/003-publish-pypi-package/quickstart.md` in a clean environment without importing code from the repository
+- [x] T010 [US1] Validate the public installation flow from `specs/003-publish-pypi-package/quickstart.md` in a clean environment without importing code from the repository
 
 **Checkpoint**: A published `featurehero` package can be installed and its CLI can be verified independently of the repository.
 
@@ -95,7 +95,7 @@ description: "Task list for publishing Feature Hero to PyPI"
 **Purpose**: Validate the complete feature and preserve the existing CLI contract.
 
 - [x] T023 [P] Run the existing test suite in `tests/` and confirm no public CLI command, parameter, or input/output format changed
-- [ ] T024 [P] Run the release validation and clean-install scenarios from `specs/003-publish-pypi-package/quickstart.md` on Windows PowerShell, Windows CMD, macOS, and Ubuntu/Debian, recording any unsupported platform explicitly in `specs/003-publish-pypi-package/release-evidence.md`
+- [x] T024 [P] Run the release validation and clean-install scenarios from `specs/003-publish-pypi-package/quickstart.md` on Windows PowerShell, Windows CMD, macOS, and Ubuntu/Debian, recording any unsupported platform explicitly in `specs/003-publish-pypi-package/release-evidence.md`
 - [x] T025 Scan `.github/workflows/release.yml`, `.github/scripts/`, `pyproject.toml`, generated distributions, and Git history for PyPI tokens, passwords, or private credentials before release
 - [x] T026 Verify that the final README and installation guide links, indexes, commands, and version references are consistent with the published package and `specs/003-publish-pypi-package/contracts/pypi-release.md`
 

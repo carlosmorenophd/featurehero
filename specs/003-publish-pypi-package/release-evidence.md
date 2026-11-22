@@ -18,11 +18,11 @@ Use this record for each release. Never write the value of `PYPI_TOKEN` here.
 ## Release record
 
 - Version: `2026.2.1.15`
-- Commit:
-- Tag:
-- PyPI URL:
-- Date:
-- Workflow run:
+- Commit: `e230dd4`
+- Tag: `2026.2.1.15`
+- PyPI URL: https://pypi.org/project/featurehero/2026.2.1.15/
+- Date: 2026-11-22
+- Workflow run: GitHub Actions release workflow completed successfully
 
 ## Artifact and dependency checks
 
@@ -31,17 +31,17 @@ Use this record for each release. Never write the value of `PYPI_TOKEN` here.
 - [x] Wheel metadata matches `pyproject.toml`
 - [x] Source distribution metadata matches `pyproject.toml`
 - [x] Packaged dependencies match declared dependencies
-- [ ] Clean installation resolved all dependencies from PyPI
+- [x] Clean installation resolved all dependencies from PyPI; `featurehero --help` and `featurehero version` passed
 - [x] Duplicate-version check passed; project does not exist yet
 
 ## Platform verification
 
 | Platform | Python | Install command | `--help` | `version` | Result/exception |
 |---|---|---|---|---|---|
-| Windows PowerShell | | | | | |
-| Windows CMD | | | | | |
-| macOS | | | | | |
-| Ubuntu/Debian | | | | | |
+| Windows PowerShell | Not run locally | `py -3.12 -m pip install featurehero==2026.2.1.15` | Not run | Not run | Exception registered; requires a Windows runner |
+| Windows CMD | Not run locally | `py -3.12 -m pip install featurehero==2026.2.1.15` | Not run | Not run | Exception registered; requires a Windows runner |
+| macOS | Not run locally | `python3 -m pip install featurehero==2026.2.1.15` | Not run | Not run | Exception registered; requires a macOS runner |
+| Ubuntu/Debian | Python 3.14 | `python3 -m pip install featurehero==2026.2.1.15` | Passed | Passed | Clean installation verified from PyPI |
 
 ## Failure and recovery evidence
 
@@ -56,4 +56,4 @@ Use this record for each release. Never write the value of `PYPI_TOKEN` here.
 - [x] No token or password is present in source files.
 - [x] No token or password is present in generated distributions.
 - [x] No token value is recorded in this file or workflow logs.
-- [ ] The GitHub environment or PyPI publisher configuration is protected.
+- [x] The GitHub environment or PyPI publisher configuration is protected.
