@@ -8,6 +8,17 @@
 
 **Input**: User description: "Se desea que la aplicación ya esté en pip para su instalación sin necesidad de bajar el repositorio, solo con el comando de pip."
 
+## Clarifications
+
+### Session 2026-11-22
+
+- Q: ¿Cómo debe configurarse la identidad de Trusted Publishing en PyPI para permitir que GitHub Actions publique `featurehero`? → A: Configurar un Trusted Publisher de PyPI vinculado al repositorio, workflow, rama o entorno protegido de GitHub Actions, y registrar la evidencia en `release-evidence.md`.
+- Q: ¿Qué estrategia debe usar el workflow para verificar la disponibilidad del paquete en PyPI después de publicarlo? → A: Reintentar durante un máximo de 5 minutos, con intervalos de 15 segundos; fallar con un mensaje identificable si la versión no aparece.
+- Q: ¿Cómo debe organizarse la validación de release para evitar duplicar la tarea de crear la estructura y la implementación de los checks? → A: Mantener el scaffolding mínimo de `.github/scripts/` como preparación y dejar las tareas posteriores para la implementación funcional de las validaciones.
+- Q: ¿Cómo debe organizarse el archivo de evidencia del release para evitar duplicar la plantilla y su llenado? → A: Crear la plantilla única `specs/003-publish-pypi-package/release-evidence.md` durante Setup y completarla durante la publicación.
+- Q: ¿Qué nivel de detalle debe tener la validación de dependencias publicadas frente a las declaradas en `pyproject.toml`? → A: Comparar dependencias declaradas y empaquetadas, y verificar que todas se resuelven durante la instalación limpia desde PyPI.
+- Q: ¿Qué resultado verificable deben producir las tareas de preparación T001 y T003? → A: T001 actualiza la matriz de alcance en `release-evidence.md`; T003 crea ese archivo con secciones para versión, commit, artefactos, plataformas, Python, comandos, resultados y excepciones.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Instalar desde PyPI sin descargar el repositorio (Priority: P1)
@@ -77,9 +88,9 @@ Una persona usuaria o colaboradora quiere saber cuándo usar la instalación pú
 - **FR-004**: La distribución MUST publicar los artefactos necesarios para los entornos de instalación soportados, incluyendo un wheel y un source distribution cuando el proyecto los genere.
 - **FR-005**: La versión instalada mediante pip MUST coincidir con la versión aprobada y publicada del proyecto.
 - **FR-006**: La instalación pública MUST poder verificarse ejecutando `featurehero --help` y `featurehero version` sin requerir el repositorio fuente.
-- **FR-007**: El proceso de publicación MUST validar antes de publicar que la metadata, dependencias, artefactos y punto de entrada corresponden al código aprobado.
+- **FR-007**: El proceso de publicación MUST validar antes de publicar que la metadata, dependencias declaradas y empaquetadas, artefactos y punto de entrada corresponden al código aprobado, y que las dependencias se resuelven en una instalación limpia.
 - **FR-008**: El proceso MUST impedir o identificar una publicación con una versión ya existente, incompleta o diferente de la versión aprobada.
-- **FR-009**: Las credenciales y permisos de publicación MUST manejarse fuera del código fuente y no MUST incluir secretos en el repositorio ni en los artefactos publicados.
+- **FR-009**: Las credenciales y permisos de publicación MUST manejarse fuera del código fuente mediante un Trusted Publisher de PyPI vinculado al repositorio y workflow protegidos; no MUST incluir secretos en el repositorio ni en los artefactos publicados.
 - **FR-010**: El README y la guía de instalación y uso MUST presentar `python -m pip install featurehero` como ruta principal para usuarios finales en español e inglés.
 - **FR-011**: El README y la guía MUST conservar la instalación desde el repositorio y Poetry como rutas claramente separadas para desarrollo y contribución.
 - **FR-012**: La documentación MUST indicar los requisitos de Python, el nombre del paquete, el comando CLI, la verificación de instalación y las acciones de recuperación para fallos de publicación o instalación.
@@ -115,5 +126,7 @@ Una persona usuaria o colaboradora quiere saber cuándo usar la instalación pú
 - El flujo público con pip será la ruta recomendada para usuarios finales; descargar el repositorio y usar Poetry seguirá siendo una ruta de desarrollo.
 - El proyecto mantendrá compatibilidad con Python `>=3.12,<4.0`.
 - La publicación requerirá una cuenta o identidad mantenedora con permisos en PyPI, pero ningún secreto se almacenará en el repositorio.
+- La identidad Trusted Publisher de PyPI deberá configurarse antes del release y su repositorio, workflow y entorno protegido deberán quedar registrados en la evidencia de publicación.
+- La verificación post-publicación consultará PyPI durante un máximo de 5 minutos, con intervalos de 15 segundos, y fallará de forma identificable si la versión no aparece.
 - Las validaciones multiplataforma podrán ejecutarse en automatización o entornos disponibles; una plataforma no validada deberá quedar registrada antes de publicar.
 - Esta feature no cambia la lógica de transformación, selección genética, regresión, análisis de resultados ni los comandos públicos existentes.
