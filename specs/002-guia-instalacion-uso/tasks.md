@@ -15,9 +15,9 @@ description: "Task list for the bilingual installation and usage documentation"
 
 **Purpose**: Establish the bilingual document structure and source-of-truth references.
 
-- [ ] T001 Review `README.md`, `pyproject.toml`, `featurehero/main.py`, `.github/workflows/release.yml`, and `specs/002-guia-instalacion-uso/contracts/cli-usage.md` to record the commands, requirements, package metadata, and output behavior that documentation must preserve.
-- [ ] T002 Create the bilingual document skeleton in `INSTALLATION_GUIDE.md` with clearly separated Spanish and English sections, language links, and stable headings for platform setup, installation, quickstart, troubleshooting, and technical reference.
-- [ ] T003 Define the shared heading, anchor, terminology, and language-switch conventions in `README.md` and `INSTALLATION_GUIDE.md` so equivalent sections can be linked and compared reliably.
+- [X] T001 Review `README.md`, `pyproject.toml`, `featurehero/main.py`, `.github/workflows/release.yml`, and `specs/002-guia-instalacion-uso/contracts/cli-usage.md` to record the commands, requirements, package metadata, and output behavior that documentation must preserve.
+- [X] T002 Create the bilingual document skeleton in `INSTALLATION_GUIDE.md` with clearly separated Spanish and English sections, language links, and stable headings for platform setup, installation, quickstart, troubleshooting, and technical reference.
+- [X] T003 Define the shared heading, anchor, terminology, and language-switch conventions in `README.md` and `INSTALLATION_GUIDE.md` so equivalent sections can be linked and compared reliably.
 
 ---
 
@@ -27,9 +27,9 @@ description: "Task list for the bilingual installation and usage documentation"
 
 **⚠️ CRITICAL**: Complete this phase before user-story documentation work.
 
-- [ ] T004 Verify the installation and CLI facts used by both documents against `pyproject.toml`, `README.md`, `featurehero/main.py`, and `specs/002-guia-instalacion-uso/contracts/cli-usage.md`, including Python `>=3.12,<4.0`, local `pip install .`, optional Poetry development setup, `featurehero --help`, and `featurehero version`.
-- [ ] T005 Define the Spanish-to-English parity checklist in `specs/002-guia-instalacion-uso/quickstart.md` for commands, requirements, warnings, links, headings, and scope boundaries.
-- [ ] T006 Prepare the shared navigation targets in `README.md` and `INSTALLATION_GUIDE.md`, including one index per language and visible links between the equivalent language sections and documents.
+- [X] T004 Verify the installation and CLI facts used by both documents against `pyproject.toml`, `README.md`, `featurehero/main.py`, and `specs/002-guia-instalacion-uso/contracts/cli-usage.md`, including Python `>=3.12,<4.0`, local `pip install .`, optional Poetry development setup, `featurehero --help`, and `featurehero version`.
+- [X] T005 Define the Spanish-to-English parity checklist in `specs/002-guia-instalacion-uso/quickstart.md` for commands, requirements, warnings, links, headings, and scope boundaries.
+- [X] T006 Prepare the shared navigation targets in `README.md` and `INSTALLATION_GUIDE.md`, including one index per language and visible links between the equivalent language sections and documents.
 
 **Checkpoint**: Shared facts, terminology, anchors, and navigation targets are ready for story implementation.
 
@@ -43,12 +43,12 @@ description: "Task list for the bilingual installation and usage documentation"
 
 ### Implementation for User Story 1
 
-- [ ] T007 [US1] Write the complete Spanish installation path in `INSTALLATION_GUIDE.md`, covering platform identification, Python requirement, repository download, project-root navigation, isolated environment creation, activation, `python -m pip install .`, optional Poetry development setup, and success signals.
-- [ ] T008 [US1] Write the complete English installation path in `INSTALLATION_GUIDE.md` with the same steps, commands, warnings, optional Poetry path, and success signals as the Spanish path.
-- [ ] T009 [US1] Add the complete Spanish README content, index, platform orientation, technical reference, and visible link to the Spanish guide section in `README.md`.
-- [ ] T010 [US1] Add the complete English README content, table of contents, platform orientation, technical reference, and visible link to the English guide section in `README.md`.
-- [ ] T011 [US1] Add separate PowerShell and Windows CMD activation instructions plus macOS and Ubuntu/Debian command variants in `INSTALLATION_GUIDE.md`, preserving equivalent Spanish and English sections.
-- [ ] T012 [US1] Validate the installation walkthrough and README links against `specs/002-guia-instalacion-uso/contracts/cli-usage.md` and `specs/002-guia-instalacion-uso/quickstart.md` on the supported platform paths.
+- [X] T007 [US1] Write the complete Spanish installation path in `INSTALLATION_GUIDE.md`, covering platform identification, Python requirement, repository download, project-root navigation, isolated environment creation, activation, `python -m pip install .`, optional Poetry development setup, and success signals.
+- [X] T008 [US1] Write the complete English installation path in `INSTALLATION_GUIDE.md` with the same steps, commands, warnings, optional Poetry path, and success signals as the Spanish path.
+- [X] T009 [US1] Add the complete Spanish README content, index, platform orientation, technical reference, and visible link to the Spanish guide section in `README.md`.
+- [X] T010 [US1] Add the complete English README content, table of contents, platform orientation, technical reference, and visible link to the English guide section in `README.md`.
+- [X] T011 [US1] Add separate PowerShell and Windows CMD activation instructions plus macOS and Ubuntu/Debian command variants in `INSTALLATION_GUIDE.md`, preserving equivalent Spanish and English sections.
+- [X] T012 [US1] Validate the installation walkthrough and README links against `specs/002-guia-instalacion-uso/contracts/cli-usage.md` and `specs/002-guia-instalacion-uso/quickstart.md` on the supported platform paths.
 
 **Checkpoint**: The bilingual installation MVP is independently usable and navigable from `README.md`.
 
@@ -62,11 +62,11 @@ description: "Task list for the bilingual installation and usage documentation"
 
 ### Implementation for User Story 2
 
-- [ ] T013 [US2] Write the Spanish quickstart in `INSTALLATION_GUIDE.md`, including a small valid CSV example, `featurehero transform`, the main `featurehero run` flow with reduced parameters, expected outputs, and links to the Spanish README reference.
-- [ ] T014 [US2] Write the English quickstart in `INSTALLATION_GUIDE.md` with equivalent data requirements, commands, outputs, and links to the English README reference.
-- [ ] T015 [US2] Complete the Spanish README usage and technical-reference sections in `README.md`, covering `run`, `transform`, `analyze-results`, `jobs`, `version`, supported input formats, outputs, troubleshooting links, and the Spanish guide quickstart.
-- [ ] T016 [US2] Complete the English README usage and technical-reference sections in `README.md` with equivalent commands, input rules, outputs, troubleshooting links, and the English guide quickstart.
-- [ ] T017 [US2] Cross-check the bilingual quickstart against `specs/002-guia-instalacion-uso/contracts/cli-usage.md`, `specs/002-guia-instalacion-uso/data-model.md`, and the implemented CLI in `featurehero/main.py`; correct unsupported commands or nonexistent example paths.
+- [X] T013 [US2] Write the Spanish quickstart in `INSTALLATION_GUIDE.md`, including a small valid CSV example, `featurehero transform`, the main `featurehero run` flow with reduced parameters, expected outputs, and links to the Spanish README reference.
+- [X] T014 [US2] Write the English quickstart in `INSTALLATION_GUIDE.md` with equivalent data requirements, commands, outputs, and links to the English README reference.
+- [X] T015 [US2] Complete the Spanish README usage and technical-reference sections in `README.md`, covering `run`, `transform`, `analyze-results`, `jobs`, `version`, supported input formats, outputs, troubleshooting links, and the Spanish guide quickstart.
+- [X] T016 [US2] Complete the English README usage and technical-reference sections in `README.md` with equivalent commands, input rules, outputs, troubleshooting links, and the English guide quickstart.
+- [X] T017 [US2] Cross-check the bilingual quickstart against `specs/002-guia-instalacion-uso/contracts/cli-usage.md`, `specs/002-guia-instalacion-uso/data-model.md`, and the implemented CLI in `featurehero/main.py`; correct unsupported commands or nonexistent example paths.
 
 **Checkpoint**: The bilingual first-use flow is independently runnable after US1.
 
@@ -80,11 +80,11 @@ description: "Task list for the bilingual installation and usage documentation"
 
 ### Implementation for User Story 3
 
-- [ ] T018 [US3] Write the Spanish troubleshooting section in `INSTALLATION_GUIDE.md` for missing Python, unrecognized commands, environment activation, permissions, paths, unsupported formats, invalid columns, and incomplete installation.
-- [ ] T019 [US3] Write the English troubleshooting section in `INSTALLATION_GUIDE.md` with equivalent symptoms, causes, corrective actions, verification steps, and escalation guidance.
-- [ ] T020 [US3] Add Spanish README troubleshooting links, scope boundaries, and technical-reference navigation in `README.md`.
-- [ ] T021 [US3] Add English README troubleshooting links, scope boundaries, and technical-reference navigation in `README.md`.
-- [ ] T022 [US3] Perform a complete Spanish-English parity audit across `README.md` and `INSTALLATION_GUIDE.md`, comparing commands, requirements, warnings, links, headings, scope, and troubleshooting entries; record and correct every discrepancy.
+- [X] T018 [US3] Write the Spanish troubleshooting section in `INSTALLATION_GUIDE.md` for missing Python, unrecognized commands, environment activation, permissions, paths, unsupported formats, invalid columns, and incomplete installation.
+- [X] T019 [US3] Write the English troubleshooting section in `INSTALLATION_GUIDE.md` with equivalent symptoms, causes, corrective actions, verification steps, and escalation guidance.
+- [X] T020 [US3] Add Spanish README troubleshooting links, scope boundaries, and technical-reference navigation in `README.md`.
+- [X] T021 [US3] Add English README troubleshooting links, scope boundaries, and technical-reference navigation in `README.md`.
+- [X] T022 [US3] Perform a complete Spanish-English parity audit across `README.md` and `INSTALLATION_GUIDE.md`, comparing commands, requirements, warnings, links, headings, scope, and troubleshooting entries; record and correct every discrepancy.
 
 **Checkpoint**: Users can recover from common failures and reach the correct technical reference independently in both languages.
 
@@ -94,10 +94,10 @@ description: "Task list for the bilingual installation and usage documentation"
 
 **Purpose**: Verify the complete documentation feature against the specification and existing project behavior.
 
-- [ ] T023 Create `specs/002-guia-instalacion-uso/validation-evidence.md` with platform, shell, language, command or scenario, date, result, observations, and related success criterion fields.
-- [ ] T024 [P] Validate every internal link, language switch, README-to-guide link, and index destination in `README.md` and `INSTALLATION_GUIDE.md`.
-- [ ] T025 Run `poetry check`, `poetry run pytest`, `poetry run featurehero --help`, `poetry run featurehero version`, and `poetry build` from `specs/002-guia-instalacion-uso/quickstart.md` and record the outcomes in `specs/002-guia-instalacion-uso/validation-evidence.md`.
-- [ ] T026 Review `README.md` and `INSTALLATION_GUIDE.md` against `specs/002-guia-instalacion-uso/spec.md`, `specs/002-guia-instalacion-uso/contracts/cli-usage.md`, and the constitution; remove unsupported claims and unrequested content.
+- [X] T023 Create `specs/002-guia-instalacion-uso/validation-evidence.md` with platform, shell, language, command or scenario, date, result, observations, and related success criterion fields.
+- [X] T024 [P] Validate every internal link, language switch, README-to-guide link, and index destination in `README.md` and `INSTALLATION_GUIDE.md`.
+- [X] T025 Run `poetry check`, `poetry run pytest`, `poetry run featurehero --help`, `poetry run featurehero version`, and `poetry build` from `specs/002-guia-instalacion-uso/quickstart.md` and record the outcomes in `specs/002-guia-instalacion-uso/validation-evidence.md`.
+- [X] T026 Review `README.md` and `INSTALLATION_GUIDE.md` against `specs/002-guia-instalacion-uso/spec.md`, `specs/002-guia-instalacion-uso/contracts/cli-usage.md`, and the constitution; remove unsupported claims and unrequested content.
 - [ ] T027 Execute the complete platform and bilingual walkthrough from `specs/002-guia-instalacion-uso/quickstart.md` for the mandatory matrix of Windows PowerShell, Windows CMD, macOS, and Ubuntu/Debian; record every result in `specs/002-guia-instalacion-uso/validation-evidence.md`.
 
 ---
