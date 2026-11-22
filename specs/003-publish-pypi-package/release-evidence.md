@@ -7,7 +7,7 @@ Use this record for each release. Never write the value of `PYPI_TOKEN` here.
 | Area | Evidence | Result |
 |---|---|---|
 | Package name | `featurehero` | Pending |
-| Version | `pyproject.toml`, release tag, and `featurehero version` | `2026.2.1.14` locally; PyPI pending |
+| Version | `pyproject.toml`, release tag, and `featurehero version` | `2026.2.1.15` locally; PyPI pending |
 | Commit | Approved Git commit | Pending |
 | Artifacts | One wheel and one source distribution | Pending |
 | Metadata | Name, version, Python requirement, entry point, dependencies | Pending |
@@ -17,7 +17,7 @@ Use this record for each release. Never write the value of `PYPI_TOKEN` here.
 
 ## Release record
 
-- Version: `2026.2.1.14`
+- Version: `2026.2.1.15`
 - Commit:
 - Tag:
 - PyPI URL:

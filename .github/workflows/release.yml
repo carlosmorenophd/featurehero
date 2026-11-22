@@ -52,7 +52,7 @@ jobs:
 
       - name: Read package version
         id: package-version
-        run: echo "version=$(python -c \"import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['version'])\")" >> "$GITHUB_OUTPUT"
+        run: echo "version=$(poetry version -s)" >> "$GITHUB_OUTPUT"
 
       - name: Upload distribution artifacts
         uses: actions/upload-artifact@v4
