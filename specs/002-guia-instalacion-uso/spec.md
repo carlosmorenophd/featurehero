@@ -8,6 +8,12 @@
 
 **Input**: User description: "Crear una guía detallada en Markdown para instalar y usar el proyecto desde cero en Windows, macOS y Linux, orientada a usuarios con poca experiencia de programación y complementaria al README técnico."
 
+## Clarifications
+
+### Session 2026-11-22
+
+- Q: ¿Qué alcance debe tener la guía para Linux? → A: Ubuntu/Debian como ruta principal; orientación general para otras distribuciones.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Instalar desde cero en cualquier plataforma (Priority: P1)
@@ -71,7 +77,7 @@ Una persona encuentra un mensaje de error o necesita ampliar el uso básico y qu
 - **FR-002**: La guía MUST comenzar desde cero e indicar cómo identificar la plataforma, preparar los requisitos, obtener el proyecto, instalarlo y verificar la instalación.
 - **FR-003**: La guía MUST proporcionar un recorrido paso a paso específico para Windows.
 - **FR-004**: La guía MUST proporcionar un recorrido paso a paso específico para macOS.
-- **FR-005**: La guía MUST proporcionar un recorrido paso a paso específico para Linux e indicar las diferencias relevantes entre distribuciones o entornos cuando afecten al recorrido.
+- **FR-005**: La guía MUST proporcionar un recorrido paso a paso específico para Ubuntu/Debian como ruta principal de Linux, e indicar las diferencias relevantes y los límites de soporte para otras distribuciones cuando afecten al recorrido.
 - **FR-006**: La guía MUST incluir un inicio rápido común que muestre cómo preparar una entrada de ejemplo, ejecutar el flujo principal y localizar o interpretar sus resultados.
 - **FR-007**: Cada paso que requiera una acción MUST indicar qué debe hacer la persona y cómo reconocer que el paso terminó correctamente.
 - **FR-008**: La guía MUST explicar en lenguaje sencillo los conceptos mínimos necesarios para el primer uso y MUST enlazar al README técnico para opciones, parámetros y escenarios avanzados.
@@ -107,5 +113,5 @@ Una persona encuentra un mensaje de error o necesita ampliar el uso básico y qu
 - Las instrucciones se basarán en los requisitos y comandos oficialmente soportados por la versión del proyecto durante su implementación.
 - Los usuarios tendrán acceso a Internet para obtener el proyecto y sus requisitos, además de permisos para trabajar en una carpeta de usuario.
 - El inicio rápido utilizará datos de ejemplo seguros y pequeños, o describirá cómo obtenerlos si el repositorio ya los proporciona.
-- Cuando existan diferencias entre distribuciones Linux o versiones de sistema, se priorizará el camino soportado por el proyecto y se explicará cómo identificar incompatibilidades.
+- Ubuntu/Debian será la ruta Linux validada paso a paso; para otras distribuciones se ofrecerá orientación general y se explicará cómo identificar incompatibilidades, sin prometer una receta detallada para cada distribución.
 - La documentación se actualizará junto con cambios que alteren la instalación, el primer uso o los problemas frecuentes cubiertos por esta especificación.
