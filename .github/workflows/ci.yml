@@ -3,7 +3,13 @@ name: Feature validation
 on:
   push:
     branches:
-      - "003-publish-pypi-package"
+      - "feature/**"
+      - "fix/**"
+      - "hotfix/**"
+  pull_request:
+    branches:
+      - develop
+      - main
   workflow_dispatch:
 
 permissions:
