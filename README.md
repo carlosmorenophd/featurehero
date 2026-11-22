@@ -75,7 +75,25 @@ Dependencias principales:
 
 ## Instalacion
 
-### Desde el repositorio local
+### Instalacion publica desde PyPI
+
+Para usar Feature Hero sin descargar el repositorio:
+
+```bash
+python -m pip install featurehero
+featurehero --help
+featurehero version
+```
+
+La versión de Python compatible es `>=3.12,<4.0`. Consulta la [guía bilingüe de
+instalación y uso](INSTALLATION_GUIDE.md#espanol) para instrucciones paso a paso
+en Windows, macOS y Linux.
+
+### Instalacion desde el repositorio para desarrollo
+
+Usa esta ruta únicamente si necesitas revisar o modificar el código.
+
+#### Desde el repositorio local
 
 ```bash
 python -m venv .venv
@@ -91,7 +109,7 @@ python -m venv .venv
 pip install .
 ```
 
-### Desde GitHub
+#### Desde GitHub
 
 Instalacion directa desde la rama principal:
 
@@ -106,7 +124,7 @@ python -m pip install git+https://github.com/carlosmorenophd/featurehero.git@202
 python -m pip install git+https://github.com/carlosmorenophd/featurehero.git@release/2026.07.01
 ```
 
-### Para desarrollo con Poetry
+#### Para desarrollo con Poetry
 
 ```bash
 poetry install
@@ -615,6 +633,22 @@ Main dependencies:
 - `psutil`
 
 ### English Installation
+
+### Public installation from PyPI
+
+To use Feature Hero without downloading the repository:
+
+```bash
+python -m pip install featurehero
+featurehero --help
+featurehero version
+```
+
+The supported Python range is `>=3.12,<4.0`. See the [bilingual installation
+and usage guide](INSTALLATION_GUIDE.md#english) for step-by-step instructions
+for Windows, macOS, and Linux.
+
+### Repository installation for development
 
 #### From the local repository
 
