@@ -26,23 +26,34 @@ and the README for the full technical reference.
 
 ### <a id="es-antes-de-comenzar"></a>Antes de comenzar
 
-Feature Hero se instala desde una copia local del repositorio como un paquete de
-Python. Necesitas:
+La ruta principal para usuarios finales es PyPI; no necesitas descargar el
+repositorio. Necesitas:
 
 - Python `>=3.12,<4.0`.
-- Acceso a Internet para descargar el repositorio y sus dependencias.
+- Acceso a Internet para descargar el paquete y sus dependencias.
 - Un terminal: PowerShell o CMD en Windows, Terminal en macOS, o una terminal
   compatible en Linux.
 
-La ruta principal es:
+Instalación pública:
 
-1. Descargar el repositorio.
-2. Entrar en la carpeta del proyecto.
-3. Crear y activar un entorno virtual.
-4. Ejecutar `python -m pip install .`.
-5. Verificar con `featurehero --help` y `featurehero version`.
+```bash
+python -m pip install featurehero
+featurehero --help
+featurehero version
+```
+
+La ruta desde el repositorio y Poetry que aparece más abajo es únicamente para
+desarrollo y contribución.
 
 ### <a id="es-windows"></a>Windows
+
+#### Instalación pública desde PyPI
+
+```powershell
+py -3.12 -m pip install featurehero
+featurehero --help
+featurehero version
+```
 
 #### 1. Descargar el repositorio
 
@@ -108,6 +119,14 @@ Debes ver la ayuda del CLI y la versión instalada.
 
 ### <a id="es-macos"></a>macOS
 
+#### Instalación pública desde PyPI
+
+```bash
+python3 -m pip install featurehero
+featurehero --help
+featurehero version
+```
+
 #### 1. Descargar el repositorio
 
 ```bash
@@ -144,6 +163,14 @@ featurehero version
 ```
 
 ### <a id="es-ubuntudebian"></a>Ubuntu/Debian
+
+#### Instalación pública desde PyPI
+
+```bash
+python3 -m pip install featurehero
+featurehero --help
+featurehero version
+```
 
 #### 1. Instalar requisitos del sistema
 
@@ -303,22 +330,33 @@ sección que necesitas.
 
 ### <a id="en-before-you-start"></a>Before you start
 
-Feature Hero is installed from a local repository copy as a Python package. You need:
+End users should install Feature Hero from PyPI; downloading the repository is
+only required for development. You need:
 
 - Python `>=3.12,<4.0`.
-- Internet access to download the repository and dependencies.
+- Internet access to download the package and dependencies.
 - A terminal: PowerShell or CMD on Windows, Terminal on macOS, or a compatible
   terminal on Linux.
 
-The main path is:
+Public installation:
 
-1. Download the repository.
-2. Enter the project directory.
-3. Create and activate a virtual environment.
-4. Run `python -m pip install .`.
-5. Verify with `featurehero --help` and `featurehero version`.
+```bash
+python -m pip install featurehero
+featurehero --help
+featurehero version
+```
+
+The repository and Poetry route below is for development and contribution only.
 
 ### <a id="en-windows"></a>Windows
+
+#### Public installation from PyPI
+
+```powershell
+py -3.12 -m pip install featurehero
+featurehero --help
+featurehero version
+```
 
 #### 1. Download the repository
 
@@ -380,6 +418,14 @@ The CLI help and installed package version should be displayed.
 
 ### <a id="en-macos"></a>macOS
 
+#### Public installation from PyPI
+
+```bash
+python3 -m pip install featurehero
+featurehero --help
+featurehero version
+```
+
 ```bash
 git clone https://github.com/carlosmorenophd/featurehero.git
 cd featurehero
@@ -394,6 +440,14 @@ featurehero version
 Install Python 3.12 or another compatible version if `python3` is missing or too old.
 
 ### <a id="en-ubuntudebian"></a>Ubuntu/Debian
+
+#### Public installation from PyPI
+
+```bash
+python3 -m pip install featurehero
+featurehero --help
+featurehero version
+```
 
 Install the system requirements:
 
