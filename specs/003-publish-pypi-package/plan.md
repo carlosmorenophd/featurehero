@@ -14,6 +14,11 @@ se integrará en el workflow de release existente después de construir y valida
 el wheel y el source distribution, usando Trusted Publishing/OIDC y conservando
 la ruta desde fuente para desarrollo.
 
+La configuración externa de PyPI debe registrar un Trusted Publisher asociado al
+repositorio y workflow protegidos. Después de publicar, el workflow consultará
+PyPI durante un máximo de 5 minutos, con intervalos de 15 segundos, y fallará
+con un resultado identificable si la versión no aparece.
+
 ## Technical Context
 
 <!--
@@ -28,7 +33,7 @@ la ruta desde fuente para desarrollo.
 
 **Storage**: PyPI para artefactos públicos; `dist/` como salida temporal del build; sin almacenamiento runtime nuevo
 
-**Testing**: `poetry check`, `poetry run pytest`, compilación, validación de artefactos, instalación limpia desde PyPI y smoke checks del CLI
+**Testing**: `poetry check`, `poetry run pytest`, compilación, validación de metadata y dependencias del wheel/sdist, instalación limpia desde PyPI y smoke checks del CLI
 
 **Target Platform**: Consumidores Windows PowerShell/CMD, macOS y Ubuntu/Debian; publicación desde GitHub Actions en Ubuntu
 
@@ -36,7 +41,7 @@ la ruta desde fuente para desarrollo.
 
 **Performance Goals**: Instalación pública verificable en menos de 5 minutos, excluyendo descargas lentas de dependencias; sin cambios en el rendimiento del CLI
 
-**Constraints**: Mantener comandos y parámetros públicos; usar versiones únicas; no incluir secretos; publicar solo artefactos validados del commit aprobado; no mezclar la ruta de desarrollo con la ruta pública
+**Constraints**: Mantener comandos y parámetros públicos; usar versiones únicas; no incluir secretos; publicar solo artefactos validados del commit aprobado; configurar Trusted Publishing fuera del código; verificar la disponibilidad en PyPI con reintentos acotados; no mezclar la ruta de desarrollo con la ruta pública
 
 **Scale/Scope**: Metadata de paquete, workflow de release, publicación PyPI, verificación de instalación y actualización bilingüe de README/guía; sin cambios de lógica de negocio
 
@@ -68,6 +73,7 @@ specs/003-publish-pypi-package/
 ├── data-model.md        # Phase 1 output ($speckit-plan command)
 ├── quickstart.md        # Phase 1 output ($speckit-plan command)
 ├── contracts/           # Phase 1 output ($speckit-plan command)
+├── release-evidence.md   # Release version, platform, artifact, and result evidence
 └── tasks.md             # Phase 2 output ($speckit-tasks command - NOT created by $speckit-plan)
 ```
 
@@ -87,11 +93,14 @@ INSTALLATION_GUIDE.md        # Beginner installation and usage documentation
 featurehero/                 # Existing CLI and processing logic; unchanged
 tests/                       # Existing automated tests
 specs/003-publish-pypi-package/ # Specification and design artifacts
+.github/scripts/             # Release metadata and clean-install validators
 ```
 
 **Structure Decision**: Mantener el paquete y el CLI existentes. La distribución
-se implementará mediante metadata y workflow de release; no se crearán módulos
-runtime nuevos. README y guía se actualizarán para priorizar PyPI y conservar
+se implementará mediante metadata y workflow de release; los validadores se
+ubicarán en `.github/scripts/` y no se crearán módulos runtime nuevos. La
+evidencia se conservará en `specs/003-publish-pypi-package/release-evidence.md`.
+README y guía se actualizarán para priorizar PyPI y conservar
 claramente la ruta de desarrollo desde fuente.
 
 ## Complexity Tracking
