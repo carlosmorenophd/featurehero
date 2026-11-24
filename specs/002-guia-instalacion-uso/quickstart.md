@@ -44,7 +44,7 @@
 9. Run the main flow with a valid dataset and reduced parameters documented by the guide:
 
    ```bash
-   featurehero run --file data.csv --column target --params '{"number_generation": 10, "number_population": 10}'
+   featurehero run --file data.csv --column target --params '{"number_generation": 10, "number_population": 10, "machines": ["lasso_regression"]}'
    ```
 
    Expected result: the CLI accepts the dataset, reports progress or completion,

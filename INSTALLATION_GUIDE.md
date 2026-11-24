@@ -221,11 +221,27 @@ que no haya sido registrada en [validation-evidence.md](specs/002-guia-instalaci
 Con el entorno activo, crea un archivo llamado `data.csv` con este contenido:
 
 ```csv
-feature,target
-1,10
-2,20
-3,30
-4,40
+feature,feature2,target
+1,20,10
+2,19,20
+3,18,30
+4,17,40
+5,16,50
+6,15,60
+7,14,70
+8,13,80
+9,12,90
+10,11,100
+11,10,110
+12,9,120
+13,8,130
+14,7,140
+15,6,150
+16,5,160
+17,4,170
+18,3,180
+19,2,190
+20,1,200
 ```
 
 Prueba primero una transformación sencilla:
@@ -238,13 +254,27 @@ Debes encontrar `processed.csv` en la carpeta actual.
 
 Para ejecutar la optimización con un ejemplo pequeño:
 
-```bash
-featurehero run --file data.csv --column target --params '{"number_generation": 10, "number_population": 10}'
+En PowerShell:
+
+```powershell
+featurehero run --file data.csv --column target --params '{\"number_generation\": 10, \"number_population\": 10, \"machines\": [\"lasso_regression\"]}'
+```
+
+En CMD:
+
+```cmd
+featurehero run --file data.csv --column target --params "{\"number_generation\": 10, \"number_population\": 10, \"machines\": [\"lasso_regression\"]}"
+```
+
+En macOS o Linux:
+
+```text
+featurehero run --file data.csv --column target --params '{"number_generation": 10, "number_population": 10, "machines": ["lasso_regression"]}'
 ```
 
 El comando debe aceptar el dataset, mostrar progreso o finalización y crear el
-workspace documentado junto al archivo de entrada. En CMD, si el JSON produce
-un error de comillas, utiliza el formato de comillas que corresponda a tu shell
+workspace documentado junto al archivo de entrada. Si el JSON produce un error
+de comillas, comprueba que estés usando la variante correspondiente a tu shell
 o ejecuta primero `featurehero run --help`.
 
 Consulta el [README en español](README.md#optimizacion) para formatos, modelos,
@@ -259,8 +289,8 @@ macOS y Linux prueba `python3`.
 
 #### `featurehero` no se reconoce
 
-Confirma que el entorno virtual está activo, vuelve a ejecutar `python -m pip
-install .` desde la raíz del repositorio y prueba `featurehero --help`.
+Confirma que el entorno virtual está activo, vuelve a ejecutar `python -m pip install .`
+desde la raíz del repositorio y prueba `featurehero --help`.
 
 #### PowerShell bloquea `Activate.ps1`
 
@@ -490,11 +520,27 @@ has not been recorded in [validation-evidence.md](specs/002-guia-instalacion-uso
 With the environment active, create `data.csv` with:
 
 ```csv
-feature,target
-1,10
-2,20
-3,30
-4,40
+feature,feature2,target
+1,20,10
+2,19,20
+3,18,30
+4,17,40
+5,16,50
+6,15,60
+7,14,70
+8,13,80
+9,12,90
+10,11,100
+11,10,110
+12,9,120
+13,8,130
+14,7,140
+15,6,150
+16,5,160
+17,4,170
+18,3,180
+19,2,190
+20,1,200
 ```
 
 Run a lightweight transformation:
@@ -507,8 +553,22 @@ featurehero transform --file data.csv --type log1p --columns feature --out proce
 
 Run the main flow with a small example:
 
-```bash
-featurehero run --file data.csv --column target --params '{"number_generation": 10, "number_population": 10}'
+In PowerShell:
+
+```powershell
+featurehero run --file data.csv --column target --params '{\"number_generation\": 10, \"number_population\": 10, \"machines\": [\"lasso_regression\"]}'
+```
+
+In CMD:
+
+```cmd
+featurehero run --file data.csv --column target --params "{\"number_generation\": 10, \"number_population\": 10, \"machines\": [\"lasso_regression\"]}"
+```
+
+In macOS or Linux:
+
+```text
+featurehero run --file data.csv --column target --params '{"number_generation": 10, "number_population": 10, "machines": ["lasso_regression"]}'
 ```
 
 The command should accept the dataset, report progress or completion, and create
