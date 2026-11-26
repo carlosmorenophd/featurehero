@@ -119,6 +119,10 @@ Debes ver la ayuda del CLI y la versión instalada.
 
 ### <a id="es-macos"></a>macOS
 
+Con Homebrew instalado, ejecuta `brew install libomp` antes de usar
+Feature Hero. XGBoost necesita esta biblioteca en macOS. Comprueba
+la instalación con `brew list --versions libomp`.
+
 #### Instalación pública desde PyPI
 
 ```bash
@@ -448,6 +452,10 @@ The CLI help and installed package version should be displayed.
 
 ### <a id="en-macos"></a>macOS
 
+With Homebrew installed, run `brew install libomp` before using
+Feature Hero. XGBoost needs this library on macOS. Verify the
+installation with `brew list --versions libomp`.
+
 #### Public installation from PyPI
 
 ```bash
@@ -484,6 +492,12 @@ Install the system requirements:
 ```bash
 sudo apt update
 sudo apt install python3 python3-venv python3-pip git
+```
+
+Check that Python meets `>=3.12,<4.0`:
+
+```bash
+python3 --version
 ```
 
 Then download, install, and verify:
