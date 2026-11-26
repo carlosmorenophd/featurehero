@@ -91,22 +91,30 @@ en Windows, macOS y Linux.
 
 ### Instalacion desde el repositorio para desarrollo
 
-Usa esta ruta únicamente si necesitas revisar o modificar el código.
-
 #### Desde el repositorio local
 
+En macOS o Linux:
+
 ```bash
-python -m venv .venv
+python3 -m venv .venv
 source .venv/bin/activate
-pip install .
+python -m pip install .
 ```
 
-En Windows:
+En Windows PowerShell:
 
-```bash
-python -m venv .venv
-.venv\Scripts\activate
-pip install .
+```powershell
+py -3.12 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install .
+```
+
+En Windows CMD:
+
+```bat
+py -3.12 -m venv .venv
+.venv\Scripts\activate.bat
+python -m pip install .
 ```
 
 #### Desde GitHub
@@ -652,8 +660,10 @@ for Windows, macOS, and Linux.
 
 #### From the local repository
 
+On macOS or Linux:
+
 ```bash
-python -m venv .venv
+python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install .
 ```
@@ -662,7 +672,7 @@ On Windows PowerShell:
 
 ```powershell
 py -3.12 -m venv .venv
-.\\.venv\\Scripts\\Activate.ps1
+.\.venv\Scripts\Activate.ps1
 python -m pip install .
 ```
 
@@ -670,7 +680,7 @@ On Windows CMD:
 
 ```bat
 py -3.12 -m venv .venv
-.venv\\Scripts\\activate.bat
+.venv\Scripts\activate.bat
 python -m pip install .
 ```
 
